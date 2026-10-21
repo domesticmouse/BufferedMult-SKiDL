@@ -1,13 +1,13 @@
 # Design Review: Eurorack Buffered Multiple (`BufferedMult`)
 
-**Date:** 2026-10-21 (Re-Review after commits `340bce0` & `4b54bfd`)
+**Date:** 2026-10-21 (Re-Review after commit `0794e90`)
 **Project:** `BufferedMult` (SKiDL + KiCad 10, 2-Layer PCB `20.0 × 108.0 mm` / 4HP)
 **Analyzers Run:** `kicad-cli pcb drc`, `analyze_pcb.py --full --proximity`, `analyze_gerbers.py --full`, `analyze_emc.py`, SKiDL `ERC()`
-**Verdict:** **PASS — 0 DRC ERRORS & 0 UNCONNECTED NETS (Press `B` to Refill Zones & Save Before Exporting Gerbers)**
+**Verdict:** **PASS — READY FOR FABRICATION (0 DRC Errors, 0 Unconnected Nets, Gerbers & Zones Up to Date)**
 
-All **two critical open-circuit bugs** (`U1` Pin 5 unconnected and `C5` Pad 2 isolated `GND`), all **three `B.Cu` pad-to-track clearance violations**, all **three `F.Cu` copper-to-edge clearance violations**, the duplicate `B.Cu` zone warning, the narrow `0.2 mm` power trace warning, and the `TL074H` op-amp upgrade have been **resolved** in `BufferedMult.kicad_pcb` and `buffered_multiple.py`.
+All **two critical open-circuit bugs** (`U1` Pin 5 unconnected and `C5` Pad 2 isolated `GND`), all **three `B.Cu` pad-to-track clearance violations**, all **three `F.Cu` copper-to-edge clearance violations**, the duplicate `B.Cu` zone warning, the narrow `0.2 mm` power trace warning, the `TL074H` op-amp upgrade, the `F.Cu`/`B.Cu` zone refills, and the `production/BufferedMult.zip` Gerber export have been **resolved** in `BufferedMult.kicad_pcb`, `buffered_multiple.py`, and `production/`.
 
-Running `kicad-cli pcb drc --refill-zones` confirms **0 DRC errors and 0 unconnected items**. Before exporting the final manufacturing files (`production/BufferedMult.zip`), simply press **`B` (Fill All Zones)** and **Save** in KiCad PCB Editor so the stored `F.Cu` `GND` zone fill polygon updates around the moved `X = 20.8 mm` `-12V` trace.
+Running `kicad-cli pcb drc` (both stored and `--refill-zones`), `analyze_pcb.py --full --proximity`, and `analyze_gerbers.py --full` confirms **0 DRC errors, 0 unconnected items, 0 multi-island nets, and 0 Gerber findings**.
 
 ---
 
@@ -15,8 +15,8 @@ Running `kicad-cli pcb drc --refill-zones` confirms **0 DRC errors and 0 unconne
 
 | Status | Count | Summary |
 | :--- | :---: | :--- |
-| **Fixed since last review** | **7** | 1. **FIXED (Critical):** `U1` Pin 5 (`INB+`) is now routed to `CH1_BUF` (`0` unconnected nets).<br>2. **FIXED (Critical):** `C5` Pad 2 (`GND`) is now connected to the single unified `GND` island (12 `GND` stitching vias, up from 8).<br>3. **FIXED (Warning):** All 3 `B.Cu` pad-to-track DRC clearance errors on `-12V` (`C2` Pad 1 and `U2` Pad 12) are resolved.<br>4. **FIXED (Warning):** All 3 `F.Cu` copper-to-edge DRC errors on `-12V` are resolved (`-12V` spine moved to `X = 20.8 mm`).<br>5. **FIXED (Warning):** Duplicate `B.Cu` `GND` zone removed; Zone 1 is now `F.Cu` only and Zone 2 is `B.Cu` only.<br>6. **FIXED (Warning):** `+12V` and `-12V` power routing widened from `0.2 mm` to `0.5 mm`.<br>7. **FIXED (Suggestion):** `U1`/`U2` upgraded from `TL074CDR` (`C12594`) to TI `TL074HIDR` (`TL074H`, `C2878713`), eliminating JFET input phase inversion. |
-| **Pre-Fab Action Items** | **2** | 1. Press **`B` (Fill All Zones)** and **Save** in KiCad PCB Editor to update the stored `F.Cu` `GND` zone polygon around the moved `-12V` track.<br>2. Re-export the Gerbers/drills/positions (`production/BufferedMult.zip`). |
+| **Fixed since last review** | **9** | 1. **FIXED (Critical):** `U1` Pin 5 (`INB+`) is now routed to `CH1_BUF` (`0` unconnected nets).<br>2. **FIXED (Critical):** `C5` Pad 2 (`GND`) is now connected to the single unified `GND` island (12 `GND` stitching vias, up from 8).<br>3. **FIXED (Warning):** All 3 `B.Cu` pad-to-track DRC clearance errors on `-12V` (`C2` Pad 1 and `U2` Pad 12) are resolved.<br>4. **FIXED (Warning):** All 3 `F.Cu` copper-to-edge DRC errors on `-12V` are resolved (`-12V` spine moved to `X = 20.8 mm`).<br>5. **FIXED (Warning):** Duplicate `B.Cu` `GND` zone removed; Zone 1 is now `F.Cu` only and Zone 2 is `B.Cu` only.<br>6. **FIXED (Warning):** `+12V` and `-12V` power routing widened from `0.2 mm` to `0.5 mm`.<br>7. **FIXED (Suggestion):** `U1`/`U2` upgraded from `TL074CDR` (`C12594`) to TI `TL074HIDR` (`TL074H`, `C2878713`), eliminating JFET input phase inversion.<br>8. **FIXED (Pre-Fab):** Zones refilled and saved in `BufferedMult.kicad_pcb` (`0` stored DRC errors).<br>9. **FIXED (Pre-Fab):** `production/BufferedMult.zip`, `production/bom.csv`, and `production/netlist.ipc` updated to match the latest PCB and `TL074H` BOM (`17` vias, `38` THT holes, `56` SMD paste apertures, `0` Gerber errors). |
+| **Pre-Fab Action Items** | **0** | None — all PCB, schematic, BOM, and Gerber files are synchronized and ready to order. |
 
 ---
 
@@ -24,10 +24,9 @@ Running `kicad-cli pcb drc --refill-zones` confirms **0 DRC errors and 0 unconne
 
 | Severity | Issue | Location / Affected Items | Impact & Fix |
 | :--- | :--- | :--- | :--- |
-| **WARNING** | **Refill Zones (`B`) & Save Before Exporting `production/` Files** | `BufferedMult.kicad_pcb` (`F.Cu` `GND` zone around `X = 20.8 mm`) & `production/BufferedMult.zip` | Moving the `F.Cu` `-12V` spine from `X = 20.6 mm` to `X = 20.8 mm` fixed the board-edge clearance; pressing **`B`** in KiCad updates the cached `F.Cu` `GND` zone fill polygon (`kicad-cli pcb drc --refill-zones` passes with **0 errors**). Then re-run the KiCad Fabrication Toolkit to update `production/BufferedMult.zip`. |
-| **WARNING** | **Series Schottky Voltage Drop vs. Output Headroom** | `D1`, `D2` (`1N5819` / `SS14`) | Drops `~0.3V–0.4V` per rail, supplying `±11.6V` to `U1`/`U2`. Completely safe and prevents reverse-power damage; unclipped output swing with `TL074H` is `~±10.4V`. |
-| **SUGGESTION** | **Input ESD / Overvoltage Current Limiting** | `J2` (`IN_1`), `J6` (`IN_2`) | `TL074H` includes internal ESD diodes to the supply rails (rated to `<10 mA`). Adding a `1kΩ` series resistor between the input jack tip (after the `100kΩ` pull-down) and Pin 3 of `U1A`/`U2A` would limit fault current if `>±12V` is patched in, without introducing any divider error. |
-| **SUGGESTION** | **BOM CSV Selection for JLCPCB** | `buffered_multiple_jlcpcb_bom.csv` vs. `production/bom.csv` | Use `buffered_multiple_jlcpcb_bom.csv` for JLCPCB SMT assembly, as `production/bom.csv` includes THT parts (`C1`, `C2`, `J1`–`J9`) with MPN strings in the `LCSC Part #` column. |
+| **INFO** | **Series Schottky Voltage Drop vs. Output Headroom** | `D1`, `D2` (`1N5819` / `SS14`) | Drops `~0.3V–0.4V` per rail, supplying `±11.6V` to `U1`/`U2`. Completely safe and prevents reverse-power damage; unclipped output swing with `TL074H` is `~±10.4V`. |
+| **SUGGESTION** | **Input ESD / Overvoltage Current Limiting** | `J2` (`IN_1`), `J6` (`IN_2`) | `TL074H` includes internal ESD diodes to the supply rails (rated to `<10 mA`). Adding a `1kΩ` series resistor between the input jack tip (after the `100kΩ` pull-down) and Pin 3 of `U1A`/`U2A` in a future revision would limit fault current if `>±12V` is patched in, without introducing any divider error. |
+| **SUGGESTION** | **BOM CSV Selection for JLCPCB** | `buffered_multiple_jlcpcb_bom.csv` vs. `production/bom.csv` | Use `buffered_multiple_jlcpcb_bom.csv` (or uncheck THT rows during upload) for JLCPCB SMT assembly, as `production/bom.csv` includes THT parts (`C1`, `C2`, `J1`–`J9`) with MPN strings in the `LCSC Part #` column. |
 
 ---
 
@@ -50,12 +49,12 @@ The Python SKiDL implementation (`buffered_multiple.py`) passes `ERC()` with **0
 
 | Check | Status | Notes |
 | :--- | :--- | :--- |
-| **Component Count** | **27 / 27 Match** | 16 SMD on `B.Cu`, 10 THT on `F.Cu` (`J2`–`J9`, `C1`, `C2`), 1 THT on `B.Cu` (`J1`) |
+| **Component Count** | **27 / 27 Match** | 16 SMD on `B.Cu` (56 SMD pads), 10 THT on `F.Cu` (`J2`–`J9`, `C1`, `C2`), 1 THT on `B.Cu` (`J1`) |
 | **Net Count & Connectivity** | **21 / 21 Routed (PASS)** | `0` unrouted nets; `0` multi-island nets; `U1:5` and `C5:2` open-circuit bugs are fixed |
-| **DRC Check (`kicad-cli --refill-zones`)** | **PASS (0 Errors)** | `0` unconnected items; `0` copper-to-copper errors; `0` copper-to-edge errors (press `B` in KiCad to save refilled `F.Cu` zone polygon) |
-| **Power Routing** | **PASS (`0.5 mm`)** | `+12V` (`129.7 mm`) and `-12V` (`117.3 mm`) routed at `0.5 mm` width |
-| **Ground Planes & Vias** | **PASS (2 Zones, 12 GND Vias)** | Dedicated `F.Cu` (`64.1%` fill) and `B.Cu` (`59.5%` fill) `GND` zones stitched with 12 `GND` vias |
-| **Gerber Archive Sync** | **FAIL (Stale Archive)** | `production/BufferedMult.zip` dates from `17:08` (13 vias) and does not reflect the `20:02` PCB re-route (17 vias) |
+| **DRC Check (`kicad-cli pcb drc`)** | **PASS (0 Errors)** | `0` unconnected items; `0` copper-to-copper errors; `0` copper-to-edge errors (both stored and `--refill-zones`) |
+| **Power Routing** | **PASS (`0.5 mm`)** | `+12V` (`129.7 mm`) and `-12V` (`118.1 mm`) routed at `0.5 mm` width |
+| **Ground Planes & Vias** | **PASS (2 Zones, 12 GND Vias)** | Dedicated `F.Cu` (`64.4%` fill) and `B.Cu` (`59.3%` fill) `GND` zones stitched with 12 `GND` vias (`17` total vias) |
+| **Gerber Archive Sync** | **PASS (Up to Date)** | `production/BufferedMult.zip` matches `BufferedMult.kicad_pcb` (`20.0 × 108.0 mm`, 9 Gerber layers + PTH/NPTH drills, `17` vias, `38` component holes, `56` SMD paste apertures, `0` analyzer findings) |
 
 ---
 

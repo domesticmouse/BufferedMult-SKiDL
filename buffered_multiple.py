@@ -18,6 +18,8 @@ Architecture:
   - U2A buffered output drives U2B, U2C, U2D unity-gain output buffers -> 470R series protection -> Outputs 2A, 2B, 2C
 """
 
+import builtins
+import csv
 import os
 
 # Configure writable cache directories and KiCad 10 library paths if not already set in the environment
@@ -40,7 +42,6 @@ if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprint
 
 from skidl import (
     ERC,
-    NC,
     POWER,
     TEMPLATE,
     Net,
@@ -63,6 +64,15 @@ FP_JACK_EURORACK = (
 )
 FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
 
+# Verified JLCPCB / LCSC Catalog Part Numbers
+LCSC_C_100NF_0805 = "C49678"  # YAGEO CC0805KRX7R9BB104 (50V X7R, Basic Part)
+LCSC_R_100K_0805 = "C149504"  # UNI-ROYAL 0805W8F1003T5E (100k 1%, Basic Part)
+LCSC_R_470R_0805 = "C17710"  # UNI-ROYAL 0805W8F4700T5E (470R 1%, Basic Part)
+LCSC_D_SS14_SMA = "C2480"  # MDD SS14 / 1N5819 (40V 1A Schottky SMA, Basic Part)
+LCSC_U_TL074_SOIC14 = "C12594"  # Texas Instruments TL074CDR (SOIC-14, Extended Part)
+LCSC_C_10UF_ELEC = "C14162"  # Honor Elec RVT1H100M0605 (10uF 50V 6.3x5.4mm, Extended)
+LCSC_J_IDC_10P = "C53207560"  # JXTCONN IDC2.54-2*5PZ (2x5P 2.54mm Shrouded Header, THT)
+
 
 @subcircuit
 def eurorack_power(vcc, vee, gnd):
@@ -77,6 +87,9 @@ def eurorack_power(vcc, vee, gnd):
         footprint=FP_PWR_HEADER_10P,
         tag="j_pwr",
     )
+    j_pwr.fields["LCSC"] = LCSC_J_IDC_10P
+    j_pwr.fields["MPN"] = "IDC2.54-2*5PZ"
+    j_pwr.fields["JLCPCB_Class"] = "Extended (THT)"
 
     vcc_raw = Net("+12V_RAW")
     vee_raw = Net("-12V_RAW")
@@ -97,6 +110,9 @@ def eurorack_power(vcc, vee, gnd):
         value="1N5819",
         footprint=FP_DIODE_SMA,
     )
+    d_t.fields["LCSC"] = LCSC_D_SS14_SMA
+    d_t.fields["MPN"] = "SS14"
+    d_t.fields["JLCPCB_Class"] = "Basic"
     d_pos, d_neg = d_t(2, tag="d_prot")
 
     # +12V protection: Anode (A) at header -> Cathode (K) at +12V rail
@@ -107,7 +123,7 @@ def eurorack_power(vcc, vee, gnd):
     vee_raw += d_neg["K"]
     vee += d_neg["A"]
 
-    # Bulk electrolytic bypass capacitors (10uF / 25V)
+    # Bulk electrolytic bypass capacitors (10uF / 50V)
     c_bulk_t = Part(
         "Device",
         "C_Polarized",
@@ -115,6 +131,9 @@ def eurorack_power(vcc, vee, gnd):
         value="10uF",
         footprint=FP_C_ELEC,
     )
+    c_bulk_t.fields["LCSC"] = LCSC_C_10UF_ELEC
+    c_bulk_t.fields["MPN"] = "RVT1H100M0605"
+    c_bulk_t.fields["JLCPCB_Class"] = "Extended"
     c_bulk_pos, c_bulk_neg = c_bulk_t(2, tag="c_bulk")
 
     # +12V bulk cap: (+) to +12V, (-) to GND
@@ -136,12 +155,18 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     """
     r_t = Part("Device", "R", dest=TEMPLATE, footprint=FP_R_0805)
     c_t = Part("Device", "C", dest=TEMPLATE, footprint=FP_C_0805)
+    c_t.fields["LCSC"] = LCSC_C_100NF_0805
+    c_t.fields["MPN"] = "CC0805KRX7R9BB104"
+    c_t.fields["JLCPCB_Class"] = "Basic"
+
     jack_t = Part(
         "Connector_Audio",
         "AudioJack2_SwitchT",
         dest=TEMPLATE,
         footprint=FP_JACK_EURORACK,
     )
+    jack_t.fields["MPN"] = "WQP-PJ398SM"
+    jack_t.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
 
     # Quad JFET op-amp (TL074 in SOIC-14)
     u = Part(
@@ -151,6 +176,9 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
         footprint=FP_OPAMP_SOIC14,
         tag=f"u_ch{ch_num}",
     )
+    u.fields["LCSC"] = LCSC_U_TL074_SOIC14
+    u.fields["MPN"] = "TL074CDR"
+    u.fields["JLCPCB_Class"] = "Extended"
 
     # Op-amp power pins & local 100nF ceramic decoupling capacitors
     vcc += u["V+"]  # Pin 4
@@ -169,6 +197,9 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     in_sig += j_in["T"]
 
     r_pd = r_t(value="100K", tag=f"r_pd_ch{ch_num}")
+    r_pd.fields["LCSC"] = LCSC_R_100K_0805
+    r_pd.fields["MPN"] = "0805W8F1003T5E"
+    r_pd.fields["JLCPCB_Class"] = "Basic"
     in_sig & r_pd & gnd
 
     # Stage A (Pins: + = 3, - = 2, Out = 1): Unity-gain input buffer
@@ -195,13 +226,43 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
 
         # Series output protection resistor (470R)
         r_out = r_t(value="470R", tag=f"r_out_ch{ch_num}_{suffix}")
+        r_out.fields["LCSC"] = LCSC_R_470R_0805
+        r_out.fields["MPN"] = "0805W8F4700T5E"
+        r_out.fields["JLCPCB_Class"] = "Basic"
         op_out & r_out & jack_tip
 
         # Output jack
         j_out = jack_t(value=f"OUT_{ch_num}{suffix}", tag=f"j_out_ch{ch_num}_{suffix}")
         jack_tip += j_out["T"]
         gnd += j_out["S"]
-        j_out["TN"] += NC
+        j_out["TN"] += builtins.NC
+
+
+def generate_jlcpcb_bom(file_="buffered_multiple_jlcpcb_bom.csv", include_tht=False):
+    """
+    Export a grouped JLCPCB PCBA BOM CSV (`Comment,Designator,Footprint,LCSC Part #`).
+    By default, exports all SMT components with an assigned LCSC part number and
+    excludes hand-soldered through-hole connectors unless `include_tht=True`.
+    """
+    groups = {}
+    for part in builtins.default_circuit.parts:
+        lcsc = part.fields.get("LCSC", "")
+        jlc_class = part.fields.get("JLCPCB_Class", "")
+        if not lcsc:
+            continue
+        if not include_tht and "THT" in jlc_class:
+            continue
+
+        comment = part.value_to_str()
+        footprint = getattr(part, "footprint", "").split(":")[-1]
+        key = (comment, footprint, lcsc)
+        groups.setdefault(key, []).append(part.ref)
+
+    with open(file_, "w", newline="", encoding="utf-8") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["Comment", "Designator", "Footprint", "LCSC Part #"])
+        for (comment, footprint, lcsc), refs in groups.items():
+            writer.writerow([comment, ", ".join(refs), footprint, lcsc])
 
 
 def build_buffered_multiple():
@@ -239,9 +300,10 @@ def build_buffered_multiple():
     # Run Electrical Rules Check
     ERC()
 
-    # Export KiCad Netlist (.net), XML BOM (.xml), and SVG schematics (.svg)
+    # Export KiCad Netlist (.net), XML BOM (.xml), JLCPCB BOM (.csv), and SVG schematics (.svg)
     generate_netlist(file_="buffered_multiple.net")
     generate_xml(file_="buffered_multiple_bom.xml")
+    generate_jlcpcb_bom(file_="buffered_multiple_jlcpcb_bom.csv", include_tht=False)
     generate_svg(filepath=".", top_name="buffered_multiple")
 
 

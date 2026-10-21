@@ -2,164 +2,292 @@
 <export version="D">
   <design>
     <source>/Users/brett/tmp/skidl-test/buffered_multiple.py</source>
-    <date>10/21/2026 11:07 AM</date>
+    <date>10/21/2026 11:31 AM</date>
     <tool>SKiDL (3.0.0)</tool>
   </design>
   <components>
     <comp ref="J1">
       <value>"EURORACK_PWR_10PIN"</value>
       <footprint>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical</footprint>
+      <fields>
+        (field (name "LCSC") "C53207560")
+        (field (name "MPN") "IDC2.54-2*5PZ")
+        (field (name "JLCPCB_Class") "Extended (THT)")
+      </fields>
       <libsource lib="Connector_Generic" part=""Conn_02x05_Odd_Even""/>
     </comp>
     <comp ref="D1">
       <value>"1N5819"</value>
       <footprint>Diode_SMD:D_SMA</footprint>
+      <fields>
+        (field (name "LCSC") "C2480")
+        (field (name "MPN") "SS14")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""D_Schottky""/>
     </comp>
     <comp ref="D2">
       <value>"1N5819"</value>
       <footprint>Diode_SMD:D_SMA</footprint>
+      <fields>
+        (field (name "LCSC") "C2480")
+        (field (name "MPN") "SS14")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""D_Schottky""/>
     </comp>
     <comp ref="C1">
       <value>"10uF"</value>
       <footprint>Capacitor_SMD:CP_Elec_6.3x5.4</footprint>
+      <fields>
+        (field (name "LCSC") "C14162")
+        (field (name "MPN") "RVT1H100M0605")
+        (field (name "JLCPCB_Class") "Extended")
+      </fields>
       <libsource lib="Device" part=""C_Polarized""/>
     </comp>
     <comp ref="C2">
       <value>"10uF"</value>
       <footprint>Capacitor_SMD:CP_Elec_6.3x5.4</footprint>
+      <fields>
+        (field (name "LCSC") "C14162")
+        (field (name "MPN") "RVT1H100M0605")
+        (field (name "JLCPCB_Class") "Extended")
+      </fields>
       <libsource lib="Device" part=""C_Polarized""/>
     </comp>
     <comp ref="U1">
       <value>"TL074"</value>
       <footprint>Package_SO:SOIC-14_3.9x8.7mm_P1.27mm</footprint>
+      <fields>
+        (field (name "LCSC") "C12594")
+        (field (name "MPN") "TL074CDR")
+        (field (name "JLCPCB_Class") "Extended")
+      </fields>
       <libsource lib="Amplifier_Operational" part=""TL074""/>
     </comp>
     <comp ref="C3">
       <value>"100nF"</value>
       <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C49678")
+        (field (name "MPN") "CC0805KRX7R9BB104")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""C""/>
     </comp>
     <comp ref="C4">
       <value>"100nF"</value>
       <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C49678")
+        (field (name "MPN") "CC0805KRX7R9BB104")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""C""/>
     </comp>
     <comp ref="J2">
       <value>"IN_1"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
     <comp ref="R1">
       <value>"100K"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C149504")
+        (field (name "MPN") "0805W8F1003T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="R2">
       <value>"470R"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C17710")
+        (field (name "MPN") "0805W8F4700T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="J3">
       <value>"OUT_1A"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
     <comp ref="R3">
       <value>"470R"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C17710")
+        (field (name "MPN") "0805W8F4700T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="J4">
       <value>"OUT_1B"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
     <comp ref="R4">
       <value>"470R"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C17710")
+        (field (name "MPN") "0805W8F4700T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="J5">
       <value>"OUT_1C"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
     <comp ref="U2">
       <value>"TL074"</value>
       <footprint>Package_SO:SOIC-14_3.9x8.7mm_P1.27mm</footprint>
+      <fields>
+        (field (name "LCSC") "C12594")
+        (field (name "MPN") "TL074CDR")
+        (field (name "JLCPCB_Class") "Extended")
+      </fields>
       <libsource lib="Amplifier_Operational" part=""TL074""/>
     </comp>
     <comp ref="C5">
       <value>"100nF"</value>
       <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C49678")
+        (field (name "MPN") "CC0805KRX7R9BB104")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""C""/>
     </comp>
     <comp ref="C6">
       <value>"100nF"</value>
       <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C49678")
+        (field (name "MPN") "CC0805KRX7R9BB104")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""C""/>
     </comp>
     <comp ref="J6">
       <value>"IN_2"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
     <comp ref="R5">
       <value>"100K"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C149504")
+        (field (name "MPN") "0805W8F1003T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="R6">
       <value>"470R"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C17710")
+        (field (name "MPN") "0805W8F4700T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="J7">
       <value>"OUT_2A"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
     <comp ref="R7">
       <value>"470R"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C17710")
+        (field (name "MPN") "0805W8F4700T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="J8">
       <value>"OUT_2B"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
     <comp ref="R8">
       <value>"470R"</value>
       <footprint>Resistor_SMD:R_0805_2012Metric</footprint>
+      <fields>
+        (field (name "LCSC") "C17710")
+        (field (name "MPN") "0805W8F4700T5E")
+        (field (name "JLCPCB_Class") "Basic")
+      </fields>
       <libsource lib="Device" part=""R""/>
     </comp>
     <comp ref="J9">
       <value>"OUT_2C"</value>
       <footprint>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</footprint>
+      <fields>
+        (field (name "MPN") "WQP-PJ398SM")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
       <libsource lib="Connector_Audio" part=""AudioJack2_SwitchT""/>
     </comp>
   </components>
   <nets>
     <net code="0" name="+12V">
-      <node ref="D1" pin="1"/>
-      <node ref="C1" pin="1"/>
       <node ref="C5" pin="1"/>
       <node ref="C3" pin="1"/>
       <node ref="U2" pin="4"/>
       <node ref="U1" pin="4"/>
+      <node ref="D1" pin="1"/>
+      <node ref="C1" pin="1"/>
     </net>
     <net code="1" name="-12V">
+      <node ref="D2" pin="2"/>
       <node ref="C6" pin="2"/>
       <node ref="C4" pin="2"/>
       <node ref="C2" pin="2"/>
-      <node ref="U2" pin="11"/>
       <node ref="U1" pin="11"/>
-      <node ref="D2" pin="2"/>
+      <node ref="U2" pin="11"/>
     </net>
     <net code="2" name="GND">
+      <node ref="J2" pin="TN"/>
       <node ref="R5" pin="2"/>
       <node ref="C5" pin="2"/>
       <node ref="J5" pin="S"/>
@@ -171,18 +299,17 @@
       <node ref="C3" pin="2"/>
       <node ref="J1" pin="4"/>
       <node ref="J6" pin="S"/>
-      <node ref="J8" pin="S"/>
       <node ref="C4" pin="1"/>
+      <node ref="J8" pin="S"/>
       <node ref="J1" pin="5"/>
       <node ref="C1" pin="2"/>
       <node ref="J3" pin="S"/>
       <node ref="J1" pin="6"/>
       <node ref="J7" pin="S"/>
       <node ref="J2" pin="S"/>
-      <node ref="C2" pin="1"/>
       <node ref="J1" pin="7"/>
+      <node ref="C2" pin="1"/>
       <node ref="J1" pin="8"/>
-      <node ref="J2" pin="TN"/>
     </net>
     <net code="3" name="+12V_RAW">
       <node ref="J1" pin="10"/>
@@ -195,19 +322,19 @@
       <node ref="D2" pin="1"/>
     </net>
     <net code="5" name="CH1_BUF">
+      <node ref="U1" pin="2"/>
+      <node ref="J6" pin="TN"/>
+      <node ref="U1" pin="5"/>
       <node ref="U1" pin="10"/>
       <node ref="U1" pin="1"/>
       <node ref="U1" pin="12"/>
-      <node ref="U1" pin="5"/>
-      <node ref="U1" pin="2"/>
-      <node ref="J6" pin="TN"/>
     </net>
     <net code="6" name="CH2_BUF">
+      <node ref="U2" pin="5"/>
+      <node ref="U2" pin="2"/>
       <node ref="U2" pin="10"/>
       <node ref="U2" pin="1"/>
       <node ref="U2" pin="12"/>
-      <node ref="U2" pin="5"/>
-      <node ref="U2" pin="2"/>
     </net>
     <net code="7" name="CH1_IN">
       <node ref="U1" pin="3"/>
@@ -229,8 +356,8 @@
       <node ref="R3" pin="1"/>
     </net>
     <net code="11" name="CH1_OUT_B">
-      <node ref="J4" pin="T"/>
       <node ref="R3" pin="2"/>
+      <node ref="J4" pin="T"/>
     </net>
     <net code="12" name="CH1_OP_C">
       <node ref="R4" pin="1"/>
@@ -261,8 +388,8 @@
       <node ref="R7" pin="1"/>
     </net>
     <net code="18" name="CH2_OUT_B">
-      <node ref="J8" pin="T"/>
       <node ref="R7" pin="2"/>
+      <node ref="J8" pin="T"/>
     </net>
     <net code="19" name="CH2_OP_C">
       <node ref="R8" pin="1"/>

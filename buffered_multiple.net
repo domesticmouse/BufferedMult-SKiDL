@@ -2,47 +2,10 @@
   (version "D")
   (design
     (source "buffered_multiple.py")
-    (date "10/21/2026 11:07 AM")
+    (date "10/21/2026 11:31 AM")
     (tool "SKiDL (3.0.0)")
     (sheet
       (number 1)
-      (name "/pwr/")
-      (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
-      (title_block
-        (title)
-        (company)
-        (rev)
-        (date)
-        (source "buffered_multiple.py")
-        (comment
-          (number "1")
-          (value ""))
-        (comment
-          (number "2")
-          (value ""))
-        (comment
-          (number "3")
-          (value ""))
-        (comment
-          (number "4")
-          (value ""))
-        (comment
-          (number "5")
-          (value ""))
-        (comment
-          (number "6")
-          (value ""))
-        (comment
-          (number "7")
-          (value ""))
-        (comment
-          (number "8")
-          (value ""))
-        (comment
-          (number "9")
-          (value ""))))
-    (sheet
-      (number 2)
       (name "/ch1/")
       (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/")
       (title_block
@@ -79,9 +42,46 @@
           (number "9")
           (value ""))))
     (sheet
+      (number 2)
+      (name "/pwr/")
+      (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "buffered_multiple.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
       (number 3)
-      (name "/")
-      (tstamps "/")
+      (name "/ch2/")
+      (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
       (title_block
         (title)
         (company)
@@ -117,8 +117,8 @@
           (value ""))))
     (sheet
       (number 4)
-      (name "/ch2/")
-      (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
+      (name "/")
+      (tstamps "/")
       (title_block
         (title)
         (company)
@@ -160,6 +160,12 @@
       (footprint "Capacitor_SMD:CP_Elec_6.3x5.4")
       (fields
         (field
+          (name "LCSC") "C14162")
+        (field
+          (name "MPN") "RVT1H100M0605")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
           (name "Description") "Polarized capacitor")
         (field
           (name "Footprint") "Capacitor_SMD:CP_Elec_6.3x5.4")
@@ -168,7 +174,7 @@
         (field
           (name "SKiDL Tag") "c_bulk")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:104"))
+          (name "SKiDL Line") "buffered_multiple.py:137"))
       (libsource
         (lib "Device")
         (part "C_Polarized"))
@@ -184,6 +190,12 @@
       (footprint "Capacitor_SMD:CP_Elec_6.3x5.4")
       (fields
         (field
+          (name "LCSC") "C14162")
+        (field
+          (name "MPN") "RVT1H100M0605")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
           (name "Description") "Polarized capacitor")
         (field
           (name "Footprint") "Capacitor_SMD:CP_Elec_6.3x5.4")
@@ -192,7 +204,7 @@
         (field
           (name "SKiDL Tag") "c_bulk")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:104"))
+          (name "SKiDL Line") "buffered_multiple.py:137"))
       (libsource
         (lib "Device")
         (part "C_Polarized"))
@@ -208,6 +220,12 @@
       (footprint "Capacitor_SMD:C_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C49678")
+        (field
+          (name "MPN") "CC0805KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Unpolarized capacitor")
         (field
           (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
@@ -216,7 +234,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:145"))
+          (name "SKiDL Line") "buffered_multiple.py:187"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -232,6 +250,12 @@
       (footprint "Capacitor_SMD:C_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C49678")
+        (field
+          (name "MPN") "CC0805KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Unpolarized capacitor")
         (field
           (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
@@ -240,7 +264,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:145"))
+          (name "SKiDL Line") "buffered_multiple.py:187"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -256,6 +280,12 @@
       (footprint "Capacitor_SMD:C_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C49678")
+        (field
+          (name "MPN") "CC0805KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Unpolarized capacitor")
         (field
           (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
@@ -264,7 +294,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:145"))
+          (name "SKiDL Line") "buffered_multiple.py:187"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -280,6 +310,12 @@
       (footprint "Capacitor_SMD:C_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C49678")
+        (field
+          (name "MPN") "CC0805KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Unpolarized capacitor")
         (field
           (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
@@ -288,7 +324,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:145"))
+          (name "SKiDL Line") "buffered_multiple.py:187"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -304,6 +340,12 @@
       (footprint "Diode_SMD:D_SMA")
       (fields
         (field
+          (name "LCSC") "C2480")
+        (field
+          (name "MPN") "SS14")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Schottky diode")
         (field
           (name "Footprint") "Diode_SMD:D_SMA")
@@ -312,7 +354,7 @@
         (field
           (name "SKiDL Tag") "d_prot")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:86"))
+          (name "SKiDL Line") "buffered_multiple.py:116"))
       (libsource
         (lib "Device")
         (part "D_Schottky"))
@@ -328,6 +370,12 @@
       (footprint "Diode_SMD:D_SMA")
       (fields
         (field
+          (name "LCSC") "C2480")
+        (field
+          (name "MPN") "SS14")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Schottky diode")
         (field
           (name "Footprint") "Diode_SMD:D_SMA")
@@ -336,7 +384,7 @@
         (field
           (name "SKiDL Tag") "d_prot")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:86"))
+          (name "SKiDL Line") "buffered_multiple.py:116"))
       (libsource
         (lib "Device")
         (part "D_Schottky"))
@@ -352,6 +400,12 @@
       (footprint "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
       (fields
         (field
+          (name "LCSC") "C53207560")
+        (field
+          (name "MPN") "IDC2.54-2*5PZ")
+        (field
+          (name "JLCPCB_Class") "Extended (THT)")
+        (field
           (name "Description") "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
         (field
           (name "Footprint") "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
@@ -360,7 +414,7 @@
         (field
           (name "SKiDL Tag") "j_pwr")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:59"))
+          (name "SKiDL Line") "buffered_multiple.py:83"))
       (libsource
         (lib "Connector_Generic")
         (part "Conn_02x05_Odd_Even"))
@@ -376,6 +430,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -384,7 +442,7 @@
         (field
           (name "SKiDL Tag") "j_in_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:150"))
+          (name "SKiDL Line") "buffered_multiple.py:192"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -400,6 +458,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -408,7 +470,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:187"))
+          (name "SKiDL Line") "buffered_multiple.py:235"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -424,6 +486,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -432,7 +498,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:187"))
+          (name "SKiDL Line") "buffered_multiple.py:235"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -448,6 +514,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -456,7 +526,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:187"))
+          (name "SKiDL Line") "buffered_multiple.py:235"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -472,6 +542,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -480,7 +554,7 @@
         (field
           (name "SKiDL Tag") "j_in_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:150"))
+          (name "SKiDL Line") "buffered_multiple.py:192"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -496,6 +570,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -504,7 +582,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:187"))
+          (name "SKiDL Line") "buffered_multiple.py:235"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -520,6 +598,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -528,7 +610,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:187"))
+          (name "SKiDL Line") "buffered_multiple.py:235"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -544,6 +626,10 @@
       (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
       (fields
         (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
           (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
         (field
           (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
@@ -552,7 +638,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:187"))
+          (name "SKiDL Line") "buffered_multiple.py:235"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -568,6 +654,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C149504")
+        (field
+          (name "MPN") "0805W8F1003T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -576,7 +668,7 @@
         (field
           (name "SKiDL Tag") "r_pd_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:157"))
+          (name "SKiDL Line") "buffered_multiple.py:199"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -592,6 +684,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C17710")
+        (field
+          (name "MPN") "0805W8F4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -600,7 +698,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch1_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:183"))
+          (name "SKiDL Line") "buffered_multiple.py:228"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -616,6 +714,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C17710")
+        (field
+          (name "MPN") "0805W8F4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -624,7 +728,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch1_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:183"))
+          (name "SKiDL Line") "buffered_multiple.py:228"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -640,6 +744,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C17710")
+        (field
+          (name "MPN") "0805W8F4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -648,7 +758,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch1_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:183"))
+          (name "SKiDL Line") "buffered_multiple.py:228"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -664,6 +774,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C149504")
+        (field
+          (name "MPN") "0805W8F1003T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -672,7 +788,7 @@
         (field
           (name "SKiDL Tag") "r_pd_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:157"))
+          (name "SKiDL Line") "buffered_multiple.py:199"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -688,6 +804,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C17710")
+        (field
+          (name "MPN") "0805W8F4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -696,7 +818,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch2_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:183"))
+          (name "SKiDL Line") "buffered_multiple.py:228"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -712,6 +834,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C17710")
+        (field
+          (name "MPN") "0805W8F4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -720,7 +848,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch2_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:183"))
+          (name "SKiDL Line") "buffered_multiple.py:228"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -736,6 +864,12 @@
       (footprint "Resistor_SMD:R_0805_2012Metric")
       (fields
         (field
+          (name "LCSC") "C17710")
+        (field
+          (name "MPN") "0805W8F4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
           (name "Description") "Resistor")
         (field
           (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -744,7 +878,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch2_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:183"))
+          (name "SKiDL Line") "buffered_multiple.py:228"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -760,6 +894,12 @@
       (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
       (fields
         (field
+          (name "LCSC") "C12594")
+        (field
+          (name "MPN") "TL074CDR")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
           (name "Description") "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
         (field
           (name "Footprint") "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
@@ -768,7 +908,7 @@
         (field
           (name "SKiDL Tag") "u_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:133"))
+          (name "SKiDL Line") "buffered_multiple.py:172"))
       (libsource
         (lib "Amplifier_Operational")
         (part "TL074"))
@@ -784,6 +924,12 @@
       (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
       (fields
         (field
+          (name "LCSC") "C12594")
+        (field
+          (name "MPN") "TL074CDR")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
           (name "Description") "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
         (field
           (name "Footprint") "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
@@ -792,7 +938,7 @@
         (field
           (name "SKiDL Tag") "u_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:133"))
+          (name "SKiDL Line") "buffered_multiple.py:172"))
       (libsource
         (lib "Amplifier_Operational")
         (part "TL074"))

@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 7,
+    "active_layer": 2,
     "active_layer_preset": "Back Assembly View",
     "auto_track_width": true,
     "hidden_netclasses": [],
@@ -53,7 +53,7 @@
       "board_outline_area",
       "ly_points"
     ],
-    "visible_layers": "00000000_00000000_00000002_22000088",
+    "visible_layers": "00000000_00000000_00000002_2200008d",
     "zone_display_mode": 0
   },
   "git": {

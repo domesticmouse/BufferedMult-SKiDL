@@ -1,1 +1,3 @@
 BufferedMult-backups/
+.history/
+*.kicad_*.lck

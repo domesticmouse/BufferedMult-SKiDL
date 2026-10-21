@@ -283,7 +283,7 @@
   "pcbnew": {
     "last_paths": {
       "idf": "",
-      "netlist": "../buffered_multiple.net",
+      "netlist": "buffered_multiple.net",
       "plot": "",
       "specctra_dsn": "",
       "vrml": ""

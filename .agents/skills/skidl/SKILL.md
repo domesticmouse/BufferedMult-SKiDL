@@ -19,6 +19,7 @@ SKiDL locates KiCad symbol and footprint libraries via environment variables and
 * **Default Tool**: `KICAD` aliases `KICAD10`. Switch versions at the top of a script if targeting an older KiCad installation:
   ```python
   from skidl import *
+
   set_default_tool(KICAD9)  # Options: KICAD5, KICAD6, KICAD7, KICAD8, KICAD9, KICAD10
   ```
 * **Symbol Libraries**: Controlled by `KICAD_SYMBOL_DIR` or versioned `KICAD<N>_SYMBOL_DIR` (e.g., `KICAD10_SYMBOL_DIR`). You can also append paths in code:
@@ -63,7 +64,7 @@ u1 = Part(
 r_t = Part("Device", "R", dest=TEMPLATE, footprint="Resistor_SMD:R_0805_2012Metric")
 c_t = Part("Device", "C", dest=TEMPLATE, footprint="Capacitor_SMD:C_0805_2012Metric")
 
-r1, r2 = r_t(2, value="10K")          # Two 10K resistors
+r1, r2 = r_t(2, value="10K")  # Two 10K resistors
 c_in, c_out = c_t(values=["10uF", "22uF"])
 ```
 

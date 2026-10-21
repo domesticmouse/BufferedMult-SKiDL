@@ -1,0 +1,350 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90.000mm" height="207.355mm" viewBox="0 0 90.000 207.355">
+<style>
+  text { font-family: "DejaVu Sans", Verdana, Arial, sans-serif; }
+  a { cursor: pointer; }
+  g.sheet:hover rect { stroke-width: 0.6; }
+</style>
+<rect width="90.000" height="207.355" style="fill:#FFFFFF" />
+<g class="frame">
+<rect x="5.0" y="10.000" width="80.000" height="192.355" style="stroke:#840000; stroke-width:0.3; fill:none" />
+<rect x="5.000" y="182.355" width="80.0" height="20.0" style="stroke:#840000; stroke-width:0.3; fill:none" />
+<text x="7.000" y="188.355" style="font-size:3.5px; fill:#840000">SKiDL-Generated Schematic</text>
+<text x="7.000" y="194.355" style="font-size:2.5px; fill:#840000">Sheet: ch1</text>
+<text x="7.000" y="199.355" style="font-size:2.5px; fill:#840000">File: buffered_multiple_ch1.svg</text>
+</g>
+<g class="nav">
+<a href="buffered_multiple.svg" target="_top"><text x="8.000" y="6.0" style="font-size:3.0px; fill:#840084; text-decoration:underline">▲ Up: top</text></a>
+</g>
+<g transform="translate(-102.770 -12.902)">
+<g class="part" data-ref="C3">
+<polyline points="139.192,76.708 139.192,80.772" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<polyline points="137.668,76.708 137.668,80.772" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<polyline points="142.240,78.740 139.446,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="134.620,78.740 137.414,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="139.192,76.708 139.192,80.772" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<polyline points="137.668,76.708 137.668,80.772" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<text class="field halo" x="138.430" y="75.808" transform="rotate(0 138.430 75.808)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">C3</text>
+<text class="field" x="138.430" y="75.808" transform="rotate(0 138.430 75.808)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">C3</text>
+<text class="field halo" x="138.430" y="81.672" transform="rotate(0 138.430 81.672)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">100nF</text>
+<text class="field" x="138.430" y="81.672" transform="rotate(0 138.430 81.672)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">100nF</text>
+</g>
+<g class="power" data-net="+12V">
+<text class="field" x="145.796" y="78.740" transform="rotate(-90 145.796 78.740)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="end">+12V</text>
+<polyline points="143.510,77.978 144.780,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="144.780,78.740 143.510,79.502" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="142.240,78.740 144.780,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="142.240,78.740 142.240,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<g class="power" data-net="GND">
+<text class="field" x="130.810" y="78.740" transform="rotate(-90 130.810 78.740)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="end">GND</text>
+<polyline points="134.620,78.740 133.350,78.740 133.350,80.010 132.080,78.740 133.350,77.470 133.350,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="134.620,78.740 134.620,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<g class="part" data-ref="C4">
+<polyline points="135.382,184.658 135.382,188.722" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<polyline points="133.858,184.658 133.858,188.722" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<polyline points="138.430,186.690 135.636,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="130.810,186.690 133.604,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="135.382,184.658 135.382,188.722" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<polyline points="133.858,184.658 133.858,188.722" style="stroke:#840000; stroke-width:0.508; fill:none" />
+<text class="field halo" x="134.620" y="183.758" transform="rotate(0 134.620 183.758)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">C4</text>
+<text class="field" x="134.620" y="183.758" transform="rotate(0 134.620 183.758)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">C4</text>
+<text class="field halo" x="134.620" y="189.622" transform="rotate(0 134.620 189.622)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">100nF</text>
+<text class="field" x="134.620" y="189.622" transform="rotate(0 134.620 189.622)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">100nF</text>
+</g>
+<g class="power" data-net="GND">
+<text class="field" x="142.240" y="186.690" transform="rotate(-90 142.240 186.690)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">GND</text>
+<polyline points="138.430,186.690 139.700,186.690 139.700,185.420 140.970,186.690 139.700,187.960 139.700,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="138.430,186.690 138.430,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<g class="power" data-net="-12V">
+<text class="field" x="127.254" y="186.690" transform="rotate(-90 127.254 186.690)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">-12V</text>
+<polyline points="130.810,186.690 130.810,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="130.810,186.690 129.540,186.690 129.540,185.928 128.270,186.690 129.540,187.452 129.540,186.690" style="stroke:#840000; stroke-width:0.152; fill:#840000" />
+</g>
+<g class="part" data-ref="J2">
+<rect x="118.110" y="78.740" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="121.920,78.740 122.555,79.375 123.190,78.740 124.460,78.740" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="123.698,78.994 123.952,79.502" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="119.380" y="74.930" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="124.460,76.200 121.285,76.200 121.285,78.740 120.650,79.375 120.015,78.740" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="124.460,81.280 123.698,81.280 123.698,78.994 123.444,79.502" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="127.000,76.200 124.460,76.200" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="127.000,78.740 124.460,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="127.000,81.280 124.460,81.280" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="118.110" y="78.740" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="121.920,78.740 122.555,79.375 123.190,78.740 124.460,78.740" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="123.698,78.994 123.952,79.502" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="119.380" y="74.930" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="124.460,76.200 121.285,76.200 121.285,78.740 120.650,79.375 120.015,78.740" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="124.460,81.280 123.698,81.280 123.698,78.994 123.444,79.502" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="field halo" x="127.900" y="78.375" transform="rotate(0 127.900 78.375)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">J2</text>
+<text class="field" x="127.900" y="78.375" transform="rotate(0 127.900 78.375)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">J2</text>
+<text class="field halo" x="127.900" y="80.375" transform="rotate(0 127.900 80.375)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">IN_1</text>
+<text class="field" x="127.900" y="80.375" transform="rotate(0 127.900 80.375)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">IN_1</text>
+</g>
+<g class="power" data-net="GND">
+<text class="field" x="130.810" y="76.200" transform="rotate(-90 130.810 76.200)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">GND</text>
+<polyline points="127.000,76.200 128.270,76.200 128.270,74.930 129.540,76.200 128.270,77.470 128.270,76.200" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="127.000,76.200 127.000,76.200" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<text class="net_label halo" x="126.200" y="78.740" transform="rotate(0 126.200 78.740)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_IN</text>
+<text class="net_label" x="126.200" y="78.740" transform="rotate(0 126.200 78.740)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_IN</text>
+<g class="power" data-net="GND">
+<text class="field" x="130.810" y="81.280" transform="rotate(-90 130.810 81.280)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">GND</text>
+<polyline points="127.000,81.280 128.270,81.280 128.270,80.010 129.540,81.280 128.270,82.550 128.270,81.280" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="127.000,81.280 127.000,81.280" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<g class="part" data-ref="J3">
+<rect x="127.000" y="116.840" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="130.810,119.380 131.445,118.745 132.080,119.380 133.350,119.380" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="132.588,119.126 132.842,118.618" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="128.270" y="114.300" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="133.350,121.920 130.175,121.920 130.175,119.380 129.540,118.745 128.905,119.380" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="133.350,116.840 132.588,116.840 132.588,119.126 132.334,118.618" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="135.890,121.920 133.350,121.920" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="135.890,119.380 133.350,119.380" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="135.890,116.840 133.350,116.840" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="127.000" y="116.840" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="130.810,119.380 131.445,118.745 132.080,119.380 133.350,119.380" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="132.588,119.126 132.842,118.618" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="128.270" y="114.300" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="133.350,121.920 130.175,121.920 130.175,119.380 129.540,118.745 128.905,119.380" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="133.350,116.840 132.588,116.840 132.588,119.126 132.334,118.618" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="field halo" x="131.445" y="113.400" transform="rotate(0 131.445 113.400)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">J3</text>
+<text class="field" x="131.445" y="113.400" transform="rotate(0 131.445 113.400)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">J3</text>
+<text class="field halo" x="131.445" y="124.090" transform="rotate(0 131.445 124.090)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">OUT_1A</text>
+<text class="field" x="131.445" y="124.090" transform="rotate(0 131.445 124.090)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">OUT_1A</text>
+</g>
+<g class="power" data-net="GND">
+<text class="field" x="139.700" y="121.920" transform="rotate(-90 139.700 121.920)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">GND</text>
+<polyline points="135.890,121.920 137.160,121.920 137.160,120.650 138.430,121.920 137.160,123.190 137.160,121.920" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="135.890,121.920 135.890,121.920" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<text class="net_label halo" x="135.090" y="119.380" transform="rotate(0 135.090 119.380)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_A</text>
+<text class="net_label" x="135.090" y="119.380" transform="rotate(0 135.090 119.380)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OUT_A</text>
+<g class="part" data-ref="J4">
+<rect x="128.270" y="38.100" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="132.080,40.640 132.715,40.005 133.350,40.640 134.620,40.640" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="133.858,40.386 134.112,39.878" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="129.540" y="35.560" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="134.620,43.180 131.445,43.180 131.445,40.640 130.810,40.005 130.175,40.640" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="134.620,38.100 133.858,38.100 133.858,40.386 133.604,39.878" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,43.180 134.620,43.180" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,40.640 134.620,40.640" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,38.100 134.620,38.100" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="128.270" y="38.100" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="132.080,40.640 132.715,40.005 133.350,40.640 134.620,40.640" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="133.858,40.386 134.112,39.878" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="129.540" y="35.560" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="134.620,43.180 131.445,43.180 131.445,40.640 130.810,40.005 130.175,40.640" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="134.620,38.100 133.858,38.100 133.858,40.386 133.604,39.878" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="field halo" x="132.715" y="34.660" transform="rotate(0 132.715 34.660)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">J4</text>
+<text class="field" x="132.715" y="34.660" transform="rotate(0 132.715 34.660)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">J4</text>
+<text class="field halo" x="132.715" y="45.350" transform="rotate(0 132.715 45.350)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">OUT_1B</text>
+<text class="field" x="132.715" y="45.350" transform="rotate(0 132.715 45.350)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">OUT_1B</text>
+</g>
+<g class="power" data-net="GND">
+<text class="field" x="140.970" y="43.180" transform="rotate(-90 140.970 43.180)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">GND</text>
+<polyline points="137.160,43.180 138.430,43.180 138.430,41.910 139.700,43.180 138.430,44.450 138.430,43.180" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,43.180 137.160,43.180" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<text class="net_label halo" x="136.360" y="40.640" transform="rotate(0 136.360 40.640)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_B</text>
+<text class="net_label" x="136.360" y="40.640" transform="rotate(0 136.360 40.640)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OUT_B</text>
+<g class="part" data-ref="J5">
+<rect x="128.270" y="153.670" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="132.080,156.210 132.715,155.575 133.350,156.210 134.620,156.210" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="133.858,155.956 134.112,155.448" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="129.540" y="151.130" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="134.620,158.750 131.445,158.750 131.445,156.210 130.810,155.575 130.175,156.210" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="134.620,153.670 133.858,153.670 133.858,155.956 133.604,155.448" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,158.750 134.620,158.750" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,156.210 134.620,156.210" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,153.670 134.620,153.670" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="128.270" y="153.670" width="1.270" height="2.540" style="stroke:#840000; stroke-width:0.254; fill:#840000" />
+<polyline points="132.080,156.210 132.715,155.575 133.350,156.210 134.620,156.210" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="133.858,155.956 134.112,155.448" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="129.540" y="151.130" width="5.080" height="8.890" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="134.620,158.750 131.445,158.750 131.445,156.210 130.810,155.575 130.175,156.210" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="134.620,153.670 133.858,153.670 133.858,155.956 133.604,155.448" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="field halo" x="138.060" y="154.575" transform="rotate(0 138.060 154.575)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">J5</text>
+<text class="field" x="138.060" y="154.575" transform="rotate(0 138.060 154.575)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">J5</text>
+<text class="field halo" x="138.060" y="156.575" transform="rotate(0 138.060 156.575)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">OUT_1C</text>
+<text class="field" x="138.060" y="156.575" transform="rotate(0 138.060 156.575)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">OUT_1C</text>
+</g>
+<g class="power" data-net="GND">
+<text class="field" x="140.970" y="158.750" transform="rotate(-90 140.970 158.750)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">GND</text>
+<polyline points="137.160,158.750 138.430,158.750 138.430,157.480 139.700,158.750 138.430,160.020 138.430,158.750" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="137.160,158.750 137.160,158.750" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<text class="net_label halo" x="136.360" y="156.210" transform="rotate(0 136.360 156.210)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_C</text>
+<text class="net_label" x="136.360" y="156.210" transform="rotate(0 136.360 156.210)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OUT_C</text>
+<g class="part" data-ref="R1">
+<rect x="128.270" y="77.724" width="5.080" height="2.032" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="127.000,78.740 128.270,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="134.620,78.740 133.350,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="128.270" y="77.724" width="5.080" height="2.032" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<text class="field halo" x="130.810" y="76.824" transform="rotate(0 130.810 76.824)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">R1</text>
+<text class="field" x="130.810" y="76.824" transform="rotate(0 130.810 76.824)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">R1</text>
+<text class="field halo" x="130.810" y="80.656" transform="rotate(0 130.810 80.656)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">100K</text>
+<text class="field" x="130.810" y="80.656" transform="rotate(0 130.810 80.656)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">100K</text>
+</g>
+<text class="net_label halo" x="127.800" y="78.740" transform="rotate(0 127.800 78.740)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_IN</text>
+<text class="net_label" x="127.800" y="78.740" transform="rotate(0 127.800 78.740)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_IN</text>
+<g class="power" data-net="GND">
+<text class="field" x="138.430" y="78.740" transform="rotate(-90 138.430 78.740)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">GND</text>
+<polyline points="134.620,78.740 135.890,78.740 135.890,77.470 137.160,78.740 135.890,80.010 135.890,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="134.620,78.740 134.620,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<g class="part" data-ref="R2">
+<rect x="166.624" y="100.330" width="2.032" height="5.080" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="167.640,106.680 167.640,105.410" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="167.640,99.060 167.640,100.330" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="166.624" y="100.330" width="2.032" height="5.080" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<text class="field halo" x="169.556" y="101.870" transform="rotate(0 169.556 101.870)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">R2</text>
+<text class="field" x="169.556" y="101.870" transform="rotate(0 169.556 101.870)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">R2</text>
+<text class="field halo" x="169.556" y="103.870" transform="rotate(0 169.556 103.870)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">470R</text>
+<text class="field" x="169.556" y="103.870" transform="rotate(0 169.556 103.870)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">470R</text>
+</g>
+<text class="net_label halo" x="167.640" y="105.880" transform="rotate(-90 167.640 105.880)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_A</text>
+<text class="net_label" x="167.640" y="105.880" transform="rotate(-90 167.640 105.880)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OP_A</text>
+<text class="net_label halo" x="167.640" y="99.860" transform="rotate(-90 167.640 99.860)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_A</text>
+<text class="net_label" x="167.640" y="99.860" transform="rotate(-90 167.640 99.860)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OUT_A</text>
+<g class="part" data-ref="R3">
+<rect x="169.164" y="44.450" width="2.032" height="5.080" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="170.180,43.180 170.180,44.450" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="170.180,50.800 170.180,49.530" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="169.164" y="44.450" width="2.032" height="5.080" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<text class="field halo" x="172.096" y="45.990" transform="rotate(0 172.096 45.990)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">R3</text>
+<text class="field" x="172.096" y="45.990" transform="rotate(0 172.096 45.990)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">R3</text>
+<text class="field halo" x="172.096" y="47.990" transform="rotate(0 172.096 47.990)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">470R</text>
+<text class="field" x="172.096" y="47.990" transform="rotate(0 172.096 47.990)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">470R</text>
+</g>
+<text class="net_label halo" x="170.180" y="43.980" transform="rotate(-90 170.180 43.980)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_B</text>
+<text class="net_label" x="170.180" y="43.980" transform="rotate(-90 170.180 43.980)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OP_B</text>
+<text class="net_label halo" x="170.180" y="50.000" transform="rotate(-90 170.180 50.000)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_B</text>
+<text class="net_label" x="170.180" y="50.000" transform="rotate(-90 170.180 50.000)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OUT_B</text>
+<g class="part" data-ref="R4">
+<rect x="166.624" y="137.160" width="2.032" height="5.080" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<polyline points="167.640,143.510 167.640,142.240" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="167.640,135.890 167.640,137.160" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<rect x="166.624" y="137.160" width="2.032" height="5.080" style="stroke:#840000; stroke-width:0.254; fill:none" />
+<text class="field halo" x="169.556" y="138.700" transform="rotate(0 169.556 138.700)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">R4</text>
+<text class="field" x="169.556" y="138.700" transform="rotate(0 169.556 138.700)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">R4</text>
+<text class="field halo" x="169.556" y="140.700" transform="rotate(0 169.556 140.700)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">470R</text>
+<text class="field" x="169.556" y="140.700" transform="rotate(0 169.556 140.700)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">470R</text>
+</g>
+<text class="net_label halo" x="167.640" y="142.710" transform="rotate(-90 167.640 142.710)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_C</text>
+<text class="net_label" x="167.640" y="142.710" transform="rotate(-90 167.640 142.710)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OP_C</text>
+<text class="net_label halo" x="167.640" y="136.690" transform="rotate(-90 167.640 136.690)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_C</text>
+<text class="net_label" x="167.640" y="136.690" transform="rotate(-90 167.640 136.690)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OUT_C</text>
+<g class="part" data-ref="U1">
+<polyline points="160.020,76.200 170.180,81.280 160.020,86.360 160.020,76.200" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="172.720,81.280 170.180,81.280" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="157.480,83.820 160.020,83.820" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="160.020" y="83.820" transform="rotate(0 160.020 83.820)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">-</text>
+<polyline points="157.480,78.740 160.020,78.740" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="160.020" y="78.740" transform="rotate(0 160.020 78.740)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">+</text>
+<text class="field halo" x="165.100" y="75.300" transform="rotate(0 165.100 75.300)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">U1</text>
+<text class="field" x="165.100" y="75.300" transform="rotate(0 165.100 75.300)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">U1</text>
+<text class="field halo" x="165.100" y="87.260" transform="rotate(0 165.100 87.260)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">TL074</text>
+<text class="field" x="165.100" y="87.260" transform="rotate(0 165.100 87.260)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">TL074</text>
+</g>
+<text class="net_label halo" x="158.280" y="78.740" transform="rotate(0 158.280 78.740)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_IN</text>
+<text class="net_label" x="158.280" y="78.740" transform="rotate(0 158.280 78.740)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_IN</text>
+<text class="net_label halo" x="158.280" y="83.820" transform="rotate(0 158.280 83.820)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_BUF</text>
+<text class="net_label" x="158.280" y="83.820" transform="rotate(0 158.280 83.820)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_BUF</text>
+<text class="net_label halo" x="171.920" y="81.280" transform="rotate(0 171.920 81.280)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_BUF</text>
+<text class="net_label" x="171.920" y="81.280" transform="rotate(0 171.920 81.280)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_BUF</text>
+<g class="part" data-ref="U1">
+<polyline points="162.560,119.380 167.640,109.220 172.720,119.380 162.560,119.380" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="165.100,121.920 165.100,119.380" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="165.100" y="119.380" transform="rotate(-90 165.100 119.380)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">+</text>
+<polyline points="170.180,121.920 170.180,119.380" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="170.180" y="119.380" transform="rotate(-90 170.180 119.380)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">-</text>
+<polyline points="167.640,106.680 167.640,109.220" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="field halo" x="173.620" y="113.300" transform="rotate(0 173.620 113.300)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">U1</text>
+<text class="field" x="173.620" y="113.300" transform="rotate(0 173.620 113.300)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">U1</text>
+<text class="field halo" x="173.620" y="115.300" transform="rotate(0 173.620 115.300)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">TL074</text>
+<text class="field" x="173.620" y="115.300" transform="rotate(0 173.620 115.300)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">TL074</text>
+</g>
+<text class="net_label halo" x="165.100" y="121.120" transform="rotate(-90 165.100 121.120)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_BUF</text>
+<text class="net_label" x="165.100" y="121.120" transform="rotate(-90 165.100 121.120)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_BUF</text>
+<text class="net_label halo" x="167.640" y="107.480" transform="rotate(-90 167.640 107.480)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_A</text>
+<text class="net_label" x="167.640" y="107.480" transform="rotate(-90 167.640 107.480)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OP_A</text>
+<text class="net_label halo" x="170.180" y="121.120" transform="rotate(-90 170.180 121.120)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_A</text>
+<text class="net_label" x="170.180" y="121.120" transform="rotate(-90 170.180 121.120)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OP_A</text>
+<g class="part" data-ref="U1">
+<polyline points="162.560,40.640 167.640,30.480 172.720,40.640 162.560,40.640" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="167.640,27.940 167.640,30.480" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="170.180,43.180 170.180,40.640" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="170.180" y="40.640" transform="rotate(-90 170.180 40.640)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">-</text>
+<polyline points="165.100,43.180 165.100,40.640" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="165.100" y="40.640" transform="rotate(-90 165.100 40.640)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">+</text>
+<text class="field halo" x="173.620" y="34.560" transform="rotate(0 173.620 34.560)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">U1</text>
+<text class="field" x="173.620" y="34.560" transform="rotate(0 173.620 34.560)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">U1</text>
+<text class="field halo" x="173.620" y="36.560" transform="rotate(0 173.620 36.560)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">TL074</text>
+<text class="field" x="173.620" y="36.560" transform="rotate(0 173.620 36.560)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">TL074</text>
+</g>
+<text class="net_label halo" x="165.100" y="42.380" transform="rotate(-90 165.100 42.380)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_BUF</text>
+<text class="net_label" x="165.100" y="42.380" transform="rotate(-90 165.100 42.380)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_BUF</text>
+<text class="net_label halo" x="170.180" y="42.380" transform="rotate(-90 170.180 42.380)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_B</text>
+<text class="net_label" x="170.180" y="42.380" transform="rotate(-90 170.180 42.380)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OP_B</text>
+<text class="net_label halo" x="167.640" y="28.740" transform="rotate(-90 167.640 28.740)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_B</text>
+<text class="net_label" x="167.640" y="28.740" transform="rotate(-90 167.640 28.740)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OP_B</text>
+<g class="part" data-ref="U1">
+<polyline points="162.560,156.210 167.640,146.050 172.720,156.210 162.560,156.210" style="stroke:#840000; stroke-width:0.254; fill:#FFFFC2" />
+<polyline points="165.100,158.750 165.100,156.210" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="165.100" y="156.210" transform="rotate(-90 165.100 156.210)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">+</text>
+<polyline points="170.180,158.750 170.180,156.210" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="170.180" y="156.210" transform="rotate(-90 170.180 156.210)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">-</text>
+<polyline points="167.640,143.510 167.640,146.050" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="field halo" x="173.620" y="150.130" transform="rotate(0 173.620 150.130)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">U1</text>
+<text class="field" x="173.620" y="150.130" transform="rotate(0 173.620 150.130)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">U1</text>
+<text class="field halo" x="173.620" y="152.130" transform="rotate(0 173.620 152.130)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">TL074</text>
+<text class="field" x="173.620" y="152.130" transform="rotate(0 173.620 152.130)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">TL074</text>
+</g>
+<text class="net_label halo" x="165.100" y="157.950" transform="rotate(-90 165.100 157.950)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_BUF</text>
+<text class="net_label" x="165.100" y="157.950" transform="rotate(-90 165.100 157.950)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_BUF</text>
+<text class="net_label halo" x="167.640" y="144.310" transform="rotate(-90 167.640 144.310)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_C</text>
+<text class="net_label" x="167.640" y="144.310" transform="rotate(-90 167.640 144.310)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OP_C</text>
+<text class="net_label halo" x="170.180" y="157.950" transform="rotate(-90 170.180 157.950)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_C</text>
+<text class="net_label" x="170.180" y="157.950" transform="rotate(-90 170.180 157.950)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OP_C</text>
+<g class="part" data-ref="U1">
+<polyline points="153.670,186.690 157.480,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="157.480" y="186.690" transform="rotate(0 157.480 186.690)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="start">V+</text>
+<polyline points="168.910,186.690 165.100,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<text class="pin_name" x="165.100" y="186.690" transform="rotate(0 165.100 186.690)" style="font-size:1.270px; fill:#0000C8" dominant-baseline="central" text-anchor="end">V-</text>
+<text class="field halo" x="161.290" y="185.409" transform="rotate(0 161.290 185.409)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">U1</text>
+<text class="field" x="161.290" y="185.409" transform="rotate(0 161.290 185.409)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">U1</text>
+<text class="field halo" x="161.290" y="187.971" transform="rotate(0 161.290 187.971)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">TL074</text>
+<text class="field" x="161.290" y="187.971" transform="rotate(0 161.290 187.971)" dominant-baseline="central" text-anchor="middle" style="font-size:1.27px; fill:#840000">TL074</text>
+</g>
+<g class="power" data-net="-12V">
+<text class="field" x="172.466" y="186.690" transform="rotate(-90 172.466 186.690)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="end">-12V</text>
+<polyline points="168.910,186.690 168.910,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="168.910,186.690 170.180,186.690 170.180,187.452 171.450,186.690 170.180,185.928 170.180,186.690" style="stroke:#840000; stroke-width:0.152; fill:#840000" />
+</g>
+<g class="power" data-net="+12V">
+<text class="field" x="150.114" y="186.690" transform="rotate(-90 150.114 186.690)" style="font-size:1.270px; fill:#840000" dominant-baseline="central" text-anchor="start">+12V</text>
+<polyline points="152.400,187.452 151.130,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="151.130,186.690 152.400,185.928" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="153.670,186.690 151.130,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+<polyline points="153.670,186.690 153.670,186.690" style="stroke:#840000; stroke-width:0.152; fill:none" />
+</g>
+<text class="net_label halo" x="139.700" y="72.860" transform="rotate(-90 139.700 72.860)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_IN</text>
+<text class="net_label" x="139.700" y="72.860" transform="rotate(-90 139.700 72.860)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_IN</text>
+<text class="net_label halo" x="160.020" y="113.500" transform="rotate(-90 160.020 113.500)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_A</text>
+<text class="net_label" x="160.020" y="113.500" transform="rotate(-90 160.020 113.500)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OP_A</text>
+<text class="net_label halo" x="161.290" y="46.520" transform="rotate(-90 161.290 46.520)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_B</text>
+<text class="net_label" x="161.290" y="46.520" transform="rotate(-90 161.290 46.520)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OP_B</text>
+<text class="net_label halo" x="161.290" y="162.090" transform="rotate(-90 161.290 162.090)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OP_C</text>
+<text class="net_label" x="161.290" y="162.090" transform="rotate(-90 161.290 162.090)" dominant-baseline="central" text-anchor="end" style="font-size:1.27px; fill:#840000">CH1_OP_C</text>
+<text class="net_label halo" x="144.780" y="113.500" transform="rotate(-90 144.780 113.500)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_A</text>
+<text class="net_label" x="144.780" y="113.500" transform="rotate(-90 144.780 113.500)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OUT_A</text>
+<text class="net_label halo" x="146.050" y="34.760" transform="rotate(-90 146.050 34.760)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_B</text>
+<text class="net_label" x="146.050" y="34.760" transform="rotate(-90 146.050 34.760)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OUT_B</text>
+<text class="net_label halo" x="146.050" y="150.330" transform="rotate(-90 146.050 150.330)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#FFFFFF; stroke:#FFFFFF; stroke-width:0.3; stroke-linejoin:round">CH1_OUT_C</text>
+<text class="net_label" x="146.050" y="150.330" transform="rotate(-90 146.050 150.330)" dominant-baseline="central" text-anchor="start" style="font-size:1.27px; fill:#840000">CH1_OUT_C</text>
+</g>
+</svg>

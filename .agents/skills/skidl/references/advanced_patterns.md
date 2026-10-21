@@ -8,9 +8,14 @@ SKiDL embeds your hierarchy into the KiCad netlist (`sheetpath` and deterministi
 ```python
 from skidl import *
 
+
 @subcircuit
 def ldo_regulator(vin, vout, gnd):
-    u = Part("Regulator_Linear", "AMS1117-3.3", footprint="Package_TO_SOT_SMD:SOT-223-3_TabPin2")
+    u = Part(
+        "Regulator_Linear",
+        "AMS1117-3.3",
+        footprint="Package_TO_SOT_SMD:SOT-223-3_TabPin2",
+    )
     c = Part("Device", "C", dest=TEMPLATE, footprint="Capacitor_SMD:C_0805_2012Metric")
     c_in, c_out = c(2, value="10uF")
 
@@ -19,6 +24,7 @@ def ldo_regulator(vin, vout, gnd):
     vin += u["VI"]
     vout += u["VO"]
     gnd += u["GND"]
+
 
 # Instantiate two independent regulators with explicit tags for stable PCB UUIDs
 vin, v3v3_a, v3v3_b, gnd = Net("VIN"), Net("3V3_A"), Net("3V3_B"), Net("GND")
@@ -77,11 +83,13 @@ When generating a netlist or PCB, SKiDL checks every part for a non-empty `footp
 import skidl
 from skidl import *
 
+
 def my_footprint_handler(part):
     if part.ref_prefix in ("R", "C", "L") and len(part.pins) == 2:
         part.footprint = "Resistor_SMD:R_0805_2012Metric"
     else:
         skidl.default_empty_footprint_handler(part)
+
 
 skidl.empty_footprint_handler = my_footprint_handler
 ```
@@ -125,6 +133,7 @@ To migrate an existing KiCad schematic/netlist to SKiDL code:
 * **Python API**:
   ```python
   from skidl import netlist_to_skidl
+
   python_code = netlist_to_skidl("my_project.net")
   ```
 

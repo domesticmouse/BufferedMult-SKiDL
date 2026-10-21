@@ -1,0 +1,16 @@
+﻿Designator,Footprint,Quantity,Value,LCSC Part #
+"C1, C2",CP_Radial_D5.0mm_P2.00mm,2,10uF,ECEA1EKS100
+"C3, C4, C5, C6",0805,4,100nF,C49678
+"D1, D2",D_SMA,2,1N5819,C2480
+J1,IDC-Header_2x05_P2.54mm_Vertical,1,EURORACK_PWR_10PIN,
+J2,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,IN_1,WQP-PJ398SM
+J3,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,OUT_1A,WQP-PJ398SM
+J4,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,OUT_1B,WQP-PJ398SM
+J5,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,OUT_1C,WQP-PJ398SM
+J6,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,IN_2,WQP-PJ398SM
+J7,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,OUT_2A,WQP-PJ398SM
+J8,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,OUT_2B,WQP-PJ398SM
+J9,Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles,1,OUT_2C,WQP-PJ398SM
+"R1, R5",0805,2,100K,C149504
+"R2, R3, R4, R6, R7, R8",0805,6,470R,C17710
+"U1, U2",SOIC-14_3.9x8.7mm_P1.27mm,2,TL074,C12594

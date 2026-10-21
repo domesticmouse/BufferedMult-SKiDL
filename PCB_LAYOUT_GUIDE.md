@@ -23,8 +23,8 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 | Ref | Qty | Value / Part | Footprint | Mount Side | Role |
 | :--- | --: | :--- | :--- | :--- | :--- |
 | `J2`–`J9` | 8 | `WQP-PJ398SM` (Thonkiconn) | `Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles` | **Front (`F.Cu`)** | 3.5mm Mono Switched Eurorack Jacks |
+| `C1`, `C2` | 2 | `10uF` (`ECEA1EKS100`) | `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | **Front (`F.Cu`)** | `+12V` / `-12V` Bulk Electrolytic Bypass Caps |
 | `J1` | 1 | `EURORACK_PWR_10PIN` | `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical` | **Back (`B.Cu`)** | 10-Pin (`2x5`) Shrouded IDC Power Header |
-| `C1`, `C2` | 2 | `10uF` (`ECEA1EKS100`) | `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | **Back (`B.Cu`)** | `+12V` / `-12V` Bulk Electrolytic Bypass Caps |
 
 ---
 
@@ -52,11 +52,12 @@ A vertical column of 8 jacks fits cleanly on a single-board **2HP** (`9.8 mm` pa
 
 ## 4. Component Placement & Layer Assignment
 
-### Front Side (`F.Cu`) — Panel-Facing Side (Jacks Only)
+### Front Side (`F.Cu`) — Panel-Facing Side (Jacks & Bulk Capacitors)
 
-Keep **`F.Cu`** completely free of SMD parts and rear connectors so the PCB sits flat against the back of the Eurorack front panel:
+Keep **`F.Cu`** free of SMD parts so all factory-assembled SMT components sit on a single side (`B.Cu`), and mount the through-hole jacks (`J2`–`J9`) and low-profile radial bulk capacitors (`C1`, `C2`) on **`F.Cu`**:
 
-- Place the 8 Thonkiconn jacks (`J2`–`J9`) on **`F.Cu`** in a vertical column centered along the X-axis (`X = 4.8 mm` for a `9.6 mm` wide 2HP board) at a **`12.7 mm` (`0.5"`)** or **`13.0 mm`** vertical pitch:
+1. **Eurorack Jacks (`J2`–`J9`)**:
+   - Place the 8 Thonkiconn jacks (`J2`–`J9`) on **`F.Cu`** in a vertical column centered along the X-axis (`X = 4.8 mm` for a `9.6 mm` wide 2HP board) at a **`12.7 mm` (`0.5"`)** or **`13.0 mm`** vertical pitch:
 
 | Order (Top → Bottom) | Ref | Label / Value | Channel & Function | Associated Passive on `B.Cu` |
 | :--- | :--- | :--- | :--- | :--- |
@@ -69,7 +70,13 @@ Keep **`F.Cu`** completely free of SMD parts and rear connectors so the PCB sits
 | 7 | `J8` | `OUT_2B` | Ch 2 Buffered Output B (`U2C`) | `R7` (`470R` from `U2` pin 8) |
 | 8 | `J9` | `OUT_2C` | Ch 2 Buffered Output C (`U2D`) | `R8` (`470R` from `U2` pin 14) |
 
-### Back Side (`B.Cu`) — All SMD Parts + Rear THT Power Components
+2. **Radial Bulk Electrolytic Capacitors (`C1`, `C2` on `F.Cu`)**:
+   - Keep **`C1`** and **`C2`** (`10uF`, `ECEA1EKS100`, `CP_Radial_D5.0mm_P2.00mm`) on **`F.Cu`** so they sit in the `~10.5 mm` space between the PCB and the front panel created by the Thonkiconn jacks (`ECEA1EKS100` is only `7 mm` tall, so it clears the back of the panel easily).
+   - Place `C1` and `C2` near the power entry area (for example, between jack bodies or at the top/bottom end of the board adjacent to `J1` and `D1`/`D2`):
+     - **`+12V` Bulk Cap (`C1`)**: Pin `1` (`+`, square pad) connects to `+12V`; Pin `2` (`-`) connects to `GND`.
+     - **`-12V` Bulk Cap (`C2`)**: Pin `1` (`+`, square pad) connects to `GND`; Pin `2` (`-`) connects to `-12V` (since `GND` is positive relative to `-12V`).
+
+### Back Side (`B.Cu`) — All SMD Parts + Rear THT Power Header
 
 Press **`F`** while hovering over or selecting the following footprints to flip them onto the back layer (`B.Cu`):
 
@@ -84,12 +91,10 @@ Press **`F`** while hovering over or selecting the following footprints to flip 
      - Place `R1` (`100K`) next to `J2` (`IN_1`) tip pin (`T`) and `R5` (`100K`) next to `J6` (`IN_2`) tip pin (`T`).
      - Place `R2`, `R3`, `R4` (`470R`) directly inline between `U1` output pins (`7`, `8`, `14`) and the tip pins (`T`) of `J3`, `J4`, `J5`.
      - Place `R6`, `R7`, `R8` (`470R`) directly inline between `U2` output pins (`7`, `8`, `14`) and the tip pins (`T`) of `J7`, `J8`, `J9`.
-2. **Rear Through-Hole Power Header (`J1`) & Radial Bulk Capacitors (`C1`, `C2`)**:
-   - Flip **`J1`** (`IDC-Header_2x05_P2.54mm_Vertical`), **`C1`**, and **`C2`** (`CP_Radial_D5.0mm_P2.00mm`) onto **`B.Cu`** so they protrude out the **back** of the module (away from the front panel) and are soldered on `F.Cu` (or via plated through-holes).
-   - Place `J1` in an open gap between jack rows (typically between `J4` and `J6`, or near the bottom of the board), making sure its pins clear the bodies of the front-side jacks on `F.Cu`.
-   - Place **`D1`**, **`D2`** (`1N5819`, SMD on `B.Cu`) and **`C1`**, **`C2`** (`10uF` radial THT on `B.Cu`) adjacent to `J1`:
-     - **`+12V` Bulk Cap (`C1`)**: Pin `1` (`+`, square pad) connects to `+12V`; Pin `2` (`-`) connects to `GND`.
-     - **`-12V` Bulk Cap (`C2`)**: Pin `1` (`+`, square pad) connects to `GND`; Pin `2` (`-`) connects to `-12V` (since `GND` is positive relative to `-12V`).
+2. **Rear Through-Hole Power Header (`J1`)**:
+   - Flip **`J1`** (`IDC-Header_2x05_P2.54mm_Vertical`) onto **`B.Cu`** so the shrouded header protrudes out the **back** of the module (away from the front panel) and its leads are soldered on `F.Cu`.
+   - Place `J1` in an open gap between jack rows (typically between `J4` and `J6`, or near the bottom of the board), making sure its through-hole pins clear the bodies of the front-side jacks and bulk capacitors (`C1`, `C2`) on `F.Cu`.
+   - Place **`D1`** and **`D2`** (`1N5819`, SMD on `B.Cu`) right next to `J1` and the through-hole pads of `C1` and `C2`.
    - Add a clear **`-12V / RED STRIPE`** text label on `B.Silkscreen` next to `J1` pins `1` and `2`.
 
 ---

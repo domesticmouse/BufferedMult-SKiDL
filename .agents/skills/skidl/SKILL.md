@@ -2,10 +2,11 @@
 name: skidl
 description: >-
   Design electronic circuits in Python and generate KiCad netlists, PCBs,
-  schematics, SVGs, and BOMs using SKiDL. Use this skill whenever a developer
-  asks to write, modify, debug, or understand SKiDL circuit scripts, search
-  KiCad symbol or footprint libraries from Python, run Electrical Rules
-  Checking (ERC), create hierarchical subcircuits, or export circuits to KiCad.
+  schematics, SVGs, and JLCPCB PCBA BOMs using SKiDL. Use this skill whenever a
+  developer asks to write, modify, debug, or understand SKiDL circuit scripts,
+  search KiCad symbol/footprint libraries or the JLCPCB/LCSC parts catalog from
+  Python, run Electrical Rules Checking (ERC), create hierarchical subcircuits,
+  or export circuits and BOMs to KiCad and JLCPCB.
 ---
 
 # SKiDL Circuit & KiCad PCB Design
@@ -92,7 +93,9 @@ r1, r2 = r_t(2, value="10K")  # Two 10K resistors
 c_in, c_out = c_t(values=["10uF", "22uF"])
 ```
 
-* **Custom Fields & Properties**: Pass arbitrary keyword arguments (e.g., `mpn="...", dnp=True, exclude_from_bom=True`) to `Part()` or assign attributes directly (`r1.value = "4.7K"`). They export as component fields/properties in the KiCad netlist.
+* **Custom Fields & Properties (`part.fields` vs. Attributes)**:
+  * **Catalog & BOM Fields**: Because `SkidlBaseObject.__setattr__` only updates `part.fields` if the key *already* exists in `part.fields`, passing `LCSC="C49678"` to `Part()` or assigning `part.LCSC = "C49678"` sets a plain Python attribute that is **ignored** by `generate_xml()` and `generate_netlist()`. Always assign custom fields into the `part.fields` dict (`part.fields["LCSC"] = "C49678"`, `part.fields["MPN"] = "..."`). Copies created from a `TEMPLATE` part automatically inherit a copy of `part.fields`.
+  * **KiCad Boolean Flags**: Set `part.dnp = True` or `part.exclude_from_bom = True` as direct attributes on `part` (checked via `getattr(part, ...)` by `gen_netlist_comp`).
 * **Custom On-the-Fly Parts**: See [Advanced Patterns](./references/advanced_patterns.md) for creating schematic-less parts with `SkidlPart` and `Pin`.
 
 ## 4. Selecting Pins & Wiring Nets
@@ -125,7 +128,7 @@ vin & u1["VI VO"] & vout
 vin & r1 & tee(c_in & gnd) & r2 & vout
 ```
 
-* **Unconnected Pins (`NC`)**: Attach intentionally unused pins to the built-in `NC` net to suppress ERC warnings. Inside functions or `@subcircuit` blocks, always place the pin on the left (`u1["NC"] += NC`) rather than `NC += u1["NC"]`—the latter causes Python to treat `NC` as an unassigned local variable and raises `UnboundLocalError`.
+* **Unconnected Pins (`NC` & `builtins`)**: Attach intentionally unused pins to the built-in no-connect net (`u1["NC"] += builtins.NC`). Note that `NC` and `default_circuit` are injected into Python's `builtins` module at import time and are **not** in `skidl.__all__` (`from skidl import NC` raises `ImportError`). When using explicit imports, `import builtins` and reference `builtins.NC` and `builtins.default_circuit`. Inside functions or `@subcircuit` blocks, always place the pin on the left (`u1["NC"] += builtins.NC`).
 * **Buses**: Create multi-bit signals with `bus = Bus("DATA", 8)` and connect slices with `bus[0:7] += mcu["PA[0:7]"]`.
 
 ## 5. Electrical Rules Checking (ERC)
@@ -146,7 +149,7 @@ erc_assert("len(vout) >= 2", "3V3 output rail has no load!")
 ERC()
 ```
 
-## 6. Exporting to KiCad
+## 6. Exporting to KiCad & JLCPCB PCBA
 
 Choose the output method that matches the user's workflow:
 
@@ -170,9 +173,16 @@ generate_xml(file_="my_board_bom.xml")
 generate_dot(file_="circuit.dot")
 ```
 
+* **JLCPCB PCBA BOM & Live LCSC Part Search**:
+  * To verify live JLCPCB stock, Basic vs. Extended library status (`$0` vs. `$3` feeder setup fee), and unit pricing before assigning LCSC part numbers, run [jlcpcb_search.py](./scripts/jlcpcb_search.py):
+    ```bash
+    python3 .agents/skills/skidl/scripts/jlcpcb_search.py --in-stock-only "100k 0805" "TL074 SOIC-14"
+    ```
+  * To export a grouped 4-column JLCPCB BOM CSV (`Comment,Designator,Footprint,LCSC Part #`) or download offline catalog databases (`yaqwsx/jlcparts`, `CDFER/jlcpcb-parts-database`), read [JLCPCB PCBA BOM & Catalog Integration](./references/jlcpcb_bom.md).
+
 ## 7. Code Quality & Linting (`ruff`)
 
-* **Explicit Imports**: In saved circuit scripts, prefer explicit imports (`from skidl import ERC, NC, POWER, TEMPLATE, Net, NetClass, Part, generate_netlist, generate_svg, generate_xml, subcircuit`) over `from skidl import *`. Add `# noqa: E402` if `os.environ` setup precedes the import.
+* **Explicit Imports**: In saved circuit scripts, prefer explicit imports (`import builtins` + `from skidl import ERC, POWER, TEMPLATE, Net, NetClass, Part, generate_netlist, generate_svg, generate_xml, subcircuit`) over `from skidl import *`. Never put `NC` or `default_circuit` in `from skidl import ...`; access them via `builtins.NC` and `builtins.default_circuit`. Add `# noqa: E402` if `os.environ` setup precedes the import.
 * **Executable Shebangs**: If including `#!/usr/bin/env python3`, run `chmod +x <script>.py` so `ruff` (`EXE001`) passes.
 * **Auto-Generated Backup Library (`*_sklib.py`)**: Running a SKiDL script emits a `<script>_sklib.py` backup symbol library in the working directory. Always run `ruff check --fix . && ruff format .` **after** executing the circuit script so both your script and `*_sklib.py` pass linting and formatting.
 

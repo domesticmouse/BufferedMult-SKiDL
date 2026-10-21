@@ -97,3 +97,26 @@ A standard FR-4 PCB front panel offers three high-contrast visual layers:
    - Run `kicad-cli pcb drc BufferedMult_Panel.kicad_pcb` and verify `0` errors.
 3. **Export Fabrication Outputs (`production/panel/`)**:
    - Plot Gerber layers (`F.Cu`, `B.Cu`, `F.Silkscreen`, `B.Silkscreen`, `F.Mask`, `B.Mask`, `Edge.Cuts`) and Excellon drill files (`PTH` and `NPTH`) into `production/panel/`, then zip as `production/BufferedMult_Panel.zip`.
+
+---
+
+## 3. Automated Generation via the `eurorack-panel` Skill
+
+You can inspect the main board coordinates, generate [`BufferedMult_Panel.kicad_pcb`](BufferedMult_Panel.kicad_pcb), refill copper zones, run DRC, and export Gerbers/drills in one command using [`generate_eurorack_panel.py`](.agents/skills/eurorack-panel/scripts/generate_eurorack_panel.py):
+
+```bash
+# Inspect jack coordinates and bushing offsets
+python3 .agents/skills/eurorack-panel/scripts/generate_eurorack_panel.py \
+    --main-pcb BufferedMult.kicad_pcb \
+    --inspect
+
+# Generate the front panel PCB, run DRC, and export Gerbers + zip archive
+python3 .agents/skills/eurorack-panel/scripts/generate_eurorack_panel.py \
+    --main-pcb BufferedMult.kicad_pcb \
+    --output BufferedMult_Panel.kicad_pcb \
+    --title "BUF MULT" \
+    --subtitle "1:3 / 1:6" \
+    --gerber-dir production/panel \
+    --zip production/BufferedMult_Panel.zip \
+    --drc
+```

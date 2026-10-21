@@ -3,3 +3,4 @@ BufferedMult-backups/
 *.kicad_*.lck
 production/backups/
 .DS_Store
+BufferedMult_Panel-backups/

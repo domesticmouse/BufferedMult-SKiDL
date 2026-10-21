@@ -2,7 +2,7 @@
   (version "D")
   (design
     (source "buffered_multiple.py")
-    (date "10/21/2026 12:13 PM")
+    (date "10/21/2026 08:11 PM")
     (tool "SKiDL (3.0.0)")
     (sheet
       (number 1)
@@ -881,14 +881,14 @@
       (tstamps "79c18453-2f74-5021-b72f-fdb135a51882"))
     (comp
       (ref "U1")
-      (value "TL074")
+      (value "TL074H")
       (description "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
       (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
       (fields
         (field
-          (name "LCSC") "C12594")
+          (name "LCSC") "C2878713")
         (field
-          (name "MPN") "TL074CDR")
+          (name "MPN") "TL074HIDR")
         (field
           (name "JLCPCB_Class") "Extended")
         (field
@@ -911,14 +911,14 @@
       (tstamps "c569285a-52fc-5dd4-952c-ec299a909882"))
     (comp
       (ref "U2")
-      (value "TL074")
+      (value "TL074H")
       (description "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
       (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
       (fields
         (field
-          (name "LCSC") "C12594")
+          (name "LCSC") "C2878713")
         (field
-          (name "MPN") "TL074CDR")
+          (name "MPN") "TL074HIDR")
         (field
           (name "JLCPCB_Class") "Extended")
         (field

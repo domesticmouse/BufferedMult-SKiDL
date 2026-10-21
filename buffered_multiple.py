@@ -69,7 +69,9 @@ LCSC_C_100NF_0805 = "C49678"  # YAGEO CC0805KRX7R9BB104 (50V X7R, Basic Part)
 LCSC_R_100K_0805 = "C149504"  # UNI-ROYAL 0805W8F1003T5E (100k 1%, Basic Part)
 LCSC_R_470R_0805 = "C17710"  # UNI-ROYAL 0805W8F4700T5E (470R 1%, Basic Part)
 LCSC_D_SS14_SMA = "C2480"  # MDD SS14 / 1N5819 (40V 1A Schottky SMA, Basic Part)
-LCSC_U_TL074_SOIC14 = "C12594"  # Texas Instruments TL074CDR (SOIC-14, Extended Part)
+LCSC_U_TL074H_SOIC14 = (
+    "C2878713"  # Texas Instruments TL074HIDR (SOIC-14, Extended Part)
+)
 
 
 @subcircuit
@@ -143,7 +145,7 @@ def eurorack_power(vcc, vee, gnd):
 @subcircuit
 def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     """
-    Single 1-to-3 buffered multiple channel built around one quad TL074 op-amp:
+    Single 1-to-3 buffered multiple channel built around one quad TL074H op-amp:
     - Unit A (pins 1, 2, 3): Unity-gain input buffer
     - Units B, C, D: Three independent unity-gain output buffers with 470R series protection
     - Input jack TN pin connects to `norm_in` (GND for CH1, CH1 buffered tap for CH2)
@@ -163,16 +165,16 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     jack_t.fields["MPN"] = "WQP-PJ398SM"
     jack_t.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
 
-    # Quad JFET op-amp (TL074 in SOIC-14)
+    # Quad high-voltage CMOS/FET-input op-amp (TL074H in SOIC-14)
     u = Part(
         "Amplifier_Operational",
         "TL074",
-        value="TL074",
+        value="TL074H",
         footprint=FP_OPAMP_SOIC14,
         tag=f"u_ch{ch_num}",
     )
-    u.fields["LCSC"] = LCSC_U_TL074_SOIC14
-    u.fields["MPN"] = "TL074CDR"
+    u.fields["LCSC"] = LCSC_U_TL074H_SOIC14
+    u.fields["MPN"] = "TL074HIDR"
     u.fields["JLCPCB_Class"] = "Extended"
 
     # Op-amp power pins & local 100nF ceramic decoupling capacitors

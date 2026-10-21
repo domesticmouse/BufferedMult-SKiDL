@@ -7628,7 +7628,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "TL074"
+		(property "Value" "TL074H"
 			(at 0 -5.28 0)
 			(layer "B.SilkS")
 			(uuid "8cd7576f-b2af-4ba5-ad40-afe832872524")
@@ -7677,7 +7677,7 @@
 				(justify mirror)
 			)
 		)
-		(property "LCSC" "C12594"
+		(property "LCSC" "C2878713"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -7691,7 +7691,7 @@
 				(justify mirror)
 			)
 		)
-		(property "MPN" "TL074CDR"
+		(property "MPN" "TL074HIDR"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -9373,7 +9373,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "TL074"
+		(property "Value" "TL074H"
 			(at 0 -5.28 0)
 			(layer "B.SilkS")
 			(uuid "bd6cff8e-7133-4010-b7a2-19996fb88f3c")
@@ -9422,7 +9422,7 @@
 				(justify mirror)
 			)
 		)
-		(property "LCSC" "C12594"
+		(property "LCSC" "C2878713"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "B.Fab")
@@ -9436,7 +9436,7 @@
 				(justify mirror)
 			)
 		)
-		(property "MPN" "TL074CDR"
+		(property "MPN" "TL074HIDR"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "B.Fab")

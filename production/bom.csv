@@ -1,4 +1,4 @@
-Designator,Footprint,Quantity,Value,LCSC Part #
+﻿Designator,Footprint,Quantity,Value,LCSC Part #
 "C1, C2",CP_Radial_D5.0mm_P2.00mm,2,10uF,ECEA1EKS100
 "C3, C4, C5, C6",0805,4,100nF,C49678
 "D1, D2",D_SMA,2,1N5819,C2480

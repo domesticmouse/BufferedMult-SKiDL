@@ -4,6 +4,8 @@ A precision **Dual 1-to-3 (Normalized to 1-to-6) Eurorack Buffered Multiple** de
 
 This project is a SKiDL re-implementation of [domesticmouse/Buffered-Mult](https://github.com/domesticmouse/Buffered-Mult), omitting the LED feedback circuitry.
 
+![A ray traced image of the Buffered Multiple PCB](BufferedMult.png)
+
 ---
 
 ## Features & Architecture
@@ -148,4 +150,3 @@ Both the main circuit board and a mated 3U × 4HP Eurorack front panel are inclu
 Licensed under the Apache License, Version 2.0. See [LICENSE.txt](LICENSE.txt) for details.
 
 *This is not an official Google product.*
-

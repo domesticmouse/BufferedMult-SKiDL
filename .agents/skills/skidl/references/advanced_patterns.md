@@ -32,6 +32,8 @@ ldo_regulator(vin, v3v3_a, gnd, tag="reg_a")
 ldo_regulator(vin, v3v3_b, gnd, tag="reg_b")
 ```
 
+* **Root Node Tag Constraint**: Always pass `tag="..."` to `@subcircuit` invocations and `Part(...)` instances for deterministic KiCad UUIDs, but **never** modify `default_circuit.root.tag` from its default empty string `""`. KiCad's netlist generator (`gen_sheetpath`) requires the root hierarchy level to be `""` (representing `/`) and will raise `AssertionError: Top level of hierarchy must be an empty string.` if changed.
+
 ### Context Manager (`with SubCircuit(...)` or `with Group(...)`)
 ```python
 with SubCircuit("analog_frontend", tag="afe1"):

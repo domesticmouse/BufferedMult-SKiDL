@@ -14,11 +14,35 @@ SKiDL is a Python library for describing electronic circuits as code and outputt
 
 ## 1. Environment & Tool Configuration
 
-SKiDL locates KiCad symbol and footprint libraries via environment variables and KiCad's `fp-lib-table`:
+* **Virtual Environment Setup (`uv`)**: `skidl` depends on `inspice` -> `h5py`. Avoid unreleased/bleeding-edge Python versions (such as Python 3.15) that lack prebuilt `h5py` binary wheels and fail compiling `libhdf5` from source. Target Python 3.12–3.14 and pass `--clear` so `uv venv` never blocks on an interactive prompt:
+  ```bash
+  uv venv --clear --python 3.14 .venv
+  uv pip install skidl
+  ```
+* **Pre-Import Environment Variables (Sandbox & macOS Paths)**: Importing `skidl` immediately initializes `SkidlConfig` and `matplotlib`, which attempt to create `~/Library/Application Support/skidl` and `~/.matplotlib`. In restricted sandboxes or macOS environments without shell-exported KiCad variables, configure these **before** importing `skidl`:
+  ```python
+  import os
 
+  os.environ.setdefault("XDG_DATA_HOME", "/tmp/xdg_data")
+  os.environ.setdefault("MPLCONFIGDIR", "/tmp/mpl_config")
+  if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols"):
+      os.environ.setdefault(
+          "KICAD10_SYMBOL_DIR",
+          "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+      )
+      os.environ.setdefault(
+          "KICAD_SYMBOL_DIR",
+          "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+      )
+  if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints"):
+      os.environ.setdefault(
+          "KICAD10_FOOTPRINT_DIR",
+          "/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints",
+      )
+  ```
 * **Default Tool**: `KICAD` aliases `KICAD10`. Switch versions at the top of a script if targeting an older KiCad installation:
   ```python
-  from skidl import *
+  from skidl import KICAD9, set_default_tool
 
   set_default_tool(KICAD9)  # Options: KICAD5, KICAD6, KICAD7, KICAD8, KICAD9, KICAD10
   ```
@@ -101,7 +125,7 @@ vin & u1["VI VO"] & vout
 vin & r1 & tee(c_in & gnd) & r2 & vout
 ```
 
-* **Unconnected Pins**: Attach intentionally unused pins to the built-in `NC` net (`NC += u1["NC"]`) to suppress ERC warnings.
+* **Unconnected Pins (`NC`)**: Attach intentionally unused pins to the built-in `NC` net to suppress ERC warnings. Inside functions or `@subcircuit` blocks, always place the pin on the left (`u1["NC"] += NC`) rather than `NC += u1["NC"]`—the latter causes Python to treat `NC` as an unassigned local variable and raises `UnboundLocalError`.
 * **Buses**: Create multi-bit signals with `bus = Bus("DATA", 8)` and connect slices with `bus[0:7] += mcu["PA[0:7]"]`.
 
 ## 5. Electrical Rules Checking (ERC)
@@ -129,22 +153,29 @@ Choose the output method that matches the user's workflow:
 ```python
 # 1. KiCad Netlist (.net) — Primary workflow for KiCad PCB Editor
 # In KiCad PCB Editor (pcbnew): File -> Import -> Netlist... -> Update PCB
-generate_netlist()
+generate_netlist(file_="my_board.net")
 
 # 2. Direct KiCad PCB (.kicad_pcb)
 # Requires `kinet2pcb` and KiCad's `pcbnew` Python module in the active Python environment
 generate_pcb(fp_libs=["/path/to/footprints.pretty"])
 
-# 3. Placed-and-routed KiCad Schematic (.kicad_sch) or Hyperlinked SVG (.svg)
-# Supported for KiCad 6–10; generate_schematic() requires `pip install schematizer`
-generate_schematic(filepath="output_dir", top_name="my_board")
+# 3. Hyperlinked SVG (.svg) or Placed-and-routed KiCad Schematic (.kicad_sch)
+# Prefer generate_svg() for visual diagrams; generate_schematic() uses schematizer's
+# global router, which can raise skidl.errors.RoutingFailure on dense multi-pin connectors.
 generate_svg(filepath="output_dir", top_name="my_board", flatness=0.0)
+generate_schematic(filepath="output_dir", top_name="my_board")
 
 # 4. XML BOM (.xml) or Graphviz DOT (.dot)
-generate_xml()
+generate_xml(file_="my_board_bom.xml")
 generate_dot(file_="circuit.dot")
 ```
 
-## 7. Hierarchy, Design Classes & SPICE
+## 7. Code Quality & Linting (`ruff`)
+
+* **Explicit Imports**: In saved circuit scripts, prefer explicit imports (`from skidl import ERC, NC, POWER, TEMPLATE, Net, NetClass, Part, generate_netlist, generate_svg, generate_xml, subcircuit`) over `from skidl import *`. Add `# noqa: E402` if `os.environ` setup precedes the import.
+* **Executable Shebangs**: If including `#!/usr/bin/env python3`, run `chmod +x <script>.py` so `ruff` (`EXE001`) passes.
+* **Auto-Generated Backup Library (`*_sklib.py`)**: Running a SKiDL script emits a `<script>_sklib.py` backup symbol library in the working directory. Always run `ruff check --fix . && ruff format .` **after** executing the circuit script so both your script and `*_sklib.py` pass linting and formatting.
+
+## 8. Hierarchy, Design Classes & SPICE
 
 For hierarchical subcircuits (`@subcircuit`, `SubCircuit`, `Interface`), PCB routing classes (`NetClass`, `PartClass`), missing footprint handlers, and converting existing KiCad netlists to SKiDL (`netlist_to_skidl`), read [Advanced Patterns](./references/advanced_patterns.md).

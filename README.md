@@ -2,6 +2,8 @@
 
 A precision **Dual 1-to-3 (Normalized to 1-to-6) Eurorack Buffered Multiple** designed in Python using [SKiDL](https://devbisme.github.io/skidl/) and targeting **KiCad 10**.
 
+This project is a SKiDL re-implementation of [domesticmouse/Buffered-Mult](https://github.com/domesticmouse/Buffered-Mult), omitting the LED feedback circuitry.
+
 ---
 
 ## Features & Architecture
@@ -99,9 +101,15 @@ Running `buffered_multiple.py` produces:
 
 ---
 
-## Importing into KiCad PCB Editor (`pcbnew`)
+## KiCad PCB
 
-1. Open **KiCad 10** and create or open a `.kicad_pcb` board file.
-2. Select **File -> Import -> Netlist...**
-3. Browse to `buffered_multiple.net`, click **Update PCB**, and place your footprints on the board.
-4. See the full step-by-step [KiCad 10 PCB Layout Guide](PCB_LAYOUT_GUIDE.md) for mechanical dimensions, front/back THT & SMT placement, net classes, routing, and JLCPCB export.
+A KiCad 10 PCB project is included in this directory ([`BufferedMult.kicad_pro`](BufferedMult.kicad_pro) and [`BufferedMult.kicad_pcb`](BufferedMult.kicad_pcb)).
+
+---
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE.txt](LICENSE.txt) for details.
+
+*This is not an official Google product.*
+

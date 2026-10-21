@@ -12,7 +12,7 @@ buffered_multiple = SchLib(tool=SKIDL).add_parts(
             aliases=Alias({"Conn_02x05_Odd_Even"}),
             ref_prefix="J",
             fplist=[""],
-            footprint="Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical",
+            footprint="Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical_SMD",
             keywords="connector",
             description="Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)",
             datasheet="",

@@ -53,7 +53,7 @@ from skidl import (
     subcircuit,
 )
 
-# Footprints (SMD passives & ICs, through-hole Eurorack jacks & power header)
+# Footprints (SMD passives, ICs & power header, through-hole Eurorack jacks)
 FP_OPAMP_SOIC14 = "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 FP_R_0805 = "Resistor_SMD:R_0805_2012Metric"
 FP_C_0805 = "Capacitor_SMD:C_0805_2012Metric"
@@ -62,7 +62,7 @@ FP_DIODE_SMA = "Diode_SMD:D_SMA"
 FP_JACK_EURORACK = (
     "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
 )
-FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
+FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical_SMD"
 
 # Verified JLCPCB / LCSC Catalog Part Numbers
 LCSC_C_100NF_0805 = "C49678"  # YAGEO CC0805KRX7R9BB104 (50V X7R, Basic Part)
@@ -71,7 +71,9 @@ LCSC_R_470R_0805 = "C17710"  # UNI-ROYAL 0805W8F4700T5E (470R 1%, Basic Part)
 LCSC_D_SS14_SMA = "C2480"  # MDD SS14 / 1N5819 (40V 1A Schottky SMA, Basic Part)
 LCSC_U_TL074_SOIC14 = "C12594"  # Texas Instruments TL074CDR (SOIC-14, Extended Part)
 LCSC_C_10UF_ELEC = "C14162"  # Honor Elec RVT1H100M0605 (10uF 50V 6.3x5.4mm, Extended)
-LCSC_J_IDC_10P = "C53207560"  # JXTCONN IDC2.54-2*5PZ (2x5P 2.54mm Shrouded Header, THT)
+LCSC_J_IDC_10P = (
+    "C41376028"  # hanxia HX JN2.54-2x5P TP H8.9 (2x5P 2.54mm Shrouded Header, SMD)
+)
 
 
 @subcircuit
@@ -88,8 +90,8 @@ def eurorack_power(vcc, vee, gnd):
         tag="j_pwr",
     )
     j_pwr.fields["LCSC"] = LCSC_J_IDC_10P
-    j_pwr.fields["MPN"] = "IDC2.54-2*5PZ"
-    j_pwr.fields["JLCPCB_Class"] = "Extended (THT)"
+    j_pwr.fields["MPN"] = "HX JN2.54-2x5P TP H8.9"
+    j_pwr.fields["JLCPCB_Class"] = "Extended"
 
     vcc_raw = Net("+12V_RAW")
     vee_raw = Net("-12V_RAW")

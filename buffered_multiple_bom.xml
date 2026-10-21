@@ -2,17 +2,17 @@
 <export version="D">
   <design>
     <source>/Users/brett/tmp/skidl-test/buffered_multiple.py</source>
-    <date>10/21/2026 11:31 AM</date>
+    <date>10/21/2026 11:41 AM</date>
     <tool>SKiDL (3.0.0)</tool>
   </design>
   <components>
     <comp ref="J1">
       <value>"EURORACK_PWR_10PIN"</value>
-      <footprint>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical</footprint>
+      <footprint>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical_SMD</footprint>
       <fields>
-        (field (name "LCSC") "C53207560")
-        (field (name "MPN") "IDC2.54-2*5PZ")
-        (field (name "JLCPCB_Class") "Extended (THT)")
+        (field (name "LCSC") "C41376028")
+        (field (name "MPN") "HX JN2.54-2x5P TP H8.9")
+        (field (name "JLCPCB_Class") "Extended")
       </fields>
       <libsource lib="Connector_Generic" part=""Conn_02x05_Odd_Even""/>
     </comp>

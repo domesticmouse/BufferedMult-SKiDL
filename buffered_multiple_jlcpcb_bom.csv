@@ -1,4 +1,5 @@
 Comment,Designator,Footprint,LCSC Part #
+EURORACK_PWR_10PIN,J1,IDC-Header_2x05_P2.54mm_Vertical_SMD,C41376028
 1N5819,"D1, D2",D_SMA,C2480
 10uF,"C1, C2",CP_Elec_6.3x5.4,C14162
 TL074,"U1, U2",SOIC-14_3.9x8.7mm_P1.27mm,C12594

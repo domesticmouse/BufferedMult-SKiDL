@@ -5,9 +5,9 @@ Designed with SKiDL for KiCad 10.
 
 Architecture:
 - Power Supply:
-  - Standard 10-pin (2x5) Eurorack IDC power header (+/-12V, GND)
+  - Standard 10-pin (2x5) through-hole Eurorack IDC power header (+/-12V, GND)
   - Reverse-polarity protection via 1N5819 (SS14) Schottky diodes (SMA)
-  - 10uF SMD electrolytic bulk capacitors + 100nF 0805 ceramic decoupling caps per op-amp rail
+  - 10uF through-hole radial electrolytic bulk capacitors + 100nF 0805 ceramic decoupling caps per op-amp rail
 - Channel 1 (1-to-3):
   - Input 1 jack (normalled to GND when unpatched) -> 100k pull-down -> U1A unity-gain input buffer
   - U1A buffered output drives U1B, U1C, U1D unity-gain output buffers -> 470R series protection -> Outputs 1A, 1B, 1C
@@ -53,27 +53,23 @@ from skidl import (
     subcircuit,
 )
 
-# Footprints (SMD passives, ICs & power header, through-hole Eurorack jacks)
+# Footprints (SMD passives & ICs, through-hole Eurorack jacks, power header & bulk caps)
 FP_OPAMP_SOIC14 = "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 FP_R_0805 = "Resistor_SMD:R_0805_2012Metric"
 FP_C_0805 = "Capacitor_SMD:C_0805_2012Metric"
-FP_C_ELEC = "Capacitor_SMD:CP_Elec_6.3x5.4"
+FP_C_ELEC = "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 FP_DIODE_SMA = "Diode_SMD:D_SMA"
 FP_JACK_EURORACK = (
     "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
 )
-FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical_SMD"
+FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
 
-# Verified JLCPCB / LCSC Catalog Part Numbers
+# Verified JLCPCB / LCSC Catalog Part Numbers (SMT assembly only)
 LCSC_C_100NF_0805 = "C49678"  # YAGEO CC0805KRX7R9BB104 (50V X7R, Basic Part)
 LCSC_R_100K_0805 = "C149504"  # UNI-ROYAL 0805W8F1003T5E (100k 1%, Basic Part)
 LCSC_R_470R_0805 = "C17710"  # UNI-ROYAL 0805W8F4700T5E (470R 1%, Basic Part)
 LCSC_D_SS14_SMA = "C2480"  # MDD SS14 / 1N5819 (40V 1A Schottky SMA, Basic Part)
 LCSC_U_TL074_SOIC14 = "C12594"  # Texas Instruments TL074CDR (SOIC-14, Extended Part)
-LCSC_C_10UF_ELEC = "C14162"  # Honor Elec RVT1H100M0605 (10uF 50V 6.3x5.4mm, Extended)
-LCSC_J_IDC_10P = (
-    "C41376028"  # hanxia HX JN2.54-2x5P TP H8.9 (2x5P 2.54mm Shrouded Header, SMD)
-)
 
 
 @subcircuit
@@ -89,9 +85,7 @@ def eurorack_power(vcc, vee, gnd):
         footprint=FP_PWR_HEADER_10P,
         tag="j_pwr",
     )
-    j_pwr.fields["LCSC"] = LCSC_J_IDC_10P
-    j_pwr.fields["MPN"] = "HX JN2.54-2x5P TP H8.9"
-    j_pwr.fields["JLCPCB_Class"] = "Extended"
+    j_pwr.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
 
     vcc_raw = Net("+12V_RAW")
     vee_raw = Net("-12V_RAW")
@@ -125,7 +119,7 @@ def eurorack_power(vcc, vee, gnd):
     vee_raw += d_neg["K"]
     vee += d_neg["A"]
 
-    # Bulk electrolytic bypass capacitors (10uF / 50V)
+    # Bulk electrolytic bypass capacitors (10uF / 25V radial through-hole, Panasonic ECEA1EKS100)
     c_bulk_t = Part(
         "Device",
         "C_Polarized",
@@ -133,9 +127,8 @@ def eurorack_power(vcc, vee, gnd):
         value="10uF",
         footprint=FP_C_ELEC,
     )
-    c_bulk_t.fields["LCSC"] = LCSC_C_10UF_ELEC
-    c_bulk_t.fields["MPN"] = "RVT1H100M0605"
-    c_bulk_t.fields["JLCPCB_Class"] = "Extended"
+    c_bulk_t.fields["MPN"] = "ECEA1EKS100"
+    c_bulk_t.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
     c_bulk_pos, c_bulk_neg = c_bulk_t(2, tag="c_bulk")
 
     # +12V bulk cap: (+) to +12V, (-) to GND

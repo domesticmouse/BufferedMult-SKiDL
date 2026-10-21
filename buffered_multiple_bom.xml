@@ -2,17 +2,15 @@
 <export version="D">
   <design>
     <source>/Users/brett/tmp/skidl-test/buffered_multiple.py</source>
-    <date>10/21/2026 11:41 AM</date>
+    <date>10/21/2026 12:13 PM</date>
     <tool>SKiDL (3.0.0)</tool>
   </design>
   <components>
     <comp ref="J1">
       <value>"EURORACK_PWR_10PIN"</value>
-      <footprint>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical_SMD</footprint>
+      <footprint>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical</footprint>
       <fields>
-        (field (name "LCSC") "C41376028")
-        (field (name "MPN") "HX JN2.54-2x5P TP H8.9")
-        (field (name "JLCPCB_Class") "Extended")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
       </fields>
       <libsource lib="Connector_Generic" part=""Conn_02x05_Odd_Even""/>
     </comp>
@@ -38,21 +36,19 @@
     </comp>
     <comp ref="C1">
       <value>"10uF"</value>
-      <footprint>Capacitor_SMD:CP_Elec_6.3x5.4</footprint>
+      <footprint>Capacitor_THT:CP_Radial_D5.0mm_P2.00mm</footprint>
       <fields>
-        (field (name "LCSC") "C14162")
-        (field (name "MPN") "RVT1H100M0605")
-        (field (name "JLCPCB_Class") "Extended")
+        (field (name "MPN") "ECEA1EKS100")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
       </fields>
       <libsource lib="Device" part=""C_Polarized""/>
     </comp>
     <comp ref="C2">
       <value>"10uF"</value>
-      <footprint>Capacitor_SMD:CP_Elec_6.3x5.4</footprint>
+      <footprint>Capacitor_THT:CP_Radial_D5.0mm_P2.00mm</footprint>
       <fields>
-        (field (name "LCSC") "C14162")
-        (field (name "MPN") "RVT1H100M0605")
-        (field (name "JLCPCB_Class") "Extended")
+        (field (name "MPN") "ECEA1EKS100")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
       </fields>
       <libsource lib="Device" part=""C_Polarized""/>
     </comp>

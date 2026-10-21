@@ -104,3 +104,4 @@ Running `buffered_multiple.py` produces:
 1. Open **KiCad 10** and create or open a `.kicad_pcb` board file.
 2. Select **File -> Import -> Netlist...**
 3. Browse to `buffered_multiple.net`, click **Update PCB**, and place your footprints on the board.
+4. See the full step-by-step [KiCad 10 PCB Layout Guide](PCB_LAYOUT_GUIDE.md) for mechanical dimensions, front/back THT & SMT placement, net classes, routing, and JLCPCB export.

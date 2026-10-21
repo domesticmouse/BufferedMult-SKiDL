@@ -1037,7 +1037,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "F.SilkS")
+		(layer "F.Mask")
 		(uuid "7356c730-e66a-58ab-994e-0877685547d7")
 	)
 	(gr_rect
@@ -1048,7 +1048,7 @@
 			(type solid)
 		)
 		(fill no)
-		(layer "F.SilkS")
+		(layer "F.Mask")
 		(uuid "e4d5e0ca-b1cf-5407-b04b-ee6c8f6151d4")
 	)
 	(gr_line
@@ -1058,7 +1058,7 @@
 			(width 0.25)
 			(type solid)
 		)
-		(layer "F.SilkS")
+		(layer "F.Mask")
 		(uuid "9a7c7c54-ca17-5101-9149-8b3eadbc413b")
 	)
 	(gr_line
@@ -1068,7 +1068,7 @@
 			(width 0.25)
 			(type solid)
 		)
-		(layer "F.SilkS")
+		(layer "F.Mask")
 		(uuid "4e4f5ceb-d17d-5186-9bde-668319e85964")
 	)
 	(gr_rect
@@ -1104,6 +1104,18 @@
 		(fill no)
 		(layer "B.Fab")
 		(uuid "042f510c-cf41-55ff-b317-f5e3dc8b9e85")
+	)
+	(gr_text "BUF MULT"
+		(at 30 23 0)
+		(layer "F.Mask")
+		(uuid "9d421c06-ef1f-5baa-a153-9cb4b74a5599")
+		(effects
+			(font
+				(size 1.8 1.8)
+				(thickness 0.3)
+				(bold yes)
+			)
+		)
 	)
 	(gr_text "OUT 1B"
 		(at 25 60.8 0)
@@ -1191,18 +1203,6 @@
 			(font
 				(size 1.2 1.2)
 				(thickness 0.22)
-				(bold yes)
-			)
-		)
-	)
-	(gr_text "BUF MULT"
-		(at 30 23 0)
-		(layer "F.SilkS")
-		(uuid "9d421c06-ef1f-5baa-a153-9cb4b74a5599")
-		(effects
-			(font
-				(size 1.8 1.8)
-				(thickness 0.3)
 				(bold yes)
 			)
 		)

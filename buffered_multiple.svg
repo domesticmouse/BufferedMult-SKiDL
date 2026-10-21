@@ -15,23 +15,23 @@
 <g transform="translate(-103.595 -65.660)">
 <a href="buffered_multiple_pwr.svg" target="_top">
 <g class="sheet">
-<rect x="138.180" y="96.520" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
-<text x="138.180" y="95.520" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">pwr</text>
-<text x="138.180" y="116.700" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_pwr.svg</text>
+<rect x="138.180" y="73.660" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
+<text x="138.180" y="72.660" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">pwr</text>
+<text x="138.180" y="93.840" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_pwr.svg</text>
 </g>
 </a>
 <a href="buffered_multiple_ch1.svg" target="_top">
 <g class="sheet">
-<rect x="138.180" y="73.660" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
-<text x="138.180" y="72.660" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch1</text>
-<text x="138.180" y="93.840" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch1.svg</text>
+<rect x="138.180" y="119.380" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
+<text x="138.180" y="118.380" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch1</text>
+<text x="138.180" y="139.560" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch1.svg</text>
 </g>
 </a>
 <a href="buffered_multiple_ch2.svg" target="_top">
 <g class="sheet">
-<rect x="138.180" y="119.380" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
-<text x="138.180" y="118.380" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch2</text>
-<text x="138.180" y="139.560" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch2.svg</text>
+<rect x="138.180" y="96.520" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
+<text x="138.180" y="95.520" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch2</text>
+<text x="138.180" y="116.700" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch2.svg</text>
 </g>
 </a>
 </g>

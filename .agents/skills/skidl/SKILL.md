@@ -41,6 +41,7 @@ SKiDL is a Python library for describing electronic circuits as code and outputt
           "/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints",
       )
   ```
+  * **macOS Sandbox Symbol Read Caveat**: In macOS sandboxes, `os.path.isdir("/Applications/KiCad/...")` returns `True` (since `stat()` is permitted), but reading `.kicad_sym` files under `/Applications/KiCad/...` raises `PermissionError`. When that happens, SKiDL logs `ERROR: Can't open file: <Lib>` and emits `(libsource (lib "NO_LIB") ...)` in the generated `.net` file. Always execute the SKiDL script outside the sandbox (`BypassSandbox: true`) when generating `.net` and `.xml` outputs against `/Applications/KiCad/...` symbol libraries so `<Lib>` names and `.log` files stay clean.
 * **Default Tool**: `KICAD` aliases `KICAD10`. Switch versions at the top of a script if targeting an older KiCad installation:
   ```python
   from skidl import KICAD9, set_default_tool
@@ -86,15 +87,15 @@ u1 = Part(
 )
 
 # Template pattern for instantiating multiple copies
-r_t = Part("Device", "R", dest=TEMPLATE, footprint="Resistor_SMD:R_0805_2012Metric")
-c_t = Part("Device", "C", dest=TEMPLATE, footprint="Capacitor_SMD:C_0805_2012Metric")
+r_t = Part("Device", "R", dest=TEMPLATE, footprint="Resistor_SMD:R_0603_1608Metric")
+c_t = Part("Device", "C", dest=TEMPLATE, footprint="Capacitor_SMD:C_0603_1608Metric")
 
 r1, r2 = r_t(2, value="10K")  # Two 10K resistors
 c_in, c_out = c_t(values=["10uF", "22uF"])
 ```
 
 * **Custom Fields & Properties (`part.fields` vs. Attributes)**:
-  * **Catalog & BOM Fields**: Because `SkidlBaseObject.__setattr__` only updates `part.fields` if the key *already* exists in `part.fields`, passing `LCSC="C49678"` to `Part()` or assigning `part.LCSC = "C49678"` sets a plain Python attribute that is **ignored** by `generate_xml()` and `generate_netlist()`. Always assign custom fields into the `part.fields` dict (`part.fields["LCSC"] = "C49678"`, `part.fields["MPN"] = "..."`). Copies created from a `TEMPLATE` part automatically inherit a copy of `part.fields`.
+  * **Catalog & BOM Fields**: Because `SkidlBaseObject.__setattr__` only updates `part.fields` if the key *already* exists in `part.fields`, passing `LCSC="C14663"` to `Part()` or assigning `part.LCSC = "C14663"` sets a plain Python attribute that is **ignored** by `generate_xml()` and `generate_netlist()`. Always assign custom fields into the `part.fields` dict (`part.fields["LCSC"] = "C14663"`, `part.fields["MPN"] = "..."`, `part.fields["Notes"] = "Alt package: ..."`). Copies created from a `TEMPLATE` part automatically inherit a copy of `part.fields`.
   * **KiCad Boolean Flags**: Set `part.dnp = True` or `part.exclude_from_bom = True` as direct attributes on `part` (checked via `getattr(part, ...)` by `gen_netlist_comp`).
 * **Custom On-the-Fly Parts**: See [Advanced Patterns](./references/advanced_patterns.md) for creating schematic-less parts with `SkidlPart` and `Pin`.
 
@@ -151,40 +152,40 @@ ERC()
 
 ## 6. Exporting to KiCad & JLCPCB PCBA
 
-Choose the output method that matches the user's workflow:
+Choose the output method that matches the user's workflow (by default, export the `.net` netlist, `.xml` BOM, and JLCPCB `.csv` BOM; **omit `generate_svg()` and `generate_schematic()` unless the user explicitly asks for diagram/schematic files**, as auto-routed SVGs clutter the repository and are not used by KiCad's PCB layout flow):
 
 ```python
 # 1. KiCad Netlist (.net) — Primary workflow for KiCad PCB Editor
 # In KiCad PCB Editor (pcbnew): File -> Import -> Netlist... -> Update PCB
 generate_netlist(file_="my_board.net")
 
-# 2. Direct KiCad PCB (.kicad_pcb)
+# 2. XML BOM (.xml)
+generate_xml(file_="my_board_bom.xml")
+
+# 3. Direct KiCad PCB (.kicad_pcb) — Optional
 # Requires `kinet2pcb` and KiCad's `pcbnew` Python module in the active Python environment
 generate_pcb(fp_libs=["/path/to/footprints.pretty"])
 
-# 3. Hyperlinked SVG (.svg) or Placed-and-routed KiCad Schematic (.kicad_sch)
-# Prefer generate_svg() for visual diagrams; generate_schematic() uses schematizer's
-# global router, which can raise skidl.errors.RoutingFailure on dense multi-pin connectors.
+# 4. Optional Visual Diagrams (.svg / .kicad_sch / .dot) — ONLY when explicitly requested
+# Note: generate_schematic() uses schematizer's global router, which can raise
+# skidl.errors.RoutingFailure on dense multi-pin connectors.
 generate_svg(filepath="output_dir", top_name="my_board", flatness=0.0)
 generate_schematic(filepath="output_dir", top_name="my_board")
-
-# 4. XML BOM (.xml) or Graphviz DOT (.dot)
-generate_xml(file_="my_board_bom.xml")
 generate_dot(file_="circuit.dot")
 ```
 
 * **JLCPCB PCBA BOM & Live LCSC Part Search**:
   * To verify live JLCPCB stock, Basic vs. Extended library status (`$0` vs. `$3` feeder setup fee), and unit pricing before assigning LCSC part numbers, run [jlcpcb_search.py](./scripts/jlcpcb_search.py):
     ```bash
-    python3 .agents/skills/skidl/scripts/jlcpcb_search.py --in-stock-only "100k 0805" "TL074 SOIC-14"
+    python3 .agents/skills/skidl/scripts/jlcpcb_search.py --in-stock-only "100k 0603" "TL074 SOIC-14"
     ```
   * To export a grouped 4-column JLCPCB BOM CSV (`Comment,Designator,Footprint,LCSC Part #`) or download offline catalog databases (`yaqwsx/jlcparts`, `CDFER/jlcpcb-parts-database`), read [JLCPCB PCBA BOM & Catalog Integration](./references/jlcpcb_bom.md).
 
 ## 7. Code Quality & Linting (`ruff`)
 
-* **Explicit Imports**: In saved circuit scripts, prefer explicit imports (`import builtins` + `from skidl import ERC, POWER, TEMPLATE, Net, NetClass, Part, generate_netlist, generate_svg, generate_xml, subcircuit`) over `from skidl import *`. Never put `NC` or `default_circuit` in `from skidl import ...`; access them via `builtins.NC` and `builtins.default_circuit`. Add `# noqa: E402` if `os.environ` setup precedes the import.
+* **Explicit Imports**: In saved circuit scripts, prefer explicit imports (`import builtins` + `from skidl import ERC, POWER, TEMPLATE, Net, NetClass, Part, generate_netlist, generate_xml, subcircuit`) over `from skidl import *`. Never put `NC` or `default_circuit` in `from skidl import ...`; access them via `builtins.NC` and `builtins.default_circuit`. Add `# noqa: E402` if `os.environ` setup precedes the import.
 * **Executable Shebangs**: If including `#!/usr/bin/env python3`, run `chmod +x <script>.py` so `ruff` (`EXE001`) passes.
-* **Auto-Generated Backup Library (`*_sklib.py`)**: Running a SKiDL script emits a `<script>_sklib.py` backup symbol library in the working directory. Always run `ruff check --fix . && ruff format .` **after** executing the circuit script so both your script and `*_sklib.py` pass linting and formatting.
+* **Auto-Generated Backup Library (`*_sklib.py`) & Scoped Linting**: Running a SKiDL script emits a `<script>_sklib.py` backup symbol library in the working directory. Always target `ruff` specifically at your script and its backup library rather than `.` (`ruff check --fix <script>.py <script>_sklib.py && ruff format <script>.py <script>_sklib.py`) so third-party scripts inside `.agents/skills/` are never modified.
 
 ## 8. Hierarchy, Design Classes & SPICE
 

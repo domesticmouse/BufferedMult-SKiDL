@@ -63,16 +63,24 @@ JLCPCB categorizes SMT components into three tiers:
 4. **Panel-Mounted / Manual Through-Hole Parts**: Controls that must be aligned physically against a front panel before soldering (such as `WQP-PJ398SM` / Thonkiconn 3.5mm jacks or potentiometers) usually have `0` SMT stock on JLCPCB and should be omitted from the JLCPCB PCBA BOM for manual assembly.
 
 ### Commonly Used In-Stock Parts Reference
-| Component | Package | Verified LCSC # | MPN | Library Class |
-| :--- | :--- | :--- | :--- | :--- |
-| `100nF` 50V X7R MLCC | `0805` | `C49678` | `CC0805KRX7R9BB104` | Basic |
-| `100K` 1% Thick Film Resistor | `0805` | `C149504` *(not `C17407`)* | `0805W8F1003T5E` | Basic |
-| `470R` 1% Thick Film Resistor | `0805` | `C17710` | `0805W8F4700T5E` | Basic |
-| `1N5819` / `SS14` 40V 1A Schottky | `SMA (DO-214AC)` | `C2480` | `SS14` | Basic |
-| `TL074` Quad JFET Op-Amp | `SOIC-14` | `C12594` *(TI)* / `C6963` *(ST)* | `TL074CDR` / `TL074CDT` | Extended |
-| `10uF` 50V SMD Electrolytic | `SMD,D6.3xL5.4mm` | `C14162` *(or `C72488`)* | `RVT1H100M0605` | Extended |
-| `10uF` 16V SMD Tantalum | `CASE-A (3216)` | `C7171` | `TAJA106K016RNJ` | Basic |
-| `2x5P` 2.54mm Shrouded IDC Header | `Through-Hole` | `C53207560` | `IDC2.54-2*5PZ` | Extended (THT) |
+| Component | Package / KiCad Footprint | Verified LCSC # | MPN | Library Class | Notes / Footprint Sizing |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `100nF` 50V X7R MLCC | `0603` (`Capacitor_SMD:C_0603_1608Metric`) | `C14663` | `CC0603KRX7R9BB104` | Basic | Compact default for dense/Eurorack PCBs |
+| `100K` 1% Thick Film Resistor | `0603` (`Resistor_SMD:R_0603_1608Metric`) | `C25803` | `0603WAF1003T5E` | Basic | Compact default for dense/Eurorack PCBs |
+| `470R` 1% Thick Film Resistor | `0603` (`Resistor_SMD:R_0603_1608Metric`) | `C23179` | `0603WAF4700T5E` | Basic | Compact default for dense/Eurorack PCBs |
+| `100nF` 50V X7R MLCC | `0805` (`Capacitor_SMD:C_0805_2012Metric`) | `C49678` | `CC0805KRX7R9BB104` | Basic | Larger hand-solderable alternative |
+| `100K` 1% Thick Film Resistor | `0805` (`Resistor_SMD:R_0805_2012Metric`) | `C149504` *(not `C17407`)* | `0805W8F1003T5E` | Basic | Larger hand-solderable alternative |
+| `470R` 1% Thick Film Resistor | `0805` (`Resistor_SMD:R_0805_2012Metric`) | `C17710` | `0805W8F4700T5E` | Basic | Larger hand-solderable alternative |
+| `1N5819` / `B5819W` 40V 1A Schottky | `SOD-123` (`Diode_SMD:D_SOD-123`) | `C8598` | `B5819W` | Basic | **Recommended default** (`4.6×2.3mm` courtyard, `-54%` area vs. `SMA`) |
+| `1N5819WS` 40V 1A Schottky | `SOD-323` (`Diode_SMD:D_SOD-323`) | `C191023` | `1N5819WS` | Basic | **Ultra-compact alt** (`3.6×1.8mm` courtyard, `-72%` area vs. `SMA`; not `C2128` which is `1N4148WS`) |
+| `1N5819` / `SS14` 40V 1A Schottky | `SMA` (`Diode_SMD:D_SMA`) | `C2480` | `SS14` | Basic | Large (`6.5×3.5mm` courtyard); use only for high-current rails |
+| `TL074` Quad Op-Amp | `SOIC-14` (`Package_SO:SOIC-14_3.9x8.7mm_P1.27mm`) | `C2878713` *(TL074H)* / `C12594` *(TL074C)* / `C6963` *(ST)* | `TL074HIDR` / `TL074CDR` / `TL074CDT` | Extended | `TL074HIDR` (`C2878713`) is TI's modern CMOS/FET-input version |
+| `10uF` 50V SMD Electrolytic | `SMD,D6.3xL5.4mm` (`Capacitor_SMD:CP_Elec_6.3x5.4`) | `C14162` *(or `C72488`)* | `RVT1H100M0605` | Extended | Check front-panel clearance before placing on `F.Cu` |
+| `10uF` 25V Radial THT Electrolytic | `D5.0mm P2.00mm` (`Capacitor_THT:CP_Radial_D5.0mm_P2.00mm`) | `C713347` | `ECEA1EKS100` | Manual THT | `7mm` height fits under `~10.5mm` Thonkiconn jack standoff on `F.Cu` |
+| `10uF` 16V SMD Tantalum | `CASE-A (3216)` | `C7171` | `TAJA106K016RNJ` | Basic | Do not use on `±12V` rails (`16V` rating lacks derating margin) |
+| `2x5P` 2.54mm Shrouded IDC Header | `Through-Hole` (`Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical`) | `C53207560` | `IDC2.54-2*5PZ` | Extended (THT) | Typically hand-soldered on `B.Cu` (`JLCPCB_Class = "Manual THT"`) |
+
+* **Documenting Alternative Footprints/Parts**: When space constraints may require downsizing a component during layout (e.g., swapping `SOD-123` `B5819W` to `SOD-323` `1N5819WS`), record the verified alternative footprint, MPN, and LCSC part number in `part.fields["Notes"]` (or `part.fields["BOM Comments"]`) so the fallback option travels with the exported `.net` and `.xml` BOM files.
 
 ---
 

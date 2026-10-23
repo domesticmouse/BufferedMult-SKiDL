@@ -2,7 +2,7 @@
   (version "D")
   (design
     (source "buffered_multiple.py")
-    (date "10/24/2026 06:28 AM")
+    (date "10/24/2026 06:31 AM")
     (tool "SKiDL (3.0.0)")
     (sheet
       (number 1)
@@ -43,43 +43,6 @@
           (value ""))))
     (sheet
       (number 2)
-      (name "/ch1/")
-      (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/")
-      (title_block
-        (title)
-        (company)
-        (rev)
-        (date)
-        (source "buffered_multiple.py")
-        (comment
-          (number "1")
-          (value ""))
-        (comment
-          (number "2")
-          (value ""))
-        (comment
-          (number "3")
-          (value ""))
-        (comment
-          (number "4")
-          (value ""))
-        (comment
-          (number "5")
-          (value ""))
-        (comment
-          (number "6")
-          (value ""))
-        (comment
-          (number "7")
-          (value ""))
-        (comment
-          (number "8")
-          (value ""))
-        (comment
-          (number "9")
-          (value ""))))
-    (sheet
-      (number 3)
       (name "/pwr/")
       (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
       (title_block
@@ -116,9 +79,46 @@
           (number "9")
           (value ""))))
     (sheet
-      (number 4)
+      (number 3)
       (name "/ch2/")
       (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "buffered_multiple.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 4)
+      (name "/ch1/")
+      (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/")
       (title_block
         (title)
         (company)
@@ -172,7 +172,7 @@
         (field
           (name "SKiDL Tag") "c_bulk")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:134"))
+          (name "SKiDL Line") "buffered_multiple.py:133"))
       (libsource
         (lib "Device")
         (part "C_Polarized"))
@@ -200,7 +200,7 @@
         (field
           (name "SKiDL Tag") "c_bulk")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:134"))
+          (name "SKiDL Line") "buffered_multiple.py:133"))
       (libsource
         (lib "Device")
         (part "C_Polarized"))
@@ -230,7 +230,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:184"))
+          (name "SKiDL Line") "buffered_multiple.py:183"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -260,7 +260,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:184"))
+          (name "SKiDL Line") "buffered_multiple.py:183"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -290,7 +290,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:184"))
+          (name "SKiDL Line") "buffered_multiple.py:183"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -320,7 +320,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:184"))
+          (name "SKiDL Line") "buffered_multiple.py:183"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -350,7 +350,7 @@
         (field
           (name "SKiDL Tag") "d_prot")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:114"))
+          (name "SKiDL Line") "buffered_multiple.py:113"))
       (libsource
         (lib "Device")
         (part "D_Schottky"))
@@ -380,7 +380,7 @@
         (field
           (name "SKiDL Tag") "d_prot")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:114"))
+          (name "SKiDL Line") "buffered_multiple.py:113"))
       (libsource
         (lib "Device")
         (part "D_Schottky"))
@@ -406,7 +406,7 @@
         (field
           (name "SKiDL Tag") "j_pwr")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:83"))
+          (name "SKiDL Line") "buffered_multiple.py:82"))
       (libsource
         (lib "Connector_Generic")
         (part "Conn_02x05_Odd_Even"))
@@ -434,7 +434,7 @@
         (field
           (name "SKiDL Tag") "j_in_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:189"))
+          (name "SKiDL Line") "buffered_multiple.py:188"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -462,7 +462,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:232"))
+          (name "SKiDL Line") "buffered_multiple.py:231"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -490,7 +490,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:232"))
+          (name "SKiDL Line") "buffered_multiple.py:231"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -518,7 +518,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:232"))
+          (name "SKiDL Line") "buffered_multiple.py:231"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -546,7 +546,7 @@
         (field
           (name "SKiDL Tag") "j_in_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:189"))
+          (name "SKiDL Line") "buffered_multiple.py:188"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -574,7 +574,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:232"))
+          (name "SKiDL Line") "buffered_multiple.py:231"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -602,7 +602,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:232"))
+          (name "SKiDL Line") "buffered_multiple.py:231"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -630,7 +630,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:232"))
+          (name "SKiDL Line") "buffered_multiple.py:231"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -660,7 +660,7 @@
         (field
           (name "SKiDL Tag") "r_pd_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:196"))
+          (name "SKiDL Line") "buffered_multiple.py:195"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -690,7 +690,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch1_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:225"))
+          (name "SKiDL Line") "buffered_multiple.py:224"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -720,7 +720,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch1_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:225"))
+          (name "SKiDL Line") "buffered_multiple.py:224"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -750,7 +750,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch1_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:225"))
+          (name "SKiDL Line") "buffered_multiple.py:224"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -780,7 +780,7 @@
         (field
           (name "SKiDL Tag") "r_pd_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:196"))
+          (name "SKiDL Line") "buffered_multiple.py:195"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -810,7 +810,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch2_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:225"))
+          (name "SKiDL Line") "buffered_multiple.py:224"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -840,7 +840,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch2_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:225"))
+          (name "SKiDL Line") "buffered_multiple.py:224"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -870,7 +870,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch2_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:225"))
+          (name "SKiDL Line") "buffered_multiple.py:224"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -900,7 +900,7 @@
         (field
           (name "SKiDL Tag") "u_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:169"))
+          (name "SKiDL Line") "buffered_multiple.py:168"))
       (libsource
         (lib "Amplifier_Operational")
         (part "TL074"))
@@ -930,7 +930,7 @@
         (field
           (name "SKiDL Tag") "u_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:169"))
+          (name "SKiDL Line") "buffered_multiple.py:168"))
       (libsource
         (lib "Amplifier_Operational")
         (part "TL074"))

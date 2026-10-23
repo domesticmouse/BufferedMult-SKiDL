@@ -111,10 +111,6 @@ Running `buffered_multiple.py` produces:
 - **`buffered_multiple.net`** — KiCad 10 netlist with deterministic hierarchical `tstamps` and `Power` / `Signal` net classes.
 - **`buffered_multiple_bom.xml`** — KiCad XML Bill of Materials.
 - **`buffered_multiple_jlcpcb_bom.csv`** — Grouped JLCPCB SMT PCBA Bill of Materials (`Comment,Designator,Footprint,LCSC Part #`), excluding hand-soldered THT parts by default.
-- **`buffered_multiple.svg`** — Top-level hierarchical SVG diagram, plus subcircuit sheets:
-  - **`buffered_multiple_pwr.svg`** — Power header, protection diodes, and bulk filtering.
-  - **`buffered_multiple_ch1.svg`** — Channel 1 (`IN_1` -> `OUT_1A..1C`).
-  - **`buffered_multiple_ch2.svg`** — Channel 2 (`IN_2` -> `OUT_2A..2C`).
 - **`buffered_multiple.erc`** / **`buffered_multiple.log`** — SKiDL ERC report and execution log (`0` errors, `0` warnings).
 - **`buffered_multiple_sklib.py`** — Auto-generated SKiDL backup symbol library.
 

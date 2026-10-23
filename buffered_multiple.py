@@ -48,7 +48,6 @@ from skidl import (
     NetClass,
     Part,
     generate_netlist,
-    generate_svg,
     generate_xml,
     subcircuit,
 )
@@ -297,11 +296,10 @@ def build_buffered_multiple():
     # Run Electrical Rules Check
     ERC()
 
-    # Export KiCad Netlist (.net), XML BOM (.xml), JLCPCB BOM (.csv), and SVG schematics (.svg)
+    # Export KiCad Netlist (.net), XML BOM (.xml), and JLCPCB BOM (.csv)
     generate_netlist(file_="buffered_multiple.net")
     generate_xml(file_="buffered_multiple_bom.xml")
     generate_jlcpcb_bom(file_="buffered_multiple_jlcpcb_bom.csv", include_tht=False)
-    generate_svg(filepath=".", top_name="buffered_multiple")
 
 
 if __name__ == "__main__":

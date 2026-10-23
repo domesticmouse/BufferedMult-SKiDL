@@ -74,3 +74,15 @@ python3 .agents/skills/eurorack-panel/scripts/generate_eurorack_panel.py \
        --side bottom --width 800 --height 2400 --output /tmp/panel_back.png BufferedMult_Panel.kicad_pcb
    ```
    Inspect `/tmp/panel_front.png` and `/tmp/panel_back.png` to confirm silkscreen labels clear all `9.5 mm` M6 nut keepouts (`Dwgs.User` circles) and board edges.
+
+---
+
+## 3. Code Quality & Linting (`ruff`)
+
+* **Mandatory Lint & Format Step**: Whenever you create or modify Python scripts for panel generation or PCB inspection (such as [generate_eurorack_panel.py](./scripts/generate_eurorack_panel.py) or any project Python files), **always** run `ruff` lint and format over the modified Python files before finishing:
+  ```bash
+  ruff check --fix .agents/skills/eurorack-panel/scripts/generate_eurorack_panel.py
+  ruff format .agents/skills/eurorack-panel/scripts/generate_eurorack_panel.py
+  ```
+* **Scoped Target Files**: Pass explicit Python file paths to `ruff` rather than `.` so third-party skill scripts in `.agents/skills/` remain untouched.
+* **Executable Shebangs**: If a script starts with `#!/usr/bin/env python3`, ensure it has executable permissions (`chmod +x <script>.py`) so `ruff` (`EXE001`) passes.

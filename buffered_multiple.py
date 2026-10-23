@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Eurorack Buffered Multiple (Dual 1-to-3, Normalized to 1-to-6)
+Eurorack Buffered Multiple (Triple 1-to-3, Normalized to 1-to-6 / 1-to-9)
 Designed with SKiDL for KiCad 10.
 
 Architecture:
 - Power Supply:
   - Standard 10-pin (2x5) through-hole Eurorack IDC power header (+/-12V, GND)
-  - Reverse-polarity protection via 1N5819 / B5819W Schottky diodes (SOD-123; alt: 1N5819WS in SOD-323 if space is tight)
+  - Reverse-polarity protection via 1N5819WS Schottky diodes (SOD-323; alt: B5819W in SOD-123)
   - 10uF through-hole radial electrolytic bulk capacitors + 100nF 0603 ceramic decoupling caps per op-amp rail
 - Channel 1 (1-to-3):
   - Input 1 jack (normalled to GND when unpatched) -> PESD12VL1BA bidirectional TVS diode + 100k pull-down -> 1k series input protection resistor -> U1A unity-gain input buffer
@@ -16,6 +16,11 @@ Architecture:
   - Input 2 jack (TN normalled to Channel 1 buffered signal; broken when a cable is patched into Input 2)
   - PESD12VL1BA bidirectional TVS diode + 100k pull-down -> 1k series input protection resistor -> U2A unity-gain input buffer
   - U2A buffered output drives U2B, U2C, U2D unity-gain output buffers -> 470R series protection -> Outputs 2A, 2B, 2C
+  - U2A buffered output also normalizes to Channel 3 Input jack's switched tip (TN)
+- Channel 3 (1-to-3, or outputs 7-9 when Input 3 is unpatched):
+  - Input 3 jack (TN normalled to Channel 2 buffered signal; broken when a cable is patched into Input 3)
+  - PESD12VL1BA bidirectional TVS diode + 100k pull-down -> 1k series input protection resistor -> U3A unity-gain input buffer
+  - U3A buffered output drives U3B, U3C, U3D unity-gain output buffers -> 470R series protection -> Outputs 3A, 3B, 3C
 """
 
 import builtins
@@ -57,9 +62,6 @@ FP_OPAMP_SOIC14 = "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 FP_R_0603 = "Resistor_SMD:R_0603_1608Metric"
 FP_C_0603 = "Capacitor_SMD:C_0603_1608Metric"
 FP_C_ELEC = "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
-FP_DIODE_SOD123 = (
-    "Diode_SMD:D_SOD-123"  # Alt if space gets tight: "Diode_SMD:D_SOD-323"
-)
 FP_DIODE_SOD323 = "Diode_SMD:D_SOD-323"
 FP_JACK_EURORACK = (
     "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
@@ -71,7 +73,7 @@ LCSC_C_100NF_0603 = "C14663"  # YAGEO CC0603KRX7R9BB104 (50V X7R, Basic Part)
 LCSC_R_100K_0603 = "C25803"  # UNI-ROYAL 0603WAF1003T5E (100k 1%, Basic Part)
 LCSC_R_1K_0603 = "C21190"  # UNI-ROYAL 0603WAF1001T5E (1k 1%, Basic Part)
 LCSC_R_470R_0603 = "C23179"  # UNI-ROYAL 0603WAF4700T5E (470R 1%, Basic Part)
-LCSC_D_B5819W_SOD123 = "C8598"  # CJ B5819W / 1N5819 (40V 1A Schottky SOD-123, Basic Part; Alt SOD-323: 1N5819WS / C191023)
+LCSC_D_1N5819WS_SOD323 = "C191023"  # CJ 1N5819WS (40V 1A Schottky SOD-323, Basic Part; Alt SOD-123: B5819W / C8598)
 LCSC_D_TVS_PESD12VL1BA_SOD323 = "C38558"  # Nexperia PESD12VL1BA,115 (12V Bidirectional TVS SOD-323, Extended Part; Alt 15V: PESD15VL1BA,115 / C85378)
 LCSC_U_TL074H_SOIC14 = (
     "C2878713"  # Texas Instruments TL074HIDR (SOIC-14, Extended Part)
@@ -104,19 +106,19 @@ def eurorack_power(vcc, vee, gnd):
     gnd += j_pwr[3, 4, 5, 6, 7, 8]
     vcc_raw += j_pwr[9, 10]
 
-    # Reverse-polarity protection Schottky diodes (1N5819 / B5819W in SOD-123; alt: 1N5819WS in SOD-323)
+    # Reverse-polarity protection Schottky diodes (1N5819WS in SOD-323; alt: B5819W in SOD-123)
     d_t = Part(
         "Device",
         "D_Schottky",
         dest=TEMPLATE,
-        value="1N5819",
-        footprint=FP_DIODE_SOD123,
+        value="1N5819WS",
+        footprint=FP_DIODE_SOD323,
     )
-    d_t.fields["LCSC"] = LCSC_D_B5819W_SOD123
-    d_t.fields["MPN"] = "B5819W"
+    d_t.fields["LCSC"] = LCSC_D_1N5819WS_SOD323
+    d_t.fields["MPN"] = "1N5819WS"
     d_t.fields["JLCPCB_Class"] = "Basic"
     d_t.fields["Notes"] = (
-        "Alt smaller package if space gets tight: 1N5819WS in Diode_SMD:D_SOD-323 (LCSC C191023, Basic)"
+        "40V 1A Schottky diode in Diode_SMD:D_SOD-323; Alt larger package: B5819W in Diode_SMD:D_SOD-123 (LCSC C8598, Basic)"
     )
     d_pos, d_neg = d_t(2, tag="d_prot")
 
@@ -155,7 +157,7 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     Single 1-to-3 buffered multiple channel built around one quad TL074H op-amp:
     - Unit A (pins 1, 2, 3): Unity-gain input buffer
     - Units B, C, D: Three independent unity-gain output buffers with 470R series protection
-    - Input jack TN pin connects to `norm_in` (GND for CH1, CH1 buffered tap for CH2)
+    - Input jack TN pin connects to `norm_in` (GND for CH1, CH1 buffered tap for CH2, CH2 buffered tap for CH3)
     """
     r_t = Part("Device", "R", dest=TEMPLATE, footprint=FP_R_0603)
     c_t = Part("Device", "C", dest=TEMPLATE, footprint=FP_C_0603)
@@ -311,17 +313,21 @@ def build_buffered_multiple():
     # 1. Instantiate Eurorack power supply & protection
     eurorack_power(vcc, vee, gnd, tag="pwr")
 
-    # 2. Buffered signal nets for Channel 1 and Channel 2
+    # 2. Buffered signal nets for Channel 1, Channel 2, and Channel 3
     ch1_buf = Net("CH1_BUF")
     ch2_buf = Net("CH2_BUF")
-    ch1_buf.netclasses = sig_class
-    ch2_buf.netclasses = sig_class
+    ch3_buf = Net("CH3_BUF")
+    for buf_net in (ch1_buf, ch2_buf, ch3_buf):
+        buf_net.netclasses = sig_class
 
     # 3. Channel 1: Input normalled to GND (0V reference when unpatched)
     buffered_channel_1to3(vcc, vee, gnd, gnd, ch1_buf, ch_num=1, tag="ch1")
 
-    # 4. Channel 2: Input normalled to Channel 1's buffered signal (cascades 1-to-3 into 1-to-6!)
+    # 4. Channel 2: Input normalled to Channel 1's buffered signal (cascades 1-to-3 into 1-to-6)
     buffered_channel_1to3(vcc, vee, gnd, ch1_buf, ch2_buf, ch_num=2, tag="ch2")
+
+    # 5. Channel 3: Input normalled to Channel 2's buffered signal (cascades 1-to-6 into 1-to-9!)
+    buffered_channel_1to3(vcc, vee, gnd, ch2_buf, ch3_buf, ch_num=3, tag="ch3")
 
     # Run Electrical Rules Check
     ERC()

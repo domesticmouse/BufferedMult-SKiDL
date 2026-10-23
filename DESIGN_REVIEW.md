@@ -24,8 +24,8 @@ Running `kicad-cli pcb drc` (both stored and `--refill-zones`), `analyze_pcb.py 
 
 | Severity | Issue | Location / Affected Items | Impact & Fix |
 | :--- | :--- | :--- | :--- |
-| **INFO** | **Series Schottky Voltage Drop vs. Output Headroom** | `D1`, `D2` (`1N5819` / `SS14`) | Drops `~0.3V–0.4V` per rail, supplying `±11.6V` to `U1`/`U2`. Completely safe and prevents reverse-power damage; unclipped output swing with `TL074H` is `~±10.4V`. |
-| **SUGGESTION** | **Input ESD / Overvoltage Current Limiting** | `J2` (`IN_1`), `J6` (`IN_2`) | `TL074H` includes internal ESD diodes to the supply rails (rated to `<10 mA`). Adding a `1kΩ` series resistor between the input jack tip (after the `100kΩ` pull-down) and Pin 3 of `U1A`/`U2A` in a future revision would limit fault current if `>±12V` is patched in, without introducing any divider error. |
+| **INFO** | **Series Schottky Voltage Drop vs. Output Headroom** | `D1`, `D2` (`1N5819WS`) | Drops `~0.3V–0.4V` per rail, supplying `±11.6V` to `U1`–`U3`. Completely safe and prevents reverse-power damage; unclipped output swing with `TL074H` is `~±10.4V`. |
+| **INFO** | **3-Channel Netlist Expansion (`buffered_multiple.py`)** | `U3`, `C7`–`C8`, `D5`, `R11`–`R15`, `J10`–`J13` | `buffered_multiple.py`, `buffered_multiple.net`, `buffered_multiple_bom.xml`, and `buffered_multiple_jlcpcb_bom.csv` have been expanded to **three 1-to-3 channels** (normalled `1:3 → 1:6 → 1:9`, 44 total components / 29 SMD parts / 32 nets). Import `buffered_multiple.net` into `BufferedMult.kicad_pcb` when ready to lay out Channel 3 on the PCB. |
 | **SUGGESTION** | **BOM CSV Selection for JLCPCB** | `buffered_multiple_jlcpcb_bom.csv` vs. `production/bom.csv` | Use `buffered_multiple_jlcpcb_bom.csv` (or uncheck THT rows during upload) for JLCPCB SMT assembly, as `production/bom.csv` includes THT parts (`C1`, `C2`, `J1`–`J9`) with MPN strings in the `LCSC Part #` column. |
 
 ---
@@ -33,6 +33,8 @@ Running `kicad-cli pcb drc` (both stored and `--refill-zones`), `analyze_pcb.py 
 ## 3. Schematic & SKiDL Code Review (`buffered_multiple.py`)
 
 The Python SKiDL implementation (`buffered_multiple.py`) passes `ERC()` with **0 errors and 0 warnings**:
+* **Triple 1-to-3 / Cascaded 1-to-6 / 1-to-9 Architecture**:
+  * **3 Channels (`U1`, `U2`, `U3`)**: Each channel instantiates `buffered_channel_1to3()` with a dedicated `TL074H` quad op-amp, two `100nF` (`0603`) rail decoupling capacitors (`C3`–`C8`), a `PESD12VL1BA` (`SOD-323`) bidirectional 12V ESD/TVS diode (`D3`–`D5`), a `100K` (`0603`) input pull-down resistor (`R1`, `R6`, `R11`), a `1K` (`0603`) series input current-limiting resistor (`R2`, `R7`, `R12`), and three `470R` (`0603`) series output protection resistors (`R3`–`R5`, `R8`–`R10`, `R13`–`R15`).
 * **Op-Amp Upgrade (`TL074HIDR`, LCSC `C2878713`)**:
   * Upgraded from standard JFET `TL074CDR` to TI's modern CMOS **`TL074H`** (`TL074HIDR`, SOIC-14).
   * **Pin-verified** against TI `TL074H` datasheet (SLOS954, D package SOIC-14): Pin 4 = `V+`, Pin 11 = `V-`, Ch1 = `(1 Out, 2 IN-, 3 IN+)`, Ch2 = `(7 Out, 6 IN-, 5 IN+)`, Ch3 = `(8 Out, 9 IN-, 10 IN+)`, Ch4 = `(14 Out, 13 IN-, 12 IN+)`.
@@ -41,7 +43,7 @@ The Python SKiDL implementation (`buffered_multiple.py`) passes `ERC()` with **0
   * **Eurorack Power (`J1`)**: Pins `1, 2` = `-12V_RAW`, Pins `3–8` = `GND`, Pins `9, 10` = `+12V_RAW`.
   * **Reverse Polarity Diodes (`D1`, `D2`)**: `D1` (`+12V`) Anode (Pad 2) on `+12V_RAW`, Cathode (Pad 1) on `+12V`. `D2` (`-12V`) Cathode (Pad 1) on `-12V_RAW`, Anode (Pad 2) on `-12V`.
   * **Bulk Electrolytic Capacitors (`C1`, `C2`)**: `C1` Pin 1 (`+`) on `+12V`, Pin 2 (`-`) on `GND`. `C2` Pin 1 (`+`) on `GND`, Pin 2 (`-`) on `-12V`.
-  * **Normalled Cascade Routing**: `J2` (`IN_1`) normalizes `TN` to `GND`. `J6` (`IN_2`) normalizes `TN` to `CH1_BUF` (the buffered output of `U1A`), preventing loading droop when cascading 1-to-3 into 1-to-6.
+  * **Normalled Cascade Routing**: `J2` (`IN_1`) normalizes `TN` to `GND`. `J6` (`IN_2`) normalizes `TN` to `CH1_BUF` (the buffered output of `U1A`), and `J10` (`IN_3`) normalizes `TN` to `CH2_BUF` (the buffered output of `U2A`), preventing loading droop when cascading 1-to-3 into 1-to-6 and 1-to-9.
 
 ---
 

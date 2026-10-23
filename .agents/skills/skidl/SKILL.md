@@ -183,9 +183,15 @@ generate_dot(file_="circuit.dot")
 
 ## 7. Code Quality & Linting (`ruff`)
 
+* **Mandatory Post-Edit & Post-Run Step**: Whenever you create, modify, or execute a SKiDL Python script (or any helper Python script), **always** run `ruff` lint and format over the Python files before finishing the task:
+  ```bash
+  ruff check --fix <script>.py <script>_sklib.py
+  ruff format <script>.py <script>_sklib.py
+  ```
+* **Always Run `ruff` *After* Executing the SKiDL Script**: Running a SKiDL script emits or overwrites `<script>_sklib.py` (the auto-generated backup symbol library) with unformatted code. Always run `ruff check --fix` and `ruff format` *after* the final execution of `<script>.py` so both `<script>.py` and `<script>_sklib.py` remain lint-clean and formatted.
+* **Scoped Target Files**: Target `ruff` specifically at your script, its `<script>_sklib.py` backup library, and any modified skill scripts (e.g., `.agents/skills/skidl/scripts/jlcpcb_search.py`) rather than `.` so third-party scripts inside `.agents/skills/` are never modified.
 * **Explicit Imports**: In saved circuit scripts, prefer explicit imports (`import builtins` + `from skidl import ERC, POWER, TEMPLATE, Net, NetClass, Part, generate_netlist, generate_xml, subcircuit`) over `from skidl import *`. Never put `NC` or `default_circuit` in `from skidl import ...`; access them via `builtins.NC` and `builtins.default_circuit`. Add `# noqa: E402` if `os.environ` setup precedes the import.
 * **Executable Shebangs**: If including `#!/usr/bin/env python3`, run `chmod +x <script>.py` so `ruff` (`EXE001`) passes.
-* **Auto-Generated Backup Library (`*_sklib.py`) & Scoped Linting**: Running a SKiDL script emits a `<script>_sklib.py` backup symbol library in the working directory. Always target `ruff` specifically at your script and its backup library rather than `.` (`ruff check --fix <script>.py <script>_sklib.py && ruff format <script>.py <script>_sklib.py`) so third-party scripts inside `.agents/skills/` are never modified.
 
 ## 8. Hierarchy, Design Classes & SPICE
 

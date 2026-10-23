@@ -6,7 +6,7 @@ Designed with SKiDL for KiCad 10.
 Architecture:
 - Power Supply:
   - Standard 10-pin (2x5) through-hole Eurorack IDC power header (+/-12V, GND)
-  - Reverse-polarity protection via 1N5819 (SS14) Schottky diodes (SMA)
+  - Reverse-polarity protection via 1N5819 / B5819W Schottky diodes (SOD-123; alt: 1N5819WS in SOD-323 if space is tight)
   - 10uF through-hole radial electrolytic bulk capacitors + 100nF 0603 ceramic decoupling caps per op-amp rail
 - Channel 1 (1-to-3):
   - Input 1 jack (normalled to GND when unpatched) -> 100k pull-down -> U1A unity-gain input buffer
@@ -57,7 +57,9 @@ FP_OPAMP_SOIC14 = "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
 FP_R_0603 = "Resistor_SMD:R_0603_1608Metric"
 FP_C_0603 = "Capacitor_SMD:C_0603_1608Metric"
 FP_C_ELEC = "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
-FP_DIODE_SMA = "Diode_SMD:D_SMA"
+FP_DIODE_SOD123 = (
+    "Diode_SMD:D_SOD-123"  # Alt if space gets tight: "Diode_SMD:D_SOD-323"
+)
 FP_JACK_EURORACK = (
     "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
 )
@@ -67,7 +69,7 @@ FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
 LCSC_C_100NF_0603 = "C14663"  # YAGEO CC0603KRX7R9BB104 (50V X7R, Basic Part)
 LCSC_R_100K_0603 = "C25803"  # UNI-ROYAL 0603WAF1003T5E (100k 1%, Basic Part)
 LCSC_R_470R_0603 = "C23179"  # UNI-ROYAL 0603WAF4700T5E (470R 1%, Basic Part)
-LCSC_D_SS14_SMA = "C2480"  # MDD SS14 / 1N5819 (40V 1A Schottky SMA, Basic Part)
+LCSC_D_B5819W_SOD123 = "C8598"  # CJ B5819W / 1N5819 (40V 1A Schottky SOD-123, Basic Part; Alt SOD-323: 1N5819WS / C191023)
 LCSC_U_TL074H_SOIC14 = (
     "C2878713"  # Texas Instruments TL074HIDR (SOIC-14, Extended Part)
 )
@@ -99,17 +101,20 @@ def eurorack_power(vcc, vee, gnd):
     gnd += j_pwr[3, 4, 5, 6, 7, 8]
     vcc_raw += j_pwr[9, 10]
 
-    # Reverse-polarity protection Schottky diodes (1N5819 / SS14)
+    # Reverse-polarity protection Schottky diodes (1N5819 / B5819W in SOD-123; alt: 1N5819WS in SOD-323)
     d_t = Part(
         "Device",
         "D_Schottky",
         dest=TEMPLATE,
         value="1N5819",
-        footprint=FP_DIODE_SMA,
+        footprint=FP_DIODE_SOD123,
     )
-    d_t.fields["LCSC"] = LCSC_D_SS14_SMA
-    d_t.fields["MPN"] = "SS14"
+    d_t.fields["LCSC"] = LCSC_D_B5819W_SOD123
+    d_t.fields["MPN"] = "B5819W"
     d_t.fields["JLCPCB_Class"] = "Basic"
+    d_t.fields["Notes"] = (
+        "Alt smaller package if space gets tight: 1N5819WS in Diode_SMD:D_SOD-323 (LCSC C191023, Basic)"
+    )
     d_pos, d_neg = d_t(2, tag="d_prot")
 
     # +12V protection: Anode (A) at header -> Cathode (K) at +12V rail

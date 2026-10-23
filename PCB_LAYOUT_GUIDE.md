@@ -13,7 +13,7 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 | Ref | Qty | Value / Part | Footprint | LCSC Part # | Class | Role |
 | :--- | --: | :--- | :--- | :--- | :--- | :--- |
 | `U1`, `U2` | 2 | `TL074H` (`TL074HIDR`) | `Package_SO:SOIC-14_3.9x8.7mm_P1.27mm` | `C2878713` | Extended | Ch 1 & Ch 2 Quad Op-Amps |
-| `D1`, `D2` | 2 | `1N5819` (`SS14`) | `Diode_SMD:D_SMA` | `C2480` | Basic | `+12V` / `-12V` Reverse-Polarity Protection |
+| `D1`, `D2` | 2 | `1N5819` (`B5819W`) | `Diode_SMD:D_SOD-123` | `C8598` | Basic | `+12V` / `-12V` Reverse-Polarity Protection *(Alt: `1N5819WS` in `Diode_SMD:D_SOD-323`, LCSC `C191023`)* |
 | `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0603_1608Metric` | `C14663` | Basic | Local Op-Amp Rail Decoupling (`U1`, `U2`) |
 | `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C25803` | Basic | Ch 1 & Ch 2 Input Pull-Down Resistors |
 | `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C23179` | Basic | Output Series Protection Resistors |
@@ -94,7 +94,7 @@ Press **`F`** while hovering over or selecting the following footprints to flip 
 2. **Rear Through-Hole Power Header (`J1`)**:
    - Flip **`J1`** (`IDC-Header_2x05_P2.54mm_Vertical`) onto **`B.Cu`** so the shrouded header protrudes out the **back** of the module (away from the front panel) and its leads are soldered on `F.Cu`.
    - Place `J1` in an open gap between jack rows (typically between `J4` and `J6`, or near the bottom of the board), making sure its through-hole pins clear the bodies of the front-side jacks and bulk capacitors (`C1`, `C2`) on `F.Cu`.
-   - Place **`D1`** and **`D2`** (`1N5819`, SMD on `B.Cu`) right next to `J1` and the through-hole pads of `C1` and `C2`.
+   - Place **`D1`** and **`D2`** (`1N5819` / `B5819W` in `SOD-123`, SMD on `B.Cu` — or `1N5819WS` in `SOD-323`, LCSC `C191023` if board space gets tight) right next to `J1` and the through-hole pads of `C1` and `C2`.
    - Add a clear **`-12V / RED STRIPE`** text label on `B.Silkscreen` next to `J1` pins `1` and `2`.
 
 ---

@@ -19,7 +19,7 @@ This project is a SKiDL re-implementation of [domesticmouse/Buffered-Mult](https
     - **Stages B, C, D**: Three independent unity-gain output followers, each isolated with a `470R` series output protection resistor (`0603`).
 - **Eurorack Power Supply Protection**:
   - Standard 10-pin (`2x5`) through-hole shrouded IDC power header (`±12V`, `GND`).
-  - Reverse-polarity protection via `1N5819` (`SS14`) Schottky diodes (`SMA`).
+  - Reverse-polarity protection via `1N5819` (`B5819W`) Schottky diodes (`SOD-123`, or `1N5819WS` in `SOD-323` if board space gets tight).
   - `10uF` radial through-hole electrolytic bulk bypass capacitors per rail plus `100nF` (`0603`) local ceramic decoupling capacitors at each op-amp's `V+` and `V-` pins.
 
 ### Signal Flow
@@ -54,7 +54,7 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 | Ref | Qty | Value / Part | Package / Footprint | KiCad Symbol | LCSC Part # | Assembly / Description |
 | :--- | --: | :--- | :--- | :--- | :--- | :--- |
 | `U1`, `U2` | 2 | `TL074H` (`TL074HIDR`) | `Package_SO:SOIC-14_3.9x8.7mm_P1.27mm` | `Amplifier_Operational:TL074` | `C2878713` | **SMT (`B.Cu`, Extended)** — Quad Low-Noise High-Voltage Op-Amp |
-| `D1`, `D2` | 2 | `1N5819` / `SS14` | `Diode_SMD:D_SMA` | `Device:D_Schottky` | `C2480` | **SMT (`B.Cu`, Basic)** — Schottky Reverse-Polarity Protection Diode |
+| `D1`, `D2` | 2 | `1N5819` / `B5819W` | `Diode_SMD:D_SOD-123` | `Device:D_Schottky` | `C8598` | **SMT (`B.Cu`, Basic)** — Schottky Reverse-Polarity Protection Diode *(Alt if space is tight: `1N5819WS` in `Diode_SMD:D_SOD-323`, LCSC `C191023`, Basic)* |
 | `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0603_1608Metric` | `Device:C` | `C14663` | **SMT (`B.Cu`, Basic)** — Ceramic Decoupling Capacitor (`CC0603KRX7R9BB104`) |
 | `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C25803` | **SMT (`B.Cu`, Basic)** — Input Pull-Down Resistor (`0603WAF1003T5E`) |
 | `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C23179` | **SMT (`B.Cu`, Basic)** — Output Series Protection Resistor (`0603WAF4700T5E`) |

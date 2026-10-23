@@ -5,12 +5,10 @@ WARNING: KICAD9_SYMBOL_DIR environment variable is missing, so the default KiCad
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
-WARNING: fp-lib-table file was not found. Component footprints are not available.
-WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: Missing tag on  instantiated at /Users/brett/Documents/GitHub/BufferedMult-SKiDL/<frozen importlib._bootstrap>:491.
-INFO: 6 warnings found while generating netlist.
+INFO: 4 warnings found while generating netlist.
 INFO: 0 errors found while generating netlist.
 
-INFO: 6 warnings found while generating XML.
+INFO: 4 warnings found while generating XML.
 INFO: 0 errors found while generating XML.
 

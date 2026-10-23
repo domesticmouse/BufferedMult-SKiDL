@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Lesson 0000: Environment, uv &amp; KiCad 10 Bootstrap | Eurorack SKiDL Tutorial</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/course.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#content" class="skip-link visually-hidden">Skip to main content</a>
+    <div class="header-inner">
+      <a class="brand-title" href="../index.html">
+        <span>Buffered Multiple Course</span>
+        <span class="brand-badge">KiCad 10 + SKiDL</span>
+      </a>
+      <nav class="course-nav" aria-label="Course">
+        <a href="../index.html">Index</a>
+        <a href="0000-environment-and-kicad-bootstrap.html" aria-current="page">0000</a>
+        <a href="0001-programmatic-component-discovery.html">0001</a>
+        <span class="nav-sep" aria-hidden="true">|</span>
+        <a href="../reference/skidl-cheatsheet.html">SKiDL Ref</a>
+        <a href="../reference/kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="../reference/glossary.html">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-main" tabindex="-1">
+    <article>
+      <div class="lesson-kicker">Lesson 0000 · Foundation &amp; Tooling</div>
+      <h1>Environment, <code>uv</code> &amp; KiCad 10 Bootstrap</h1>
+      <p class="lead">
+        Configure a deterministic Python 3.14 + SKiDL environment with <code>uv</code>, point SKiDL at KiCad 10's local symbol and footprint libraries before import time, and run a zero-warning <code>ERC()</code> smoke test.
+      </p>
+
+      <div class="meta-bar">
+        <span class="badge badge-success">✓ ERC: 0 Errors, 0 Warnings</span>
+        <span class="badge badge-success">✓ Ruff: Clean</span>
+        <span class="badge badge-accent">App: ./apps/0000-environment-and-kicad-bootstrap/</span>
+      </div>
+
+      <h2>Why the Top 20 Lines of <code>buffered_multiple.py</code> Matter</h2>
+      <p>
+        Since you already know how analog Eurorack circuits work—<code>±12V</code> rails, local <code>100nF</code> decoupling caps, and op-amp followers—our first job is making sure Python and SKiDL can reliably find KiCad 10's component libraries and run Electrical Rules Checking (<code>ERC()</code>) without environment hiccups.
+      </p>
+      <p>
+        If you open <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code></a> at lines 26–58, you will notice that <code>os.environ</code> is configured <strong>before</strong> <code>from skidl import ...</code>. That ordering is deliberate:
+      </p>
+
+      <figure class="diagram-card">
+        <pre class="mermaid">flowchart LR
+  ENV["1. Set os.environ<br/>XDG_DATA_HOME, MPLCONFIGDIR<br/>KICAD10_SYMBOL_DIR"] --> IMP["2. from skidl import ...<br/>(# noqa: E402)<br/>Initializes SkidlConfig"]
+  IMP --> ERC["3. Build Circuit &amp; ERC()<br/>Emits .erc, .log, and<br/>*_sklib.py backup lib"]
+  ERC --> RUFF["4. ruff check &amp; format<br/>Formats script AND<br/>generated *_sklib.py"]</pre>
+        <figcaption>The four-stage execution lifecycle of every SKiDL script in this repository.</figcaption>
+      </figure>
+
+      <h2>1. Creating the <code>uv</code> Virtual Environment (Python 3.14)</h2>
+      <p>
+        SKiDL depends on <code>inspice</code> → <code>h5py</code>. Bleeding-edge unreleased Python builds often lack prebuilt binary wheels for <code>h5py</code> and fail trying to compile <code>libhdf5</code> from C source. Targeting <strong>Python 3.14</strong> with <code>uv venv --clear</code> guarantees fast, prebuilt binary wheel installation:
+      </p>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Terminal · Create .venv and install SKiDL</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-bash">uv venv --clear --python 3.14 .venv
+uv pip install skidl</code></pre>
+      </figure>
+
+      <h2>2. Pre-Import Environment Variables &amp; <code># noqa: E402</code></h2>
+      <p>
+        The moment Python executes <code>from skidl import ...</code>, SKiDL immediately initializes its global <code>SkidlConfig</code> singleton and imports <code>matplotlib</code>. During that import, two things happen:
+      </p>
+      <ol>
+        <li><strong>Cache directories</strong>: SKiDL and Matplotlib try to create <code>~/.local/share/skidl</code> (or <code>~/Library/Application Support/skidl</code>) and <code>~/.matplotlib</code>. Setting <code>XDG_DATA_HOME</code> and <code>MPLCONFIGDIR</code> to <code>/tmp/...</code> before import prevents permission errors in restricted shells or CI runners.</li>
+        <li><strong>KiCad 10 symbol &amp; footprint discovery</strong>: In SKiDL, the default tool <code>KICAD</code> aliases <code>KICAD10</code>. On macOS, KiCad 10 bundles its symbols and footprints inside <code>/Applications/KiCad/KiCad.app/Contents/SharedSupport/</code>, but does not export <code>KICAD10_SYMBOL_DIR</code> to your shell profile automatically. Setting <code>KICAD10_SYMBOL_DIR</code>, <code>KICAD_SYMBOL_DIR</code>, and <code>KICAD10_FOOTPRINT_DIR</code> before importing <code>skidl</code> ensures SKiDL resolves every symbol on the first try.</li>
+      </ol>
+
+      <div class="callout callout-warn">
+        <div class="callout-title">Why <code># noqa: E402</code> is on the <code>from skidl import ...</code> line</div>
+        <p style="margin:0;">
+          Python's linter (<code>ruff</code> rule <code>E402</code>) normally flags module imports that appear after executable statements like <code>os.environ.setdefault(...)</code>. Adding <code># noqa: E402</code> on the <code>from skidl import ...</code> line tells <code>ruff</code> that the pre-import configuration is intentional.
+        </p>
+      </div>
+
+      <h2>3. Inspect &amp; Run Lesson 0000's Companion Script</h2>
+      <p>
+        Look at the complete runnable script in <a href="../apps/0000-environment-and-kicad-bootstrap/bootstrap_check.py"><code>tutorial/apps/0000-environment-and-kicad-bootstrap/bootstrap_check.py</code></a>. It configures the environment, creates a <strong>Template Part (<code>dest=TEMPLATE</code>)</strong> for a <code>100K</code> resistor and a <code>100nF</code> bypass capacitor from KiCad 10's <code>Device</code> library, marks the <code>+12V</code> and <code>GND</code> nets with the <strong>Power Drive Flag (<code>net.drive = POWER</code>)</strong>, and runs <code>ERC()</code>:
+      </p>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>tutorial/apps/0000-environment-and-kicad-bootstrap/bootstrap_check.py</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">#!/usr/bin/env python3
+import os
+from pathlib import Path
+import sys
+
+# Keep generated .erc, .log, and _sklib.py artifacts inside this lesson's app directory
+os.chdir(Path(__file__).resolve().parent)
+
+# 1. Configure writable cache directories and KiCad 10 library paths BEFORE importing skidl
+os.environ.setdefault("XDG_DATA_HOME", "/tmp/xdg_data")
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/mpl_config")
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols"):
+    os.environ.setdefault(
+        "KICAD10_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+    os.environ.setdefault(
+        "KICAD_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints"):
+    os.environ.setdefault(
+        "KICAD10_FOOTPRINT_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints",
+    )
+
+from skidl import ERC, KICAD, POWER, TEMPLATE, Net, Part, get_default_tool  # noqa: E402
+
+
+def run_bootstrap_check():
+    """Verify Python, SKiDL default tool, KiCad 10 paths, and a zero-warning ERC."""
+    print(f"Python executable : {sys.executable}")
+    print(f"Python version    : {sys.version.split()[0]}")
+    print(f"SKiDL default tool: {get_default_tool()} (aliases {KICAD})")
+    print(f"KICAD10_SYMBOL_DIR: {os.environ.get('KICAD10_SYMBOL_DIR', 'NOT SET')}")
+
+    # Instantiate two 100K 0603 resistors and a 100nF bypass capacitor from templates
+    r_t = Part(
+        "Device",
+        "R",
+        dest=TEMPLATE,
+        value="100K",
+        footprint="Resistor_SMD:R_0603_1608Metric",
+    )
+    c_t = Part(
+        "Device",
+        "C",
+        dest=TEMPLATE,
+        value="100nF",
+        footprint="Capacitor_SMD:C_0603_1608Metric",
+    )
+    r_top, r_bot = r_t(2, tag="r_boot")
+    c_dec = c_t(tag="c_boot")
+
+    vcc = Net("+12V")
+    mid = Net("DIV_MID")
+    gnd = Net("GND")
+
+    # Mark external rails as POWER-driven so ERC knows they have an active source
+    vcc.drive = POWER
+    gnd.drive = POWER
+
+    # Parallel bypass cap + series voltage divider (every net has >= 2 pins)
+    vcc &amp; c_dec &amp; gnd
+    vcc &amp; r_top &amp; mid &amp; r_bot &amp; gnd
+
+    ERC()
+    print(f"Verified parts    : {[p.ref for p in (r_top, r_bot, c_dec)]}")
+
+
+if __name__ == "__main__":
+    run_bootstrap_check()</code></pre>
+      </figure>
+
+      <h3>Run and Lint from Your Terminal</h3>
+      <p>
+        Remember: whenever a SKiDL script exports a netlist or caches symbols, it writes a <strong>Backup Symbol Library (<code>&lt;script&gt;_sklib.py</code>)</strong> containing raw, unformatted Python code. Always run <code>ruff check --fix</code> and <code>ruff format</code> <strong>after</strong> executing a SKiDL script:
+      </p>
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Terminal · Execute bootstrap_check.py and lint with ruff</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-bash">.venv/bin/python tutorial/apps/0000-environment-and-kicad-bootstrap/bootstrap_check.py
+ruff check --fix tutorial/apps/0000-environment-and-kicad-bootstrap/*.py
+ruff format tutorial/apps/0000-environment-and-kicad-bootstrap/*.py</code></pre>
+      </figure>
+
+      <!-- Interactive Exercise 1 -->
+      <section class="exercise-box" aria-labelledby="ex-0000-title">
+        <h3 id="ex-0000-title">Retrieval Practice: Complete the Bootstrap &amp; ERC Snippet</h3>
+        <p>
+          Fill in the four blanks below from memory to configure KiCad 10's symbol variable, suppress Ruff's top-of-file import warning, create a reusable template part, and mark the <code>+12V</code> rail as driven before running <code>ERC()</code>:
+        </p>
+        <div class="code-figure">
+          <div class="code-header">
+            <span>Interactive Python Exercise (Prism keep-markup)</span>
+          </div>
+          <pre><code class="language-python">import os
+
+os.environ.setdefault(
+    "<input type="text" class="code-blank" aria-label="KiCad 10 symbol directory variable" data-answer="KICAD10_SYMBOL_DIR" data-hint="Versioned KiCad 10 symbol env var: KICAD10_SYMBOL_DIR" size="19">",
+    "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+)
+
+from skidl import ERC, POWER, TEMPLATE, Net, Part  # noqa: <input type="text" class="code-blank" aria-label="Ruff rule code for module import not at top of file" data-answer="E402" data-hint="4-character Ruff code for module import below statements: E402" size="6">
+
+r_t = Part("Device", "R", dest=<input type="text" class="code-blank" aria-label="SKiDL constant for a blueprint template part" data-answer="TEMPLATE" data-hint="SKiDL constant that prevents immediate netlist insertion: TEMPLATE" size="10">, value="100K")
+vcc = Net("+12V")
+vcc.drive = <input type="text" class="code-blank" aria-label="SKiDL drive constant for energized rails" data-answer="POWER" data-hint="SKiDL drive constant for power rails: POWER" size="7"></code></pre>
+        </div>
+        <div class="exercise-actions">
+          <button type="button" class="btn btn-primary" data-action="check">Check Answers</button>
+          <button type="button" class="btn" data-action="hint">Show Hint</button>
+          <button type="button" class="btn" data-action="reset">Reset</button>
+        </div>
+        <div class="feedback-msg" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- Retrieval Quiz -->
+      <section class="quiz-section" aria-labelledby="quiz-0000-title">
+        <h2 id="quiz-0000-title" style="margin-top:0;">Knowledge Check</h2>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            1. Why does <code>buffered_multiple.py</code> configure <code>KICAD10_SYMBOL_DIR</code> and <code>XDG_DATA_HOME</code> in <code>os.environ</code> before <code>from skidl import ...</code>?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Python does not clear shell variables on import; rather, SKiDL reads os.environ immediately when its module loads.">
+              <span>A.</span>
+              <span>Python clears all exported shell variables whenever external circuit packages first load.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="true" data-explain="Importing skidl immediately initializes SkidlConfig and matplotlib using the environment variables active at import time.">
+              <span>B.</span>
+              <span>Importing skidl immediately configures library paths and cache folders during module import.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="KiCad .net files do not require environment variable paths inside comment headers.">
+              <span>C.</span>
+              <span>KiCad ten refuses netlist files unless environment paths appear inside comment headers.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Ruff never deletes import statements unless unused (F401); E402 only warns when imports follow statements.">
+              <span>D.</span>
+              <span>Ruff automatically removes every import line placed above system environment setup calls.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            2. Why must you run <code>ruff check --fix</code> and <code>ruff format</code> <strong>after</strong> executing a SKiDL circuit script?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Ruff is a Python linter and formatter; it does not read .erc logs or generate KiCad footprints.">
+              <span>A.</span>
+              <span>Ruff translates generated electrical rules logs into valid KiCad layout footprints.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Running a script with .venv/bin/python never modifies the file's chmod executable bit.">
+              <span>B.</span>
+              <span>Executing Python scripts strips executable permission bits from local source files.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="SKiDL's ERC() inspects in-memory Net and Pin objects regardless of source formatting.">
+              <span>C.</span>
+              <span>SKiDL disables automatic Electrical Rules Checking inside unformatted Python circuit files.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="true" data-explain="Running a SKiDL script writes or overwrites <script>_sklib.py with unformatted auto-generated Python code.">
+              <span>D.</span>
+              <span>Running SKiDL overwrites the generated backup library file with unformatted Python.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <div class="callout callout-success">
+        <div class="callout-title">Primary Sources &amp; Follow-Up Questions</div>
+        <p style="margin:0;">
+          <strong>Primary Sources</strong>: <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a> · <a href="../../.agents/skills/skidl/SKILL.md">Repository SKiDL Skill Guide (<code>.agents/skills/skidl/SKILL.md</code>)</a> · <a href="https://devbisme.github.io/skidl/">Official SKiDL Documentation</a>.<br>
+          <strong>Ask the Agent</strong>: Have a question about how <code>KICAD10_SYMBOL_DIR</code> interacts with custom project libraries, or ready to move to Lesson 0001? Ask any follow-up question right in chat!
+        </p>
+      </div>
+
+      <nav class="pager" aria-label="Lesson pagination">
+        <a href="../index.html">
+          <span class="pager-label">← Course Home</span>
+          <span class="pager-title">Course Index &amp; Roadmap</span>
+        </a>
+        <a href="0001-programmatic-component-discovery.html">
+          <span class="pager-label">Next Lesson →</span>
+          <span class="pager-title">0001: Programmatic Part, Pinout &amp; Footprint Discovery</span>
+        </a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Licensed under the <a href="../../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>This is not an official Google product.</span>
+    </div>
+  </footer>
+</body>
+</html>

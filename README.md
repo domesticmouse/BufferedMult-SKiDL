@@ -147,6 +147,7 @@ Both the main circuit board and a mated 3U × 4HP Eurorack front panel are inclu
 
 ## Documentation & Guides
 
+- **[`tutorial/index.html`](tutorial/index.html)** — Interactive, self-contained HTML & Python/SKiDL tutorial walking through building `buffered_multiple.py`, programmatic KiCad 10 / JLCPCB component discovery, and runnable per-lesson apps (`tutorial/apps/`).
 - **[`PCB_LAYOUT_GUIDE.md`](PCB_LAYOUT_GUIDE.md)** — Step-by-step KiCad 10 PCB layout, component placement, routing, and JLCPCB export guide.
 - **[`FRONT_PANEL_GUIDE.md`](FRONT_PANEL_GUIDE.md)** — 4HP Eurorack front panel mechanical dimensions, bushing offset coordinate table, and automated generation workflow.
 - **[`DESIGN_REVIEW.md`](DESIGN_REVIEW.md)** — Full schematic, PCB, DRC, Gerber, and EMC pre-compliance design review report.

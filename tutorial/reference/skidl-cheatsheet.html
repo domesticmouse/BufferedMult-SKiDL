@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SKiDL API &amp; Pin Indexing Cheat Sheet | Eurorack SKiDL Tutorial</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/course.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#content" class="skip-link visually-hidden">Skip to main content</a>
+    <div class="header-inner">
+      <a class="brand-title" href="../index.html">
+        <span>Buffered Multiple Course</span>
+        <span class="brand-badge">KiCad 10 + SKiDL</span>
+      </a>
+      <nav class="course-nav" aria-label="Course">
+        <a href="../index.html">Index</a>
+        <a href="../lessons/0000-environment-and-kicad-bootstrap.html">0000</a>
+        <a href="../lessons/0001-programmatic-component-discovery.html">0001</a>
+        <span class="nav-sep" aria-hidden="true">|</span>
+        <a href="skidl-cheatsheet.html" aria-current="page">SKiDL Ref</a>
+        <a href="kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="glossary.html">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-main" tabindex="-1">
+    <article>
+      <div class="lesson-kicker">Reference Sheet · Printable</div>
+      <h1>SKiDL API &amp; Pin Indexing Cheat Sheet</h1>
+      <p class="lead">
+        Compressed syntax reference for writing, wiring, checking, and linting SKiDL circuit scripts targeting KiCad 10.
+      </p>
+
+      <h2>1. Mandatory Pre-Import Environment Header</h2>
+      <p>
+        Importing <code>skidl</code> immediately initializes <code>SkidlConfig</code> and <code>matplotlib</code>. Always configure writable cache directories and KiCad 10 symbol/footprint paths <strong>before</strong> the <code>from skidl import ...</code> statement, and tag the import with <code># noqa: E402</code> so <code>ruff</code> allows top-of-file environment setup:
+      </p>
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Pre-import header (buffered_multiple.py)</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">import builtins
+import os
+
+os.environ.setdefault("XDG_DATA_HOME", "/tmp/xdg_data")
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/mpl_config")
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols"):
+    os.environ.setdefault(
+        "KICAD10_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+    os.environ.setdefault(
+        "KICAD_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints"):
+    os.environ.setdefault(
+        "KICAD10_FOOTPRINT_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints",
+    )
+
+from skidl import (  # noqa: E402
+    ERC,
+    POWER,
+    TEMPLATE,
+    Net,
+    NetClass,
+    Part,
+    generate_netlist,
+    generate_xml,
+    subcircuit,
+)</code></pre>
+      </figure>
+
+      <h2>2. Instantiating Parts, Templates &amp; <code>part.fields</code></h2>
+      <div class="table-wrap scroller">
+        <table>
+          <caption>Part instantiation and BOM metadata patterns</caption>
+          <thead>
+            <tr>
+              <th scope="col">Pattern</th>
+              <th scope="col">Python Syntax</th>
+              <th scope="col">Why It Matters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Single concrete part</td>
+              <td><code>u = Part("Amplifier_Operational", "TL074", value="TL074H", footprint=FP_OPAMP_SOIC14, tag="u_ch1")</code></td>
+              <td>Immediately adds <code>U1</code> to <code>builtins.default_circuit</code> with a deterministic hierarchical <code>tag</code>.</td>
+            </tr>
+            <tr>
+              <td>Reusable template part</td>
+              <td><code>r_t = Part("Device", "R", dest=TEMPLATE, footprint=FP_R_0603)</code></td>
+              <td>Does <strong>not</strong> enter the netlist until called: <code>r1 = r_t(value="100K", tag="r_pd_ch1")</code> or <code>d_pos, d_neg = d_t(2, tag="d_prot")</code>.</td>
+            </tr>
+            <tr>
+              <td>Custom BOM fields</td>
+              <td><code>r_t.fields["LCSC"] = "C25803"</code><br><code>r_t.fields["JLCPCB_Class"] = "Basic"</code></td>
+              <td><code>Part.__setattr__</code> ignores unknown attribute names during XML/netlist export unless they live in <code>part.fields</code>. Clones inherit a copy of <code>fields</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>3. Pin Indexing &amp; Disambiguation</h2>
+      <div class="table-wrap scroller">
+        <table>
+          <caption>Selecting pins on KiCad 10 symbols in SKiDL</caption>
+          <thead>
+            <tr>
+              <th scope="col">Syntax</th>
+              <th scope="col">Meaning</th>
+              <th scope="col">Example in <code>buffered_multiple.py</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>part[1, 2]</code></td>
+              <td>Match multiple pins by number or name</td>
+              <td><code>vee_raw += j_pwr[1, 2]</code> and <code>gnd += j_pwr[3, 4, 5, 6, 7, 8]</code></td>
+            </tr>
+            <tr>
+              <td><code>part["K"]</code>, <code>part["T"]</code></td>
+              <td>Match pin by symbol pin name or string pin ID</td>
+              <td><code>vcc_raw += d_pos["A"]</code>, <code>in_jack += j_in["T"]</code>, <code>norm_in += j_in["TN"]</code></td>
+            </tr>
+            <tr>
+              <td><code>part.p[num]</code></td>
+              <td>Strictly index by <strong>pin number only</strong> (essential when multiple units share names like <code>"+"</code> and <code>"-"</code>)</td>
+              <td><code>in_sig += u.p[3]</code>, <code>buffered_tap_out += u.p[1], u.p[2]</code> on <code>TL074</code></td>
+            </tr>
+            <tr>
+              <td><code>part.n["name"]</code></td>
+              <td>Strictly index by <strong>pin name only</strong></td>
+              <td><code>u.n["V+"]</code> (or <code>u["V+"]</code> when unambiguous)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Wiring Nets, <code>builtins.NC</code>, <code>POWER</code> Drive &amp; Post-Run <code>ruff</code></h2>
+      <ul>
+        <li><strong>Never use <code>=</code> to wire nets or pins</strong> — always use <code>+=</code> (<code>vcc += u["V+"]</code>) or 2-pin series/parallel network operators (<code>in_jack &amp; r_in &amp; in_sig</code>, <code>in_jack &amp; (d_tvs | r_pd) &amp; gnd</code>).</li>
+        <li><strong>Unused pins (<code>builtins.NC</code>)</strong>: <code>NC</code> and <code>default_circuit</code> are injected into Python's <code>builtins</code> module at import time and are not in <code>skidl.__all__</code>. Wire unconnected pins with the pin on the left: <code>j_out["TN"] += builtins.NC</code>.</li>
+        <li><strong>External power rails</strong>: Set <code>vcc.drive = POWER</code>, <code>vee.drive = POWER</code>, and <code>gnd.drive = POWER</code> so <code>ERC()</code> verifies that all <code>PWRIN</code> pins on op-amps are driven.</li>
+        <li><strong>Mandatory post-run linting</strong>: Running a SKiDL script generates or overwrites <code>&lt;script&gt;_sklib.py</code> with unformatted code. Always run <code>ruff check --fix</code> and <code>ruff format</code> <strong>after</strong> executing the script.</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Licensed under the <a href="../../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>This is not an official Google product.</span>
+    </div>
+  </footer>
+</body>
+</html>

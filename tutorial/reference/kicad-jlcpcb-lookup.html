@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>KiCad 10 Symbol, Footprint &amp; JLCPCB Lookup Reference | Eurorack SKiDL Tutorial</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/course.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#content" class="skip-link visually-hidden">Skip to main content</a>
+    <div class="header-inner">
+      <a class="brand-title" href="../index.html">
+        <span>Buffered Multiple Course</span>
+        <span class="brand-badge">KiCad 10 + SKiDL</span>
+      </a>
+      <nav class="course-nav" aria-label="Course">
+        <a href="../index.html">Index</a>
+        <a href="../lessons/0000-environment-and-kicad-bootstrap.html">0000</a>
+        <a href="../lessons/0001-programmatic-component-discovery.html">0001</a>
+        <span class="nav-sep" aria-hidden="true">|</span>
+        <a href="skidl-cheatsheet.html">SKiDL Ref</a>
+        <a href="kicad-jlcpcb-lookup.html" aria-current="page">Lookup Ref</a>
+        <a href="glossary.html">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-main" tabindex="-1">
+    <article>
+      <div class="lesson-kicker">Reference Sheet · Component Discovery</div>
+      <h1>KiCad 10 Symbol, Footprint &amp; JLCPCB Lookup Reference</h1>
+      <p class="lead">
+        Command-line and Python patterns for discovering exact KiCad 10 symbols, pin numbers/names, <code>.pretty</code> footprints, and live JLCPCB/LCSC catalog part numbers.
+      </p>
+
+      <h2>1. Four-Step Programmatic Discovery Workflow</h2>
+      <figure class="diagram-card">
+        <pre class="mermaid">flowchart LR
+  S1["1. search('keyword')<br/>Find KiCad Symbol"] --> S2["2. show('Lib', 'Part')<br/>Verify Pin Numbers &amp; Types"]
+  S2 --> S3["3. search_footprints('pkg')<br/>Get Lib:Footprint String"]
+  S3 --> S4["4. jlcpcb_search.py<br/>Verify Stock &amp; Basic/Ext Class"]</pre>
+        <figcaption>Verify every symbol, pinout, footprint, and LCSC part number programmatically before wiring a subcircuit.</figcaption>
+      </figure>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Interactive discovery commands (Terminal / Python)</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-bash"># 1. Search symbols, inspect pinouts, and search footprints via .venv/bin/python
+.venv/bin/python tutorial/apps/0001-programmatic-component-discovery/discover_parts.py
+
+# 2. Query live JLCPCB/LCSC stock, Basic vs. Extended feeder status, and pricing
+.venv/bin/python .agents/skills/skidl/scripts/jlcpcb_search.py --in-stock-only \
+    "100k 0603" "1k 0603" "470R 0603" "100nF 0603" "1N5819WS SOD-323" "PESD12VL1BA" "TL074H SOIC-14"</code></pre>
+      </figure>
+
+      <h2>2. Complete <code>buffered_multiple.py</code> Symbol, Pinout &amp; LCSC Matrix</h2>
+      <div class="table-wrap scroller">
+        <table>
+          <caption>Verified KiCad 10 symbols, pin mappings, footprints, and LCSC catalog numbers</caption>
+          <thead>
+            <tr>
+              <th scope="col">Component Role</th>
+              <th scope="col">KiCad 10 Symbol (<code>Lib</code>, <code>Name</code>)</th>
+              <th scope="col">Verified Pin IDs &amp; Types</th>
+              <th scope="col">KiCad 10 Footprint</th>
+              <th scope="col">LCSC # &amp; Class</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Quad Op-Amp (<code>U1</code>–<code>U3</code>)</td>
+              <td><code>Amplifier_Operational</code>, <code>TL074</code></td>
+              <td>
+                Unit A: <code>1</code> (OUT), <code>2</code> (<code>-</code>), <code>3</code> (<code>+</code>)<br>
+                Unit B: <code>5</code> (<code>+</code>), <code>6</code> (<code>-</code>), <code>7</code> (OUT)<br>
+                Unit C: <code>8</code> (OUT), <code>9</code> (<code>-</code>), <code>10</code> (<code>+</code>)<br>
+                Unit D: <code>12</code> (<code>+</code>), <code>13</code> (<code>-</code>), <code>14</code> (OUT)<br>
+                Rails: <code>4</code> (<code>V+</code>, PWRIN), <code>11</code> (<code>V-</code>, PWRIN)
+              </td>
+              <td><code>Package_SO:SOIC-14_3.9x8.7mm_P1.27mm</code></td>
+              <td><code>C2878713</code> (<code>TL074HIDR</code>, Extended)</td>
+            </tr>
+            <tr>
+              <td>Reverse-Polarity Schottky (<code>D1</code>, <code>D2</code>)</td>
+              <td><code>Device</code>, <code>D_Schottky</code></td>
+              <td><code>1</code> (<code>K</code>, PASSIVE), <code>2</code> (<code>A</code>, PASSIVE)</td>
+              <td><code>Diode_SMD:D_SOD-323</code></td>
+              <td><code>C191023</code> (<code>1N5819WS</code>, Basic)</td>
+            </tr>
+            <tr>
+              <td>Input ESD/TVS Diode (<code>D3</code>–<code>D5</code>)</td>
+              <td><code>Device</code>, <code>D_TVS</code></td>
+              <td><code>1</code> (<code>A1</code>, PASSIVE), <code>2</code> (<code>A2</code>, PASSIVE)</td>
+              <td><code>Diode_SMD:D_SOD-323</code></td>
+              <td><code>C38558</code> (<code>PESD12VL1BA,115</code>, Extended)</td>
+            </tr>
+            <tr>
+              <td>Decoupling Cap <code>100nF</code> (<code>C3</code>–<code>C8</code>)</td>
+              <td><code>Device</code>, <code>C</code></td>
+              <td><code>1</code> (PASSIVE), <code>2</code> (PASSIVE)</td>
+              <td><code>Capacitor_SMD:C_0603_1608Metric</code></td>
+              <td><code>C14663</code> (<code>CC0603KRX7R9BB104</code>, Basic)</td>
+            </tr>
+            <tr>
+              <td>Input Pull-Down <code>100K</code> (<code>R1</code>, <code>R6</code>, <code>R11</code>)</td>
+              <td><code>Device</code>, <code>R</code></td>
+              <td><code>1</code> (PASSIVE), <code>2</code> (PASSIVE)</td>
+              <td><code>Resistor_SMD:R_0603_1608Metric</code></td>
+              <td><code>C25803</code> (<code>0603WAF1003T5E</code>, Basic)</td>
+            </tr>
+            <tr>
+              <td>Input Series <code>1K</code> (<code>R2</code>, <code>R7</code>, <code>R12</code>)</td>
+              <td><code>Device</code>, <code>R</code></td>
+              <td><code>1</code> (PASSIVE), <code>2</code> (PASSIVE)</td>
+              <td><code>Resistor_SMD:R_0603_1608Metric</code></td>
+              <td><code>C21190</code> (<code>0603WAF1001T5E</code>, Basic)</td>
+            </tr>
+            <tr>
+              <td>Output Series <code>470R</code> (<code>R3</code>–<code>R5</code>, <code>R8</code>–<code>R10</code>, <code>R13</code>–<code>R15</code>)</td>
+              <td><code>Device</code>, <code>R</code></td>
+              <td><code>1</code> (PASSIVE), <code>2</code> (PASSIVE)</td>
+              <td><code>Resistor_SMD:R_0603_1608Metric</code></td>
+              <td><code>C23179</code> (<code>0603WAF4700T5E</code>, Basic)</td>
+            </tr>
+            <tr>
+              <td>Switched 3.5mm Mono Jack (<code>J2</code>–<code>J13</code>)</td>
+              <td><code>Connector_Audio</code>, <code>AudioJack2_SwitchT</code></td>
+              <td><code>S</code> (Sleeve), <code>T</code> (Tip), <code>TN</code> (Switched Tip Normal)</td>
+              <td><code>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</code></td>
+              <td>Manual THT (<code>WQP-PJ398SM</code>, DNP for SMT)</td>
+            </tr>
+            <tr>
+              <td>Bulk Electrolytic Cap <code>10uF</code> (<code>C1</code>, <code>C2</code>)</td>
+              <td><code>Device</code>, <code>C_Polarized</code></td>
+              <td><code>1</code> (<code>+</code>, PASSIVE), <code>2</code> (<code>-</code>, PASSIVE)</td>
+              <td><code>Capacitor_THT:CP_Radial_D5.0mm_P2.00mm</code></td>
+              <td>Manual THT (<code>ECEA1EKS100</code>, DNP for SMT)</td>
+            </tr>
+            <tr>
+              <td>10-Pin Eurorack Power Header (<code>J1</code>)</td>
+              <td><code>Connector_Generic</code>, <code>Conn_02x05_Odd_Even</code></td>
+              <td><code>1, 2</code> (<code>-12V</code>), <code>3..8</code> (<code>GND</code>), <code>9, 10</code> (<code>+12V</code>)</td>
+              <td><code>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical</code></td>
+              <td>Manual THT (DNP for SMT)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Licensed under the <a href="../../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>This is not an official Google product.</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Eurorack Buffered Multiple — Interactive SKiDL &amp; KiCad 10 Tutorial</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/course.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#content" class="skip-link visually-hidden">Skip to main content</a>
+    <div class="header-inner">
+      <a class="brand-title" href="index.html">
+        <span>Buffered Multiple Course</span>
+        <span class="brand-badge">KiCad 10 + SKiDL</span>
+      </a>
+      <nav class="course-nav" aria-label="Course">
+        <a href="index.html" aria-current="page">Index</a>
+        <a href="lessons/0000-environment-and-kicad-bootstrap.html">0000</a>
+        <a href="lessons/0001-programmatic-component-discovery.html">0001</a>
+        <span class="nav-sep" aria-hidden="true">|</span>
+        <a href="reference/skidl-cheatsheet.html">SKiDL Ref</a>
+        <a href="reference/kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="reference/glossary.html">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-main" tabindex="-1">
+    <article>
+      <div class="lesson-kicker">Interactive Hardware-as-Code Course</div>
+      <h1>Building the Eurorack Buffered Multiple in Python with SKiDL</h1>
+      <p class="lead">
+        A hands-on, code-first walkthrough of <a href="../buffered_multiple.py"><code>buffered_multiple.py</code></a>—from programmatic KiCad 10 symbol/footprint discovery and live JLCPCB catalog queries to hierarchical <code>@subcircuit</code> design, cascaded <code>1:3 → 1:6 → 1:9</code> normalling, zero-warning <code>ERC()</code>, and automated SMT BOM generation.
+      </p>
+
+      <figure class="diagram-card">
+        <pre class="mermaid">flowchart LR
+  L0["0000: Environment &amp;<br/>KiCad 10 Bootstrap"] --> L1["0001: Programmatic Part<br/>&amp; JLCPCB Discovery"]
+  L1 --> L2["0002: Eurorack Power<br/>@subcircuit &amp; Protection"]
+  L2 --> L3["0003: Single 1-to-3<br/>Buffered Channel"]
+  L3 --> L4["0004: Cascaded Normalling,<br/>NetClasses &amp; JLCPCB BOM"]</pre>
+        <figcaption>Course progression from environment setup and programmatic component lookup to full fabrication outputs.</figcaption>
+      </figure>
+
+      <h2>Published &amp; Upcoming Lessons</h2>
+      <div class="lesson-grid">
+        <!-- Lesson 0000 -->
+        <div class="lesson-card">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge badge-accent">Lesson 0000</span>
+              <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
+            </div>
+            <h3><a href="lessons/0000-environment-and-kicad-bootstrap.html">Environment, <code>uv</code> &amp; KiCad 10 Bootstrap</a></h3>
+            <p>
+              Set up Python 3.14 with <code>uv</code>, configure pre-import KiCad 10 library and cache variables, and run your first 0-warning <code>ERC()</code> smoke check.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>SKiDL Concept</strong>: Pre-import <code>os.environ</code>, <code>TEMPLATE</code>, <code>POWER</code> drive, <code>ERC()</code></li>
+              <li><strong>Tooling Skill</strong>: <code>uv venv --python 3.14</code>, <code># noqa: E402</code>, post-run <code>ruff</code></li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>./apps/0000-environment-and-kicad-bootstrap</span>
+            <a href="lessons/0000-environment-and-kicad-bootstrap.html">Start →</a>
+          </div>
+        </div>
+
+        <!-- Lesson 0001 -->
+        <div class="lesson-card">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge badge-accent">Lesson 0001</span>
+              <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
+            </div>
+            <h3><a href="lessons/0001-programmatic-component-discovery.html">Side Tour: Programmatic Part, Pinout &amp; Footprint Discovery</a></h3>
+            <p>
+              Query KiCad 10 symbols and pinouts from Python, verify <code>.pretty</code> footprints, search live JLCPCB stock, and persist LCSC numbers in <code>part.fields</code>.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>SKiDL Concept</strong>: <code>search()</code>, <code>show()</code>, <code>u.p[n]</code> vs <code>u["V+"]</code>, <code>part.fields["LCSC"]</code></li>
+              <li><strong>Tooling Skill</strong>: <code>jlcpcb_search.py</code> (Basic vs. Extended feeder status)</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>./apps/0001-programmatic-component-discovery</span>
+            <a href="lessons/0001-programmatic-component-discovery.html">Start →</a>
+          </div>
+        </div>
+
+        <!-- Upcoming Lesson 0002 -->
+        <div class="lesson-card lesson-card-Planned">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge">Lesson 0002 · Next Up</span>
+            </div>
+            <h3>Eurorack Power Supply <code>@subcircuit</code></h3>
+            <p>
+              Build <code>eurorack_power(vcc, vee, gnd)</code> with the 10-pin IDC header, <code>1N5819WS</code> Schottky reverse-polarity protection, and <code>10uF</code> bulk caps.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>SKiDL Concept</strong>: <code>@subcircuit</code> decorator, multi-pin slice <code>j_pwr[3, 4, 5, 6, 7, 8]</code>, <code>d_t(2)</code></li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>Ask in chat to unlock Lesson 0002</span>
+          </div>
+        </div>
+
+        <!-- Upcoming Lesson 0003 -->
+        <div class="lesson-card lesson-card-Planned">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge">Lesson 0003 · Planned</span>
+            </div>
+            <h3>Single 1-to-3 Buffered Channel (<code>TL074H</code>)</h3>
+            <p>
+              Wire <code>buffered_channel_1to3</code>: switched input jack, <code>PESD12VL1BA</code> TVS diode, <code>U1A</code> input buffer, and 3 loop-generated <code>470R</code> output stages with <code>builtins.NC</code>.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>SKiDL Concept</strong>: Series <code>&amp;</code> operator, Python tuple-loop stage wiring, <code>builtins.NC</code></li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>Follows Lesson 0002</span>
+          </div>
+        </div>
+
+        <!-- Upcoming Lesson 0004 -->
+        <div class="lesson-card lesson-card-Planned">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge">Lesson 0004 · Planned</span>
+            </div>
+            <h3>Cascaded Normalling, <code>NetClass</code> &amp; JLCPCB BOM Export</h3>
+            <p>
+              Cascade Channels 1–3 (`1:3 → 1:6 → 1:9`), assign KiCad <code>Power</code> and <code>Signal</code> net classes, and write <code>generate_jlcpcb_bom()</code>.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>SKiDL Concept</strong>: <code>NetClass</code>, <code>generate_netlist()</code>, <code>generate_xml()</code>, SMT CSV grouping</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>Completes buffered_multiple.py</span>
+          </div>
+        </div>
+      </div>
+
+      <h2>Reference Sheets (Printable)</h2>
+      <div class="lesson-grid">
+        <div class="lesson-card">
+          <div>
+            <h3><a href="reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a></h3>
+            <p>Pre-import environment setup, <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>u.p[n]</code> vs <code>u["V+"]</code>, network operators, <code>builtins.NC</code>, and <code>ERC()</code>.</p>
+          </div>
+          <div class="card-footer">
+            <span>./reference/skidl-cheatsheet.html</span>
+            <a href="reference/skidl-cheatsheet.html">Open →</a>
+          </div>
+        </div>
+
+        <div class="lesson-card">
+          <div>
+            <h3><a href="reference/kicad-jlcpcb-lookup.html">KiCad 10 Symbol, Footprint &amp; JLCPCB Lookup Reference</a></h3>
+            <p>Four-step discovery workflow (`search`, `show`, `search_footprints`, `jlcpcb_search.py`) and complete component pinout/LCSC table.</p>
+          </div>
+          <div class="card-footer">
+            <span>./reference/kicad-jlcpcb-lookup.html</span>
+            <a href="reference/kicad-jlcpcb-lookup.html">Open →</a>
+          </div>
+        </div>
+
+        <div class="lesson-card">
+          <div>
+            <h3><a href="reference/glossary.html">SKiDL &amp; Eurorack Hardware Glossary</a></h3>
+            <p>Canonical definitions for <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>part.p[n]</code>, <code>POWER</code> drive, <code>builtins.NC</code>, and switched jack <code>TN</code> contacts.</p>
+          </div>
+          <div class="card-footer">
+            <span>./reference/glossary.html</span>
+            <a href="reference/glossary.html">Open →</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Licensed under the <a href="../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>This is not an official Google product.</span>
+    </div>
+  </footer>
+</body>
+</html>

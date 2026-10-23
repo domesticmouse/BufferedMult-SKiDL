@@ -7,7 +7,7 @@ Architecture:
 - Power Supply:
   - Standard 10-pin (2x5) through-hole Eurorack IDC power header (+/-12V, GND)
   - Reverse-polarity protection via 1N5819 (SS14) Schottky diodes (SMA)
-  - 10uF through-hole radial electrolytic bulk capacitors + 100nF 0805 ceramic decoupling caps per op-amp rail
+  - 10uF through-hole radial electrolytic bulk capacitors + 100nF 0603 ceramic decoupling caps per op-amp rail
 - Channel 1 (1-to-3):
   - Input 1 jack (normalled to GND when unpatched) -> 100k pull-down -> U1A unity-gain input buffer
   - U1A buffered output drives U1B, U1C, U1D unity-gain output buffers -> 470R series protection -> Outputs 1A, 1B, 1C
@@ -55,8 +55,8 @@ from skidl import (
 
 # Footprints (SMD passives & ICs, through-hole Eurorack jacks, power header & bulk caps)
 FP_OPAMP_SOIC14 = "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
-FP_R_0805 = "Resistor_SMD:R_0805_2012Metric"
-FP_C_0805 = "Capacitor_SMD:C_0805_2012Metric"
+FP_R_0603 = "Resistor_SMD:R_0603_1608Metric"
+FP_C_0603 = "Capacitor_SMD:C_0603_1608Metric"
 FP_C_ELEC = "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 FP_DIODE_SMA = "Diode_SMD:D_SMA"
 FP_JACK_EURORACK = (
@@ -65,9 +65,9 @@ FP_JACK_EURORACK = (
 FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
 
 # Verified JLCPCB / LCSC Catalog Part Numbers (SMT assembly only)
-LCSC_C_100NF_0805 = "C49678"  # YAGEO CC0805KRX7R9BB104 (50V X7R, Basic Part)
-LCSC_R_100K_0805 = "C149504"  # UNI-ROYAL 0805W8F1003T5E (100k 1%, Basic Part)
-LCSC_R_470R_0805 = "C17710"  # UNI-ROYAL 0805W8F4700T5E (470R 1%, Basic Part)
+LCSC_C_100NF_0603 = "C14663"  # YAGEO CC0603KRX7R9BB104 (50V X7R, Basic Part)
+LCSC_R_100K_0603 = "C25803"  # UNI-ROYAL 0603WAF1003T5E (100k 1%, Basic Part)
+LCSC_R_470R_0603 = "C23179"  # UNI-ROYAL 0603WAF4700T5E (470R 1%, Basic Part)
 LCSC_D_SS14_SMA = "C2480"  # MDD SS14 / 1N5819 (40V 1A Schottky SMA, Basic Part)
 LCSC_U_TL074H_SOIC14 = (
     "C2878713"  # Texas Instruments TL074HIDR (SOIC-14, Extended Part)
@@ -150,10 +150,10 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     - Units B, C, D: Three independent unity-gain output buffers with 470R series protection
     - Input jack TN pin connects to `norm_in` (GND for CH1, CH1 buffered tap for CH2)
     """
-    r_t = Part("Device", "R", dest=TEMPLATE, footprint=FP_R_0805)
-    c_t = Part("Device", "C", dest=TEMPLATE, footprint=FP_C_0805)
-    c_t.fields["LCSC"] = LCSC_C_100NF_0805
-    c_t.fields["MPN"] = "CC0805KRX7R9BB104"
+    r_t = Part("Device", "R", dest=TEMPLATE, footprint=FP_R_0603)
+    c_t = Part("Device", "C", dest=TEMPLATE, footprint=FP_C_0603)
+    c_t.fields["LCSC"] = LCSC_C_100NF_0603
+    c_t.fields["MPN"] = "CC0603KRX7R9BB104"
     c_t.fields["JLCPCB_Class"] = "Basic"
 
     jack_t = Part(
@@ -194,8 +194,8 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     in_sig += j_in["T"]
 
     r_pd = r_t(value="100K", tag=f"r_pd_ch{ch_num}")
-    r_pd.fields["LCSC"] = LCSC_R_100K_0805
-    r_pd.fields["MPN"] = "0805W8F1003T5E"
+    r_pd.fields["LCSC"] = LCSC_R_100K_0603
+    r_pd.fields["MPN"] = "0603WAF1003T5E"
     r_pd.fields["JLCPCB_Class"] = "Basic"
     in_sig & r_pd & gnd
 
@@ -223,8 +223,8 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
 
         # Series output protection resistor (470R)
         r_out = r_t(value="470R", tag=f"r_out_ch{ch_num}_{suffix}")
-        r_out.fields["LCSC"] = LCSC_R_470R_0805
-        r_out.fields["MPN"] = "0805W8F4700T5E"
+        r_out.fields["LCSC"] = LCSC_R_470R_0603
+        r_out.fields["MPN"] = "0603WAF4700T5E"
         r_out.fields["JLCPCB_Class"] = "Basic"
         op_out & r_out & jack_tip
 

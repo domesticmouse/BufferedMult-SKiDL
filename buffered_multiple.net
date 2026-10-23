@@ -2,84 +2,10 @@
   (version "D")
   (design
     (source "buffered_multiple.py")
-    (date "10/21/2026 08:16 PM")
+    (date "10/24/2026 06:28 AM")
     (tool "SKiDL (3.0.0)")
     (sheet
       (number 1)
-      (name "/pwr/")
-      (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
-      (title_block
-        (title)
-        (company)
-        (rev)
-        (date)
-        (source "buffered_multiple.py")
-        (comment
-          (number "1")
-          (value ""))
-        (comment
-          (number "2")
-          (value ""))
-        (comment
-          (number "3")
-          (value ""))
-        (comment
-          (number "4")
-          (value ""))
-        (comment
-          (number "5")
-          (value ""))
-        (comment
-          (number "6")
-          (value ""))
-        (comment
-          (number "7")
-          (value ""))
-        (comment
-          (number "8")
-          (value ""))
-        (comment
-          (number "9")
-          (value ""))))
-    (sheet
-      (number 2)
-      (name "/ch2/")
-      (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
-      (title_block
-        (title)
-        (company)
-        (rev)
-        (date)
-        (source "buffered_multiple.py")
-        (comment
-          (number "1")
-          (value ""))
-        (comment
-          (number "2")
-          (value ""))
-        (comment
-          (number "3")
-          (value ""))
-        (comment
-          (number "4")
-          (value ""))
-        (comment
-          (number "5")
-          (value ""))
-        (comment
-          (number "6")
-          (value ""))
-        (comment
-          (number "7")
-          (value ""))
-        (comment
-          (number "8")
-          (value ""))
-        (comment
-          (number "9")
-          (value ""))))
-    (sheet
-      (number 3)
       (name "/")
       (tstamps "/")
       (title_block
@@ -116,9 +42,83 @@
           (number "9")
           (value ""))))
     (sheet
-      (number 4)
+      (number 2)
       (name "/ch1/")
       (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "buffered_multiple.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 3)
+      (name "/pwr/")
+      (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "buffered_multiple.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 4)
+      (name "/ch2/")
+      (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
       (title_block
         (title)
         (company)
@@ -213,18 +213,18 @@
       (ref "C3")
       (value "100nF")
       (description "Unpolarized capacitor")
-      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C49678")
+          (name "LCSC") "C14663")
         (field
-          (name "MPN") "CC0805KRX7R9BB104")
+          (name "MPN") "CC0603KRX7R9BB104")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Unpolarized capacitor")
         (field
-          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -243,18 +243,18 @@
       (ref "C4")
       (value "100nF")
       (description "Unpolarized capacitor")
-      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C49678")
+          (name "LCSC") "C14663")
         (field
-          (name "MPN") "CC0805KRX7R9BB104")
+          (name "MPN") "CC0603KRX7R9BB104")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Unpolarized capacitor")
         (field
-          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -273,18 +273,18 @@
       (ref "C5")
       (value "100nF")
       (description "Unpolarized capacitor")
-      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C49678")
+          (name "LCSC") "C14663")
         (field
-          (name "MPN") "CC0805KRX7R9BB104")
+          (name "MPN") "CC0603KRX7R9BB104")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Unpolarized capacitor")
         (field
-          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -303,18 +303,18 @@
       (ref "C6")
       (value "100nF")
       (description "Unpolarized capacitor")
-      (footprint "Capacitor_SMD:C_0805_2012Metric")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C49678")
+          (name "LCSC") "C14663")
         (field
-          (name "MPN") "CC0805KRX7R9BB104")
+          (name "MPN") "CC0603KRX7R9BB104")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Unpolarized capacitor")
         (field
-          (name "Footprint") "Capacitor_SMD:C_0805_2012Metric")
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -643,18 +643,18 @@
       (ref "R1")
       (value "100K")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C149504")
+          (name "LCSC") "C25803")
         (field
-          (name "MPN") "0805W8F1003T5E")
+          (name "MPN") "0603WAF1003T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -673,18 +673,18 @@
       (ref "R2")
       (value "470R")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C17710")
+          (name "LCSC") "C23179")
         (field
-          (name "MPN") "0805W8F4700T5E")
+          (name "MPN") "0603WAF4700T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -703,18 +703,18 @@
       (ref "R3")
       (value "470R")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C17710")
+          (name "LCSC") "C23179")
         (field
-          (name "MPN") "0805W8F4700T5E")
+          (name "MPN") "0603WAF4700T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -733,18 +733,18 @@
       (ref "R4")
       (value "470R")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C17710")
+          (name "LCSC") "C23179")
         (field
-          (name "MPN") "0805W8F4700T5E")
+          (name "MPN") "0603WAF4700T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -763,18 +763,18 @@
       (ref "R5")
       (value "100K")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C149504")
+          (name "LCSC") "C25803")
         (field
-          (name "MPN") "0805W8F1003T5E")
+          (name "MPN") "0603WAF1003T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -793,18 +793,18 @@
       (ref "R6")
       (value "470R")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C17710")
+          (name "LCSC") "C23179")
         (field
-          (name "MPN") "0805W8F4700T5E")
+          (name "MPN") "0603WAF4700T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -823,18 +823,18 @@
       (ref "R7")
       (value "470R")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C17710")
+          (name "LCSC") "C23179")
         (field
-          (name "MPN") "0805W8F4700T5E")
+          (name "MPN") "0603WAF4700T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field
@@ -853,18 +853,18 @@
       (ref "R8")
       (value "470R")
       (description "Resistor")
-      (footprint "Resistor_SMD:R_0805_2012Metric")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
         (field
-          (name "LCSC") "C17710")
+          (name "LCSC") "C23179")
         (field
-          (name "MPN") "0805W8F4700T5E")
+          (name "MPN") "0603WAF4700T5E")
         (field
           (name "JLCPCB_Class") "Basic")
         (field
           (name "Description") "Resistor")
         (field
-          (name "Footprint") "Resistor_SMD:R_0805_2012Metric")
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
         (field
           (name "Datasheet"))
         (field

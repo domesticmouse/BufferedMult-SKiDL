@@ -15,12 +15,12 @@ This project is a SKiDL re-implementation of [domesticmouse/Buffered-Mult](https
   - **Channel 2**: 1 input (`IN_2`) driving 3 individually buffered outputs (`OUT_2A`, `OUT_2B`, `OUT_2C`). When `IN_2` is unpatched, its normalled switch contact (`TN`) receives the buffered signal from Channel 1 (`CH1_BUF`), turning the module into a **1-to-6 buffered multiple** with zero loading droop between channels. Patching a cable into `IN_2` breaks the normal connection for independent dual 1-to-3 operation.
 - **Dedicated Input & Output Buffering**:
   - Each channel uses one quad `TL074H` (`TL074HIDR`) op-amp (`SOIC-14`):
-    - **Stage A**: Unity-gain input follower with a `100K` input pull-down resistor (`0805`).
-    - **Stages B, C, D**: Three independent unity-gain output followers, each isolated with a `470R` series output protection resistor (`0805`).
+    - **Stage A**: Unity-gain input follower with a `100K` input pull-down resistor (`0603`).
+    - **Stages B, C, D**: Three independent unity-gain output followers, each isolated with a `470R` series output protection resistor (`0603`).
 - **Eurorack Power Supply Protection**:
   - Standard 10-pin (`2x5`) through-hole shrouded IDC power header (`±12V`, `GND`).
   - Reverse-polarity protection via `1N5819` (`SS14`) Schottky diodes (`SMA`).
-  - `10uF` radial through-hole electrolytic bulk bypass capacitors per rail plus `100nF` (`0805`) local ceramic decoupling capacitors at each op-amp's `V+` and `V-` pins.
+  - `10uF` radial through-hole electrolytic bulk bypass capacitors per rail plus `100nF` (`0603`) local ceramic decoupling capacitors at each op-amp's `V+` and `V-` pins.
 
 ### Signal Flow
 
@@ -55,9 +55,9 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 | :--- | --: | :--- | :--- | :--- | :--- | :--- |
 | `U1`, `U2` | 2 | `TL074H` (`TL074HIDR`) | `Package_SO:SOIC-14_3.9x8.7mm_P1.27mm` | `Amplifier_Operational:TL074` | `C2878713` | **SMT (`B.Cu`, Extended)** — Quad Low-Noise High-Voltage Op-Amp |
 | `D1`, `D2` | 2 | `1N5819` / `SS14` | `Diode_SMD:D_SMA` | `Device:D_Schottky` | `C2480` | **SMT (`B.Cu`, Basic)** — Schottky Reverse-Polarity Protection Diode |
-| `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0805_2012Metric` | `Device:C` | `C49678` | **SMT (`B.Cu`, Basic)** — Ceramic Decoupling Capacitor (`CC0805KRX7R9BB104`) |
-| `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0805_2012Metric` | `Device:R` | `C149504` | **SMT (`B.Cu`, Basic)** — Input Pull-Down Resistor (`0805W8F1003T5E`) |
-| `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0805_2012Metric` | `Device:R` | `C17710` | **SMT (`B.Cu`, Basic)** — Output Series Protection Resistor (`0805W8F4700T5E`) |
+| `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0603_1608Metric` | `Device:C` | `C14663` | **SMT (`B.Cu`, Basic)** — Ceramic Decoupling Capacitor (`CC0603KRX7R9BB104`) |
+| `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C25803` | **SMT (`B.Cu`, Basic)** — Input Pull-Down Resistor (`0603WAF1003T5E`) |
+| `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C23179` | **SMT (`B.Cu`, Basic)** — Output Series Protection Resistor (`0603WAF4700T5E`) |
 | `J2`–`J9` | 8 | `WQP-PJ398SM` | `Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles` | `Connector_Audio:AudioJack2_SwitchT` | — | **THT (`F.Cu`, Hand-Soldered)** — 3.5mm Mono Switched Eurorack Jack (Thonkiconn) |
 | `C1`, `C2` | 2 | `10uF` (`25V`) | `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | `Device:C_Polarized` | `C713347` | **THT (`F.Cu`, Hand-Soldered)** — Radial Electrolytic Bulk Cap (`ECEA1EKS100`) |
 | `J1` | 1 | `EURORACK_PWR_10PIN` | `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical` | `Connector_Generic:Conn_02x05_Odd_Even` | — | **THT (`B.Cu`, Hand-Soldered)** — 10-Pin (`2x5`) Shrouded Eurorack Power Header |

@@ -1,37 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90.000mm" height="104.900mm" viewBox="0 0 90.000 104.900">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90.000mm" height="94.740mm" viewBox="0 0 90.000 94.740">
 <style>
   text { font-family: "DejaVu Sans", Verdana, Arial, sans-serif; }
   a { cursor: pointer; }
   g.sheet:hover rect { stroke-width: 0.6; }
 </style>
-<rect width="90.000" height="104.900" style="fill:#FFFFFF" />
+<rect width="90.000" height="94.740" style="fill:#FFFFFF" />
 <g class="frame">
-<rect x="5.0" y="5.000" width="80.000" height="94.900" style="stroke:#840000; stroke-width:0.3; fill:none" />
-<rect x="5.000" y="79.900" width="80.0" height="20.0" style="stroke:#840000; stroke-width:0.3; fill:none" />
-<text x="7.000" y="85.900" style="font-size:3.5px; fill:#840000">SKiDL-Generated Schematic</text>
-<text x="7.000" y="91.900" style="font-size:2.5px; fill:#840000">Sheet: /</text>
-<text x="7.000" y="96.900" style="font-size:2.5px; fill:#840000">File: buffered_multiple.svg</text>
+<rect x="5.0" y="5.000" width="80.000" height="84.740" style="stroke:#840000; stroke-width:0.3; fill:none" />
+<rect x="5.000" y="69.740" width="80.0" height="20.0" style="stroke:#840000; stroke-width:0.3; fill:none" />
+<text x="7.000" y="75.740" style="font-size:3.5px; fill:#840000">SKiDL-Generated Schematic</text>
+<text x="7.000" y="81.740" style="font-size:2.5px; fill:#840000">Sheet: /</text>
+<text x="7.000" y="86.740" style="font-size:2.5px; fill:#840000">File: buffered_multiple.svg</text>
 </g>
-<g transform="translate(-103.595 -65.660)">
+<g transform="translate(-102.960 -70.740)">
 <a href="buffered_multiple_pwr.svg" target="_top">
 <g class="sheet">
-<rect x="138.180" y="73.660" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
-<text x="138.180" y="72.660" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">pwr</text>
-<text x="138.180" y="93.840" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_pwr.svg</text>
+<rect x="149.610" y="114.300" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
+<text x="149.610" y="113.300" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">pwr</text>
+<text x="149.610" y="134.480" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_pwr.svg</text>
 </g>
 </a>
 <a href="buffered_multiple_ch1.svg" target="_top">
 <g class="sheet">
-<rect x="138.180" y="119.380" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
-<text x="138.180" y="118.380" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch1</text>
-<text x="138.180" y="139.560" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch1.svg</text>
+<rect x="124.210" y="78.740" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
+<text x="124.210" y="77.740" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch1</text>
+<text x="124.210" y="98.920" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch1.svg</text>
 </g>
 </a>
 <a href="buffered_multiple_ch2.svg" target="_top">
 <g class="sheet">
-<rect x="138.180" y="96.520" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
-<text x="138.180" y="95.520" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch2</text>
-<text x="138.180" y="116.700" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch2.svg</text>
+<rect x="150.880" y="91.440" width="20.830" height="17.780" style="stroke:#840084; stroke-width:0.3; fill:#FFFFFF" />
+<text x="150.880" y="90.440" style="font-size:2.0px; fill:#840084; font-weight:bold" text-anchor="start">ch2</text>
+<text x="150.880" y="111.620" style="font-size:1.4px; fill:#840084" text-anchor="start">buffered_multiple_ch2.svg</text>
 </g>
 </a>
 </g>

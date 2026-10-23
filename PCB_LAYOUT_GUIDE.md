@@ -14,9 +14,9 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 | :--- | --: | :--- | :--- | :--- | :--- | :--- |
 | `U1`, `U2` | 2 | `TL074H` (`TL074HIDR`) | `Package_SO:SOIC-14_3.9x8.7mm_P1.27mm` | `C2878713` | Extended | Ch 1 & Ch 2 Quad Op-Amps |
 | `D1`, `D2` | 2 | `1N5819` (`SS14`) | `Diode_SMD:D_SMA` | `C2480` | Basic | `+12V` / `-12V` Reverse-Polarity Protection |
-| `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0805_2012Metric` | `C49678` | Basic | Local Op-Amp Rail Decoupling (`U1`, `U2`) |
-| `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0805_2012Metric` | `C149504` | Basic | Ch 1 & Ch 2 Input Pull-Down Resistors |
-| `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0805_2012Metric` | `C17710` | Basic | Output Series Protection Resistors |
+| `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0603_1608Metric` | `C14663` | Basic | Local Op-Amp Rail Decoupling (`U1`, `U2`) |
+| `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C25803` | Basic | Ch 1 & Ch 2 Input Pull-Down Resistors |
+| `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C23179` | Basic | Output Series Protection Resistors |
 
 ### Through-Hole (THT) Components — Hand-Soldered (Excluded from SMT BOM)
 

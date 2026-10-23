@@ -9,12 +9,12 @@ Architecture:
   - Reverse-polarity protection via 1N5819 / B5819W Schottky diodes (SOD-123; alt: 1N5819WS in SOD-323 if space is tight)
   - 10uF through-hole radial electrolytic bulk capacitors + 100nF 0603 ceramic decoupling caps per op-amp rail
 - Channel 1 (1-to-3):
-  - Input 1 jack (normalled to GND when unpatched) -> 100k pull-down -> U1A unity-gain input buffer
+  - Input 1 jack (normalled to GND when unpatched) -> PESD12VL1BA bidirectional TVS diode + 100k pull-down -> 1k series input protection resistor -> U1A unity-gain input buffer
   - U1A buffered output drives U1B, U1C, U1D unity-gain output buffers -> 470R series protection -> Outputs 1A, 1B, 1C
   - U1A buffered output also normalizes to Channel 2 Input jack's switched tip (TN)
 - Channel 2 (1-to-3, or outputs 4-6 when Input 2 is unpatched):
   - Input 2 jack (TN normalled to Channel 1 buffered signal; broken when a cable is patched into Input 2)
-  - 100k pull-down -> U2A unity-gain input buffer
+  - PESD12VL1BA bidirectional TVS diode + 100k pull-down -> 1k series input protection resistor -> U2A unity-gain input buffer
   - U2A buffered output drives U2B, U2C, U2D unity-gain output buffers -> 470R series protection -> Outputs 2A, 2B, 2C
 """
 
@@ -60,6 +60,7 @@ FP_C_ELEC = "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
 FP_DIODE_SOD123 = (
     "Diode_SMD:D_SOD-123"  # Alt if space gets tight: "Diode_SMD:D_SOD-323"
 )
+FP_DIODE_SOD323 = "Diode_SMD:D_SOD-323"
 FP_JACK_EURORACK = (
     "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
 )
@@ -68,8 +69,10 @@ FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
 # Verified JLCPCB / LCSC Catalog Part Numbers (SMT assembly only)
 LCSC_C_100NF_0603 = "C14663"  # YAGEO CC0603KRX7R9BB104 (50V X7R, Basic Part)
 LCSC_R_100K_0603 = "C25803"  # UNI-ROYAL 0603WAF1003T5E (100k 1%, Basic Part)
+LCSC_R_1K_0603 = "C21190"  # UNI-ROYAL 0603WAF1001T5E (1k 1%, Basic Part)
 LCSC_R_470R_0603 = "C23179"  # UNI-ROYAL 0603WAF4700T5E (470R 1%, Basic Part)
 LCSC_D_B5819W_SOD123 = "C8598"  # CJ B5819W / 1N5819 (40V 1A Schottky SOD-123, Basic Part; Alt SOD-323: 1N5819WS / C191023)
+LCSC_D_TVS_PESD12VL1BA_SOD323 = "C38558"  # Nexperia PESD12VL1BA,115 (12V Bidirectional TVS SOD-323, Extended Part; Alt 15V: PESD15VL1BA,115 / C85378)
 LCSC_U_TL074H_SOIC14 = (
     "C2878713"  # Texas Instruments TL074HIDR (SOIC-14, Extended Part)
 )
@@ -189,19 +192,41 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
     vcc & c_dec_pos & gnd
     gnd & c_dec_neg & vee
 
-    # Input jack & 100k input pull-down resistor
+    # Input jack, bidirectional TVS ESD diode, 100k input pull-down, and 1k series input protection resistor
     j_in = jack_t(value=f"IN_{ch_num}", tag=f"j_in_ch{ch_num}")
+    in_jack = Net(f"CH{ch_num}_JACK_IN")
     in_sig = Net(f"CH{ch_num}_IN")
 
     gnd += j_in["S"]
     norm_in += j_in["TN"]
-    in_sig += j_in["T"]
+    in_jack += j_in["T"]
+
+    d_tvs = Part(
+        "Device",
+        "D_TVS",
+        value="PESD12VL1BA",
+        footprint=FP_DIODE_SOD323,
+        tag=f"d_tvs_ch{ch_num}",
+    )
+    d_tvs.fields["LCSC"] = LCSC_D_TVS_PESD12VL1BA_SOD323
+    d_tvs.fields["MPN"] = "PESD12VL1BA,115"
+    d_tvs.fields["JLCPCB_Class"] = "Extended"
+    d_tvs.fields["Notes"] = (
+        "12V bidirectional low-capacitance (19pF, <50nA) ESD/TVS diode; Alt 15V: PESD15VL1BA,115 (LCSC C85378) or Basic SOD-123FL: SMF12CA (LCSC C19077508)"
+    )
+    in_jack & d_tvs & gnd
 
     r_pd = r_t(value="100K", tag=f"r_pd_ch{ch_num}")
     r_pd.fields["LCSC"] = LCSC_R_100K_0603
     r_pd.fields["MPN"] = "0603WAF1003T5E"
     r_pd.fields["JLCPCB_Class"] = "Basic"
-    in_sig & r_pd & gnd
+    in_jack & r_pd & gnd
+
+    r_in = r_t(value="1K", tag=f"r_in_ch{ch_num}")
+    r_in.fields["LCSC"] = LCSC_R_1K_0603
+    r_in.fields["MPN"] = "0603WAF1001T5E"
+    r_in.fields["JLCPCB_Class"] = "Basic"
+    in_jack & r_in & in_sig
 
     # Stage A (Pins: + = 3, - = 2, Out = 1): Unity-gain input buffer
     in_sig += u.p[3]

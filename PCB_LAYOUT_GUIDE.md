@@ -14,9 +14,11 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 | :--- | --: | :--- | :--- | :--- | :--- | :--- |
 | `U1`, `U2` | 2 | `TL074H` (`TL074HIDR`) | `Package_SO:SOIC-14_3.9x8.7mm_P1.27mm` | `C2878713` | Extended | Ch 1 & Ch 2 Quad Op-Amps |
 | `D1`, `D2` | 2 | `1N5819` (`B5819W`) | `Diode_SMD:D_SOD-123` | `C8598` | Basic | `+12V` / `-12V` Reverse-Polarity Protection *(Alt: `1N5819WS` in `Diode_SMD:D_SOD-323`, LCSC `C191023`)* |
+| `D3`, `D4` | 2 | `PESD12VL1BA` (`PESD12VL1BA,115`) | `Diode_SMD:D_SOD-323` | `C38558` | Extended | Ch 1 & Ch 2 Input 12V Bidirectional ESD/TVS Protection |
 | `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0603_1608Metric` | `C14663` | Basic | Local Op-Amp Rail Decoupling (`U1`, `U2`) |
-| `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C25803` | Basic | Ch 1 & Ch 2 Input Pull-Down Resistors |
-| `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C23179` | Basic | Output Series Protection Resistors |
+| `R1`, `R6` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C25803` | Basic | Ch 1 & Ch 2 Input Pull-Down Resistors |
+| `R2`, `R7` | 2 | `1K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C21190` | Basic | Ch 1 & Ch 2 Input Series Overvoltage / ESD Current-Limiting Resistors |
+| `R3`–`R5`, `R8`–`R10` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `C23179` | Basic | Output Series Protection Resistors |
 
 ### Through-Hole (THT) Components — Hand-Soldered (Excluded from SMT BOM)
 
@@ -59,16 +61,16 @@ Keep **`F.Cu`** free of SMD parts so all factory-assembled SMT components sit on
 1. **Eurorack Jacks (`J2`–`J9`)**:
    - Place the 8 Thonkiconn jacks (`J2`–`J9`) on **`F.Cu`** in a vertical column centered along the X-axis (`X = 4.8 mm` for a `9.6 mm` wide 2HP board) at a **`12.7 mm` (`0.5"`)** or **`13.0 mm`** vertical pitch:
 
-| Order (Top → Bottom) | Ref | Label / Value | Channel & Function | Associated Passive on `B.Cu` |
+| Order (Top → Bottom) | Ref | Label / Value | Channel & Function | Associated Passive / Protection on `B.Cu` |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | `J2` | `IN_1` | Ch 1 Input (`TN` normalled to `GND`) | `R1` (`100K` pull-down to `GND`) |
-| 2 | `J3` | `OUT_1A` | Ch 1 Buffered Output A (`U1B`) | `R2` (`470R` from `U1` pin 7) |
-| 3 | `J4` | `OUT_1B` | Ch 1 Buffered Output B (`U1C`) | `R3` (`470R` from `U1` pin 8) |
-| 4 | `J5` | `OUT_1C` | Ch 1 Buffered Output C (`U1D`) | `R4` (`470R` from `U1` pin 14) |
-| 5 | `J6` | `IN_2` | Ch 2 Input (`TN` normalled to `CH1_BUF`) | `R5` (`100K` pull-down to `GND`) |
-| 6 | `J7` | `OUT_2A` | Ch 2 Buffered Output A (`U2B`) | `R6` (`470R` from `U2` pin 7) |
-| 7 | `J8` | `OUT_2B` | Ch 2 Buffered Output B (`U2C`) | `R7` (`470R` from `U2` pin 8) |
-| 8 | `J9` | `OUT_2C` | Ch 2 Buffered Output C (`U2D`) | `R8` (`470R` from `U2` pin 14) |
+| 1 | `J2` | `IN_1` | Ch 1 Input (`TN` normalled to `GND`) | `D3` (`PESD12VL1BA` TVS), `R1` (`100K` pull-down), `R2` (`1K` series to `U1` pin 3) |
+| 2 | `J3` | `OUT_1A` | Ch 1 Buffered Output A (`U1B`) | `R3` (`470R` from `U1` pin 7) |
+| 3 | `J4` | `OUT_1B` | Ch 1 Buffered Output B (`U1C`) | `R4` (`470R` from `U1` pin 8) |
+| 4 | `J5` | `OUT_1C` | Ch 1 Buffered Output C (`U1D`) | `R5` (`470R` from `U1` pin 14) |
+| 5 | `J6` | `IN_2` | Ch 2 Input (`TN` normalled to `CH1_BUF`) | `D4` (`PESD12VL1BA` TVS), `R6` (`100K` pull-down), `R7` (`1K` series to `U2` pin 3) |
+| 6 | `J7` | `OUT_2A` | Ch 2 Buffered Output A (`U2B`) | `R8` (`470R` from `U2` pin 7) |
+| 7 | `J8` | `OUT_2B` | Ch 2 Buffered Output B (`U2C`) | `R9` (`470R` from `U2` pin 8) |
+| 8 | `J9` | `OUT_2C` | Ch 2 Buffered Output C (`U2D`) | `R10` (`470R` from `U2` pin 14) |
 
 2. **Radial Bulk Electrolytic Capacitors (`C1`, `C2` on `F.Cu`)**:
    - Keep **`C1`** and **`C2`** (`10uF`, `ECEA1EKS100`, `CP_Radial_D5.0mm_P2.00mm`) on **`F.Cu`** so they sit in the `~10.5 mm` space between the PCB and the front panel created by the Thonkiconn jacks (`ECEA1EKS100` is only `7 mm` tall, so it clears the back of the panel easily).
@@ -80,17 +82,18 @@ Keep **`F.Cu`** free of SMD parts so all factory-assembled SMT components sit on
 
 Press **`F`** while hovering over or selecting the following footprints to flip them onto the back layer (`B.Cu`):
 
-1. **All 16 SMD Parts (`U1`, `U2`, `D1`, `D2`, `C3`–`C6`, `R1`–`R8`)**:
+1. **All 20 SMD Parts (`U1`, `U2`, `D1`–`D4`, `C3`–`C6`, `R1`–`R10`)**:
    - **Channel 1 Op-Amp (`U1`) & Decoupling (`C3`, `C4`)**:
      - Flip `U1` (`TL074`) to `B.Cu` and place it in the open area between `J3` and `J4`'s through-hole pins.
      - Place `C3` (`100nF`) immediately adjacent to `U1` pin 4 (`+12V`) and `C4` (`100nF`) immediately adjacent to `U1` pin 11 (`-12V`).
    - **Channel 2 Op-Amp (`U2`) & Decoupling (`C5`, `C6`)**:
      - Flip `U2` (`TL074`) to `B.Cu` and place it between `J7` and `J8`'s through-hole pins.
      - Place `C5` (`100nF`) immediately adjacent to `U2` pin 4 (`+12V`) and `C6` (`100nF`) immediately adjacent to `U2` pin 11 (`-12V`).
-   - **Input & Output Resistors (`R1`–`R8`)**:
-     - Place `R1` (`100K`) next to `J2` (`IN_1`) tip pin (`T`) and `R5` (`100K`) next to `J6` (`IN_2`) tip pin (`T`).
-     - Place `R2`, `R3`, `R4` (`470R`) directly inline between `U1` output pins (`7`, `8`, `14`) and the tip pins (`T`) of `J3`, `J4`, `J5`.
-     - Place `R6`, `R7`, `R8` (`470R`) directly inline between `U2` output pins (`7`, `8`, `14`) and the tip pins (`T`) of `J7`, `J8`, `J9`.
+   - **Input Protection & Output Resistors (`D3`, `D4`, `R1`–`R10`)**:
+     - Place `D3` (`PESD12VL1BA` in `SOD-323`) and `R1` (`100K`) right next to `J2` (`IN_1`) tip pin (`T`) to `GND`, and route through `R2` (`1K`) into `U1` pin `3`.
+     - Place `D4` (`PESD12VL1BA` in `SOD-323`) and `R6` (`100K`) right next to `J6` (`IN_2`) tip pin (`T`) to `GND`, and route through `R7` (`1K`) into `U2` pin `3`.
+     - Place `R3`, `R4`, `R5` (`470R`) directly inline between `U1` output pins (`7`, `8`, `14`) and the tip pins (`T`) of `J3`, `J4`, `J5`.
+     - Place `R8`, `R9`, `R10` (`470R`) directly inline between `U2` output pins (`7`, `8`, `14`) and the tip pins (`T`) of `J7`, `J8`, `J9`.
 2. **Rear Through-Hole Power Header (`J1`)**:
    - Flip **`J1`** (`IDC-Header_2x05_P2.54mm_Vertical`) onto **`B.Cu`** so the shrouded header protrudes out the **back** of the module (away from the front panel) and its leads are soldered on `F.Cu`.
    - Place `J1` in an open gap between jack rows (typically between `J4` and `J6`, or near the bottom of the board), making sure its through-hole pins clear the bodies of the front-side jacks and bulk capacitors (`C1`, `C2`) on `F.Cu`.
@@ -106,7 +109,7 @@ Press **`F`** while hovering over or selecting the following footprints to flip 
    - **`Power`** (`+12V`, `-12V`, `GND`, `+12V_RAW`, `-12V_RAW`):
      - Track Width: **`0.50 mm`**
      - Clearance: **`0.25 mm`**
-   - **`Signal`** (`CH1_IN`, `CH1_BUF`, `CH1_OP_A..C`, `CH1_OUT_A..C`, `CH2_IN`, `CH2_BUF`, `CH2_OP_A..C`, `CH2_OUT_A..C`):
+   - **`Signal`** (`CH1_JACK_IN`, `CH1_IN`, `CH1_BUF`, `CH1_OP_A..C`, `CH1_OUT_A..C`, `CH2_JACK_IN`, `CH2_IN`, `CH2_BUF`, `CH2_OP_A..C`, `CH2_OUT_A..C`):
      - Track Width: **`0.25 mm`**
      - Clearance: **`0.20 mm`**
 
@@ -116,7 +119,7 @@ Press **`F`** while hovering over or selecting the following footprints to flip 
 
 ### 1. Create `GND` Copper Zones (`Ctrl+Shift+Z` / `Cmd+Shift+Z`)
 - Draw a filled copper zone assigned to **`GND`** on both **`F.Cu`** and **`B.Cu`** covering the board outline.
-- Because all jack sleeve pins (`S`), `J2`'s normalled switch contact (`TN`), `J1` pins `3`–`8`, bulk capacitors `C1` (pin 2) & `C2` (pin 1), decoupling capacitors `C3`–`C6`, and pull-down resistors `R1` & `R5` connect to `GND`, the copper pours will connect them with low-impedance return paths automatically.
+- Because all jack sleeve pins (`S`), `J2`'s normalled switch contact (`TN`), `J1` pins `3`–`8`, bulk capacitors `C1` (pin 2) & `C2` (pin 1), decoupling capacitors `C3`–`C6`, TVS diodes `D3` & `D4`, and pull-down resistors `R1` & `R6` connect to `GND`, the copper pours will connect them with low-impedance return paths automatically.
 
 ### 2. Route Signal & Power Tracks (`X` Key)
 - **Op-Amp Unity-Gain Feedback Loops** (on `U1` and `U2` on `B.Cu`):
@@ -129,9 +132,10 @@ Press **`F`** while hovering over or selecting the following footprints to flip 
   - Route **`CH1_BUF`** from `U1` pins `1`/`2` to `U1` non-inverting input pins `5`, `10`, and `12`, and extend it down to **`J6` (`IN_2`) pin `TN`** (this normalizes Channel 1's buffered signal into Channel 2 when `IN_2` is unpatched).
   - Route **`CH2_BUF`** from `U2` pins `1`/`2` to `U2` non-inverting input pins `5`, `10`, and `12`.
 - **Input & Output Paths**:
-  - Route `J2` pin `T` through `R1` pad to `U1` pin `3`, and `J6` pin `T` through `R5` pad to `U2` pin `3`.
-  - Route `U1` pins `7`, `8`, `14` through `R2`, `R3`, `R4` to `J3`, `J4`, `J5` tip (`T`) pins.
-  - Route `U2` pins `7`, `8`, `14` through `R6`, `R7`, `R8` to `J7`, `J8`, `J9` tip (`T`) pins.
+  - Route `J2` pin `T` (`CH1_JACK_IN`) directly to `D3` (`PESD12VL1BA`), `R1` (`100K`), and `R2` (`1K`), then from `R2` (`CH1_IN`) to `U1` pin `3`.
+  - Route `J6` pin `T` (`CH2_JACK_IN`) directly to `D4` (`PESD12VL1BA`), `R6` (`100K`), and `R7` (`1K`), then from `R7` (`CH2_IN`) to `U2` pin `3`.
+  - Route `U1` pins `7`, `8`, `14` through `R3`, `R4`, `R5` to `J3`, `J4`, `J5` tip (`T`) pins.
+  - Route `U2` pins `7`, `8`, `14` through `R8`, `R9`, `R10` to `J7`, `J8`, `J9` tip (`T`) pins.
 - **Power Distribution (`+12V` & `-12V`)**:
   - Route `0.50 mm` traces from `J1` pins `9, 10` (`+12V_RAW`) -> `D1` Anode -> `D1` Cathode (`+12V`) -> `C1` pin `1` -> `C3`/`C5` -> `U1`/`U2` pin `4`.
   - Route `0.50 mm` traces from `J1` pins `1, 2` (`-12V_RAW`) -> `D2` Cathode -> `D2` Anode (`-12V`) -> `C2` pin `2` -> `C4`/`C6` -> `U1`/`U2` pin `11`.
@@ -153,9 +157,9 @@ Press **`F`** while hovering over or selecting the following footprints to flip 
    - Click **Generate Drill Files...** -> **Generate Drill File** (Excellon format, PTH and NPTH merged or separate per fab preference).
 3. **Export Component Placement (CPL / POS) for JLCPCB SMT**:
    - Go to **`File -> Fabrication Outputs -> Component Placement (.pos)...`**.
-   - Select **CSV**, **Millimeters**, and **Single file for board** (or **Back side only** since all 16 SMT parts are on `B.Cu`).
+   - Select **CSV**, **Millimeters**, and **Single file for board** (or **Back side only** since all 20 SMT parts are on `B.Cu`).
 4. **Upload to JLCPCB**:
    - Upload the zipped Gerbers + Drill files.
    - Enable **PCB Assembly (Bottom Side)**.
-   - Upload [`buffered_multiple_jlcpcb_bom.csv`](buffered_multiple_jlcpcb_bom.csv) (which includes only the 16 SMT components with verified LCSC part numbers and automatically excludes the hand-soldered THT jacks `J2`–`J9`, power header `J1`, and radial bulk caps `C1`–`C2`).
+   - Upload [`buffered_multiple_jlcpcb_bom.csv`](buffered_multiple_jlcpcb_bom.csv) (which includes only the 20 SMT components with verified LCSC part numbers and automatically excludes the hand-soldered THT jacks `J2`–`J9`, power header `J1`, and radial bulk caps `C1`–`C2`).
    - Upload the `.pos` placement file and verify the diode (`D1`, `D2`) cathode bands and op-amp (`U1`, `U2`) pin-1 orientations in the 2D/3D preview.

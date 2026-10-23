@@ -15,7 +15,7 @@ This project is a SKiDL re-implementation of [domesticmouse/Buffered-Mult](https
   - **Channel 2**: 1 input (`IN_2`) driving 3 individually buffered outputs (`OUT_2A`, `OUT_2B`, `OUT_2C`). When `IN_2` is unpatched, its normalled switch contact (`TN`) receives the buffered signal from Channel 1 (`CH1_BUF`), turning the module into a **1-to-6 buffered multiple** with zero loading droop between channels. Patching a cable into `IN_2` breaks the normal connection for independent dual 1-to-3 operation.
 - **Dedicated Input & Output Buffering**:
   - Each channel uses one quad `TL074H` (`TL074HIDR`) op-amp (`SOIC-14`):
-    - **Stage A**: Unity-gain input follower with a `100K` input pull-down resistor (`0603`).
+    - **Stage A**: Unity-gain input follower protected by a `PESD12VL1BA` (`SOD-323`) bidirectional 12V TVS/ESD diode, a `100K` input pull-down resistor (`0603`), and a `1K` series input current-limiting resistor (`0603`).
     - **Stages B, C, D**: Three independent unity-gain output followers, each isolated with a `470R` series output protection resistor (`0603`).
 - **Eurorack Power Supply Protection**:
   - Standard 10-pin (`2x5`) through-hole shrouded IDC power header (`±12V`, `GND`).
@@ -27,16 +27,16 @@ This project is a SKiDL re-implementation of [domesticmouse/Buffered-Mult](https
 ```mermaid
 flowchart LR
     subgraph CH1["Channel 1 (U1: TL074H)"]
-        J_IN1["IN_1 Jack<br/>(TN -> GND)"] --> R_PD1["100K to GND"]
-        R_PD1 --> U1A["U1A Input Buffer"]
+        J_IN1["IN_1 Jack<br/>(TN -> GND)"] --> TVS1["PESD12VL1BA TVS<br/>+ 100K to GND"]
+        TVS1 --> R_IN1["1K Series"] --> U1A["U1A Input Buffer"]
         U1A --> U1B["U1B Buffer + 470R"] --> OUT_1A["OUT_1A Jack"]
         U1A --> U1C["U1C Buffer + 470R"] --> OUT_1B["OUT_1B Jack"]
         U1A --> U1D["U1D Buffer + 470R"] --> OUT_1C["OUT_1C Jack"]
     end
 
     subgraph CH2["Channel 2 (U2: TL074H)"]
-        J_IN2["IN_2 Jack<br/>(TN <- CH1_BUF)"] --> R_PD2["100K to GND"]
-        R_PD2 --> U2A["U2A Input Buffer"]
+        J_IN2["IN_2 Jack<br/>(TN <- CH1_BUF)"] --> TVS2["PESD12VL1BA TVS<br/>+ 100K to GND"]
+        TVS2 --> R_IN2["1K Series"] --> U2A["U2A Input Buffer"]
         U2A --> U2B["U2B Buffer + 470R"] --> OUT_2A["OUT_2A Jack"]
         U2A --> U2C["U2C Buffer + 470R"] --> OUT_2B["OUT_2B Jack"]
         U2A --> U2D["U2D Buffer + 470R"] --> OUT_2C["OUT_2C Jack"]
@@ -55,9 +55,11 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 | :--- | --: | :--- | :--- | :--- | :--- | :--- |
 | `U1`, `U2` | 2 | `TL074H` (`TL074HIDR`) | `Package_SO:SOIC-14_3.9x8.7mm_P1.27mm` | `Amplifier_Operational:TL074` | `C2878713` | **SMT (`B.Cu`, Extended)** — Quad Low-Noise High-Voltage Op-Amp |
 | `D1`, `D2` | 2 | `1N5819` / `B5819W` | `Diode_SMD:D_SOD-123` | `Device:D_Schottky` | `C8598` | **SMT (`B.Cu`, Basic)** — Schottky Reverse-Polarity Protection Diode *(Alt if space is tight: `1N5819WS` in `Diode_SMD:D_SOD-323`, LCSC `C191023`, Basic)* |
+| `D3`, `D4` | 2 | `PESD12VL1BA` (`PESD12VL1BA,115`) | `Diode_SMD:D_SOD-323` | `Device:D_TVS` | `C38558` | **SMT (`B.Cu`, Extended)** — 12V Bidirectional Low-Capacitance (`19 pF`, `<50 nA`) Input ESD/TVS Protection Diode *(Alt 15V: `PESD15VL1BA,115` / `C85378`; Basic SOD-123FL: `SMF12CA` / `C19077508`)* |
 | `C3`–`C6` | 4 | `100nF` (`50V X7R`) | `Capacitor_SMD:C_0603_1608Metric` | `Device:C` | `C14663` | **SMT (`B.Cu`, Basic)** — Ceramic Decoupling Capacitor (`CC0603KRX7R9BB104`) |
-| `R1`, `R5` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C25803` | **SMT (`B.Cu`, Basic)** — Input Pull-Down Resistor (`0603WAF1003T5E`) |
-| `R2`–`R4`, `R6`–`R8` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C23179` | **SMT (`B.Cu`, Basic)** — Output Series Protection Resistor (`0603WAF4700T5E`) |
+| `R1`, `R6` | 2 | `100K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C25803` | **SMT (`B.Cu`, Basic)** — Input Pull-Down Resistor (`0603WAF1003T5E`) |
+| `R2`, `R7` | 2 | `1K` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C21190` | **SMT (`B.Cu`, Basic)** — Input Series Overvoltage / ESD Current-Limiting Resistor (`0603WAF1001T5E`) |
+| `R3`–`R5`, `R8`–`R10` | 6 | `470R` (`1%`) | `Resistor_SMD:R_0603_1608Metric` | `Device:R` | `C23179` | **SMT (`B.Cu`, Basic)** — Output Series Protection Resistor (`0603WAF4700T5E`) |
 | `J2`–`J9` | 8 | `WQP-PJ398SM` | `Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles` | `Connector_Audio:AudioJack2_SwitchT` | — | **THT (`F.Cu`, Hand-Soldered)** — 3.5mm Mono Switched Eurorack Jack (Thonkiconn) |
 | `C1`, `C2` | 2 | `10uF` (`25V`) | `Capacitor_THT:CP_Radial_D5.0mm_P2.00mm` | `Device:C_Polarized` | `C713347` | **THT (`F.Cu`, Hand-Soldered)** — Radial Electrolytic Bulk Cap (`ECEA1EKS100`) |
 | `J1` | 1 | `EURORACK_PWR_10PIN` | `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical` | `Connector_Generic:Conn_02x05_Odd_Even` | — | **THT (`B.Cu`, Hand-Soldered)** — 10-Pin (`2x5`) Shrouded Eurorack Power Header |
@@ -122,7 +124,7 @@ Both the main circuit board and a mated 3U × 4HP Eurorack front panel are inclu
 
 - **Main Circuit PCB ([`BufferedMult.kicad_pro`](BufferedMult.kicad_pro) / [`BufferedMult.kicad_pcb`](BufferedMult.kicad_pcb))**:
   - **Dimensions**: `20.0 × 108.0 mm` (4HP), 2-layer PCB with stitched `F.Cu` and `B.Cu` `GND` planes and `0.5 mm` `±12V` power spines.
-  - **Assembly**: Single-sided SMT placement on `B.Cu` (16 SMD parts) and hand-soldered THT jacks/bulk caps on `F.Cu` (`J2`–`J9`, `C1`, `C2`) plus the 10-pin power header on `B.Cu` (`J1`).
+  - **Assembly**: Single-sided SMT placement on `B.Cu` (20 SMD parts) and hand-soldered THT jacks/bulk caps on `F.Cu` (`J2`–`J9`, `C1`, `C2`) plus the 10-pin power header on `B.Cu` (`J1`).
 - **4HP Eurorack Front Panel ([`BufferedMult_Panel.kicad_pro`](BufferedMult_Panel.kicad_pro) / [`BufferedMult_Panel.kicad_pcb`](BufferedMult_Panel.kicad_pcb))**:
   - **Dimensions**: `20.0 × 128.5 mm` (Doepfer A-100 3U × 4HP standard).
   - **Features**: 8× `6.2 mm` NPTH jack holes aligned to the `+6.48 mm` `WQP-PJ398SM` (Thonkiconn) bushing centers, 2× `3.2 × 5.5 mm` M3 mounting slots, input callout badges (`IN 1`, `IN 2`), normalling cascade indicator (`CH1 → IN 2`), and solid `F.Cu` / `B.Cu` copper shield planes with exposed rear ground rings.

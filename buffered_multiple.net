@@ -2,47 +2,10 @@
   (version "D")
   (design
     (source "buffered_multiple.py")
-    (date "10/24/2026 06:39 AM")
+    (date "10/24/2026 06:46 AM")
     (tool "SKiDL (3.0.0)")
     (sheet
       (number 1)
-      (name "/")
-      (tstamps "/")
-      (title_block
-        (title)
-        (company)
-        (rev)
-        (date)
-        (source "buffered_multiple.py")
-        (comment
-          (number "1")
-          (value ""))
-        (comment
-          (number "2")
-          (value ""))
-        (comment
-          (number "3")
-          (value ""))
-        (comment
-          (number "4")
-          (value ""))
-        (comment
-          (number "5")
-          (value ""))
-        (comment
-          (number "6")
-          (value ""))
-        (comment
-          (number "7")
-          (value ""))
-        (comment
-          (number "8")
-          (value ""))
-        (comment
-          (number "9")
-          (value ""))))
-    (sheet
-      (number 2)
       (name "/pwr/")
       (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
       (title_block
@@ -79,9 +42,46 @@
           (number "9")
           (value ""))))
     (sheet
+      (number 2)
+      (name "/ch1/")
+      (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "buffered_multiple.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
       (number 3)
-      (name "/ch2/")
-      (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
+      (name "/")
+      (tstamps "/")
       (title_block
         (title)
         (company)
@@ -117,8 +117,8 @@
           (value ""))))
     (sheet
       (number 4)
-      (name "/ch1/")
-      (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/")
+      (name "/ch2/")
+      (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
       (title_block
         (title)
         (company)
@@ -172,7 +172,7 @@
         (field
           (name "SKiDL Tag") "c_bulk")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:138"))
+          (name "SKiDL Line") "buffered_multiple.py:141"))
       (libsource
         (lib "Device")
         (part "C_Polarized"))
@@ -200,7 +200,7 @@
         (field
           (name "SKiDL Tag") "c_bulk")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:138"))
+          (name "SKiDL Line") "buffered_multiple.py:141"))
       (libsource
         (lib "Device")
         (part "C_Polarized"))
@@ -230,7 +230,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:188"))
+          (name "SKiDL Line") "buffered_multiple.py:191"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -260,7 +260,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:188"))
+          (name "SKiDL Line") "buffered_multiple.py:191"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -290,7 +290,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:188"))
+          (name "SKiDL Line") "buffered_multiple.py:191"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -320,7 +320,7 @@
         (field
           (name "SKiDL Tag") "c_dec_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:188"))
+          (name "SKiDL Line") "buffered_multiple.py:191"))
       (libsource
         (lib "Device")
         (part "C"))
@@ -352,7 +352,7 @@
         (field
           (name "SKiDL Tag") "d_prot")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:118"))
+          (name "SKiDL Line") "buffered_multiple.py:121"))
       (libsource
         (lib "Device")
         (part "D_Schottky"))
@@ -384,7 +384,7 @@
         (field
           (name "SKiDL Tag") "d_prot")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:118"))
+          (name "SKiDL Line") "buffered_multiple.py:121"))
       (libsource
         (lib "Device")
         (part "D_Schottky"))
@@ -393,6 +393,70 @@
         (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
       (component_classes)
       (tstamps "755b79ea-9aec-515f-90f3-05736192e469"))
+    (comp
+      (ref "D3")
+      (value "PESD12VL1BA")
+      (description "Bidirectional transient-voltage-suppression diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C38558")
+        (field
+          (name "MPN") "PESD12VL1BA,115")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Notes") "12V bidirectional low-capacitance (19pF, <50nA) ESD/TVS diode; Alt 15V: PESD15VL1BA,115 (LCSC C85378) or Basic SOD-123FL: SMF12CA (LCSC C19077508)")
+        (field
+          (name "Description") "Bidirectional transient-voltage-suppression diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_tvs_ch1")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:204"))
+      (libsource
+        (lib "Device")
+        (part "D_TVS"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "c785a6d1-012e-59f5-bbaf-59efe18afe12"))
+    (comp
+      (ref "D4")
+      (value "PESD12VL1BA")
+      (description "Bidirectional transient-voltage-suppression diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C38558")
+        (field
+          (name "MPN") "PESD12VL1BA,115")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Notes") "12V bidirectional low-capacitance (19pF, <50nA) ESD/TVS diode; Alt 15V: PESD15VL1BA,115 (LCSC C85378) or Basic SOD-123FL: SMF12CA (LCSC C19077508)")
+        (field
+          (name "Description") "Bidirectional transient-voltage-suppression diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_tvs_ch2")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:204"))
+      (libsource
+        (lib "Device")
+        (part "D_TVS"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "9ce81a3f-8f0e-55fe-a3ae-e30db663fc40"))
     (comp
       (ref "J1")
       (value "EURORACK_PWR_10PIN")
@@ -410,7 +474,7 @@
         (field
           (name "SKiDL Tag") "j_pwr")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:84"))
+          (name "SKiDL Line") "buffered_multiple.py:87"))
       (libsource
         (lib "Connector_Generic")
         (part "Conn_02x05_Odd_Even"))
@@ -438,7 +502,7 @@
         (field
           (name "SKiDL Tag") "j_in_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:193"))
+          (name "SKiDL Line") "buffered_multiple.py:196"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -466,7 +530,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:236"))
+          (name "SKiDL Line") "buffered_multiple.py:261"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -494,7 +558,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:236"))
+          (name "SKiDL Line") "buffered_multiple.py:261"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -522,7 +586,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch1_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:236"))
+          (name "SKiDL Line") "buffered_multiple.py:261"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -550,7 +614,7 @@
         (field
           (name "SKiDL Tag") "j_in_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:193"))
+          (name "SKiDL Line") "buffered_multiple.py:196"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -578,7 +642,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_A")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:236"))
+          (name "SKiDL Line") "buffered_multiple.py:261"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -606,7 +670,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_B")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:236"))
+          (name "SKiDL Line") "buffered_multiple.py:261"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -634,7 +698,7 @@
         (field
           (name "SKiDL Tag") "j_out_ch2_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:236"))
+          (name "SKiDL Line") "buffered_multiple.py:261"))
       (libsource
         (lib "Connector_Audio")
         (part "AudioJack2_SwitchT"))
@@ -664,7 +728,7 @@
         (field
           (name "SKiDL Tag") "r_pd_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:200"))
+          (name "SKiDL Line") "buffered_multiple.py:219"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -674,187 +738,7 @@
       (component_classes)
       (tstamps "d3c4ab1c-49a2-5cfa-b281-d639d97edf42"))
     (comp
-      (ref "R2")
-      (value "470R")
-      (description "Resistor")
-      (footprint "Resistor_SMD:R_0603_1608Metric")
-      (fields
-        (field
-          (name "LCSC") "C23179")
-        (field
-          (name "MPN") "0603WAF4700T5E")
-        (field
-          (name "JLCPCB_Class") "Basic")
-        (field
-          (name "Description") "Resistor")
-        (field
-          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
-        (field
-          (name "Datasheet"))
-        (field
-          (name "SKiDL Tag") "r_out_ch1_A")
-        (field
-          (name "SKiDL Line") "buffered_multiple.py:229"))
-      (libsource
-        (lib "Device")
-        (part "R"))
-      (sheetpath
-        (names "/ch1/")
-        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
-      (component_classes)
-      (tstamps "b1c528a9-c75e-5c2d-bdfb-672a3ef79b82"))
-    (comp
-      (ref "R3")
-      (value "470R")
-      (description "Resistor")
-      (footprint "Resistor_SMD:R_0603_1608Metric")
-      (fields
-        (field
-          (name "LCSC") "C23179")
-        (field
-          (name "MPN") "0603WAF4700T5E")
-        (field
-          (name "JLCPCB_Class") "Basic")
-        (field
-          (name "Description") "Resistor")
-        (field
-          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
-        (field
-          (name "Datasheet"))
-        (field
-          (name "SKiDL Tag") "r_out_ch1_B")
-        (field
-          (name "SKiDL Line") "buffered_multiple.py:229"))
-      (libsource
-        (lib "Device")
-        (part "R"))
-      (sheetpath
-        (names "/ch1/")
-        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
-      (component_classes)
-      (tstamps "f3bfe840-3e5b-5a0e-9a73-6a8a26aee09a"))
-    (comp
-      (ref "R4")
-      (value "470R")
-      (description "Resistor")
-      (footprint "Resistor_SMD:R_0603_1608Metric")
-      (fields
-        (field
-          (name "LCSC") "C23179")
-        (field
-          (name "MPN") "0603WAF4700T5E")
-        (field
-          (name "JLCPCB_Class") "Basic")
-        (field
-          (name "Description") "Resistor")
-        (field
-          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
-        (field
-          (name "Datasheet"))
-        (field
-          (name "SKiDL Tag") "r_out_ch1_C")
-        (field
-          (name "SKiDL Line") "buffered_multiple.py:229"))
-      (libsource
-        (lib "Device")
-        (part "R"))
-      (sheetpath
-        (names "/ch1/")
-        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
-      (component_classes)
-      (tstamps "22cf148c-cca4-5499-b7d6-9da8f32689e4"))
-    (comp
-      (ref "R5")
-      (value "100K")
-      (description "Resistor")
-      (footprint "Resistor_SMD:R_0603_1608Metric")
-      (fields
-        (field
-          (name "LCSC") "C25803")
-        (field
-          (name "MPN") "0603WAF1003T5E")
-        (field
-          (name "JLCPCB_Class") "Basic")
-        (field
-          (name "Description") "Resistor")
-        (field
-          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
-        (field
-          (name "Datasheet"))
-        (field
-          (name "SKiDL Tag") "r_pd_ch2")
-        (field
-          (name "SKiDL Line") "buffered_multiple.py:200"))
-      (libsource
-        (lib "Device")
-        (part "R"))
-      (sheetpath
-        (names "/ch2/")
-        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
-      (component_classes)
-      (tstamps "bb9c0d25-ab53-599d-9e00-7c15d2ddd9e2"))
-    (comp
-      (ref "R6")
-      (value "470R")
-      (description "Resistor")
-      (footprint "Resistor_SMD:R_0603_1608Metric")
-      (fields
-        (field
-          (name "LCSC") "C23179")
-        (field
-          (name "MPN") "0603WAF4700T5E")
-        (field
-          (name "JLCPCB_Class") "Basic")
-        (field
-          (name "Description") "Resistor")
-        (field
-          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
-        (field
-          (name "Datasheet"))
-        (field
-          (name "SKiDL Tag") "r_out_ch2_A")
-        (field
-          (name "SKiDL Line") "buffered_multiple.py:229"))
-      (libsource
-        (lib "Device")
-        (part "R"))
-      (sheetpath
-        (names "/ch2/")
-        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
-      (component_classes)
-      (tstamps "e6a93143-3dc7-502b-99f2-cda68d587ba3"))
-    (comp
-      (ref "R7")
-      (value "470R")
-      (description "Resistor")
-      (footprint "Resistor_SMD:R_0603_1608Metric")
-      (fields
-        (field
-          (name "LCSC") "C23179")
-        (field
-          (name "MPN") "0603WAF4700T5E")
-        (field
-          (name "JLCPCB_Class") "Basic")
-        (field
-          (name "Description") "Resistor")
-        (field
-          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
-        (field
-          (name "Datasheet"))
-        (field
-          (name "SKiDL Tag") "r_out_ch2_B")
-        (field
-          (name "SKiDL Line") "buffered_multiple.py:229"))
-      (libsource
-        (lib "Device")
-        (part "R"))
-      (sheetpath
-        (names "/ch2/")
-        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
-      (component_classes)
-      (tstamps "cc3a90da-f656-56e9-9977-12eb54a584a5"))
-    (comp
-      (ref "R8")
+      (ref "R10")
       (value "470R")
       (description "Resistor")
       (footprint "Resistor_SMD:R_0603_1608Metric")
@@ -874,7 +758,7 @@
         (field
           (name "SKiDL Tag") "r_out_ch2_C")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:229"))
+          (name "SKiDL Line") "buffered_multiple.py:254"))
       (libsource
         (lib "Device")
         (part "R"))
@@ -883,6 +767,246 @@
         (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
       (component_classes)
       (tstamps "79c18453-2f74-5021-b72f-fdb135a51882"))
+    (comp
+      (ref "R2")
+      (value "1K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C21190")
+        (field
+          (name "MPN") "0603WAF1001T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_in_ch1")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:225"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "f417f7fb-2e1b-563f-8b60-6ae2169c805c"))
+    (comp
+      (ref "R3")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch1_A")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:254"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "b1c528a9-c75e-5c2d-bdfb-672a3ef79b82"))
+    (comp
+      (ref "R4")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch1_B")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:254"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "f3bfe840-3e5b-5a0e-9a73-6a8a26aee09a"))
+    (comp
+      (ref "R5")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch1_C")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:254"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "22cf148c-cca4-5499-b7d6-9da8f32689e4"))
+    (comp
+      (ref "R6")
+      (value "100K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C25803")
+        (field
+          (name "MPN") "0603WAF1003T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_pd_ch2")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:219"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "bb9c0d25-ab53-599d-9e00-7c15d2ddd9e2"))
+    (comp
+      (ref "R7")
+      (value "1K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C21190")
+        (field
+          (name "MPN") "0603WAF1001T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_in_ch2")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:225"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "86da56b3-dbf4-5101-91af-7dd494fd75ec"))
+    (comp
+      (ref "R8")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch2_A")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:254"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "e6a93143-3dc7-502b-99f2-cda68d587ba3"))
+    (comp
+      (ref "R9")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch2_B")
+        (field
+          (name "SKiDL Line") "buffered_multiple.py:254"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "cc3a90da-f656-56e9-9977-12eb54a584a5"))
     (comp
       (ref "U1")
       (value "TL074H")
@@ -904,7 +1028,7 @@
         (field
           (name "SKiDL Tag") "u_ch1")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:173"))
+          (name "SKiDL Line") "buffered_multiple.py:176"))
       (libsource
         (lib "Amplifier_Operational")
         (part "TL074"))
@@ -934,7 +1058,7 @@
         (field
           (name "SKiDL Tag") "u_ch2")
         (field
-          (name "SKiDL Line") "buffered_multiple.py:173"))
+          (name "SKiDL Line") "buffered_multiple.py:176"))
       (libsource
         (lib "Amplifier_Operational")
         (part "TL074"))
@@ -1065,6 +1189,22 @@
       (name "CH1_IN")
       (class "Default")
       (node
+        (ref "R2")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "3")
+        (pintype "INPUT")))
+    (net
+      (code 7)
+      (name "CH1_JACK_IN")
+      (class "Default")
+      (node
+        (ref "D3")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
         (ref "J2")
         (pin "T")
         (pintype "PASSIVE"))
@@ -1073,15 +1213,15 @@
         (pin "1")
         (pintype "PASSIVE"))
       (node
-        (ref "U1")
-        (pin "3")
-        (pintype "INPUT")))
+        (ref "R2")
+        (pin "1")
+        (pintype "PASSIVE")))
     (net
-      (code 7)
+      (code 8)
       (name "CH1_OP_A")
       (class "Default")
       (node
-        (ref "R2")
+        (ref "R3")
         (pin "1")
         (pintype "PASSIVE"))
       (node
@@ -1093,11 +1233,11 @@
         (pin "7")
         (pintype "OUTPUT")))
     (net
-      (code 8)
+      (code 9)
       (name "CH1_OP_B")
       (class "Default")
       (node
-        (ref "R3")
+        (ref "R4")
         (pin "1")
         (pintype "PASSIVE"))
       (node
@@ -1109,11 +1249,11 @@
         (pin "9")
         (pintype "INPUT")))
     (net
-      (code 9)
+      (code 10)
       (name "CH1_OP_C")
       (class "Default")
       (node
-        (ref "R4")
+        (ref "R5")
         (pin "1")
         (pintype "PASSIVE"))
       (node
@@ -1125,23 +1265,11 @@
         (pin "14")
         (pintype "OUTPUT")))
     (net
-      (code 10)
+      (code 11)
       (name "CH1_OUT_A")
       (class "Default")
       (node
         (ref "J3")
-        (pin "T")
-        (pintype "PASSIVE"))
-      (node
-        (ref "R2")
-        (pin "2")
-        (pintype "PASSIVE")))
-    (net
-      (code 11)
-      (name "CH1_OUT_B")
-      (class "Default")
-      (node
-        (ref "J4")
         (pin "T")
         (pintype "PASSIVE"))
       (node
@@ -1150,10 +1278,10 @@
         (pintype "PASSIVE")))
     (net
       (code 12)
-      (name "CH1_OUT_C")
+      (name "CH1_OUT_B")
       (class "Default")
       (node
-        (ref "J5")
+        (ref "J4")
         (pin "T")
         (pintype "PASSIVE"))
       (node
@@ -1162,6 +1290,18 @@
         (pintype "PASSIVE")))
     (net
       (code 13)
+      (name "CH1_OUT_C")
+      (class "Default")
+      (node
+        (ref "J5")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R5")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 14)
       (name "CH2_BUF")
       (class "Signal,Default")
       (node
@@ -1185,27 +1325,43 @@
         (pin "5")
         (pintype "INPUT")))
     (net
-      (code 14)
+      (code 15)
       (name "CH2_IN")
       (class "Default")
       (node
-        (ref "J6")
-        (pin "T")
-        (pintype "PASSIVE"))
-      (node
-        (ref "R5")
-        (pin "1")
+        (ref "R7")
+        (pin "2")
         (pintype "PASSIVE"))
       (node
         (ref "U2")
         (pin "3")
         (pintype "INPUT")))
     (net
-      (code 15)
+      (code 16)
+      (name "CH2_JACK_IN")
+      (class "Default")
+      (node
+        (ref "D4")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J6")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R6")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R7")
+        (pin "1")
+        (pintype "PASSIVE")))
+    (net
+      (code 17)
       (name "CH2_OP_A")
       (class "Default")
       (node
-        (ref "R6")
+        (ref "R8")
         (pin "1")
         (pintype "PASSIVE"))
       (node
@@ -1217,11 +1373,11 @@
         (pin "7")
         (pintype "OUTPUT")))
     (net
-      (code 16)
+      (code 18)
       (name "CH2_OP_B")
       (class "Default")
       (node
-        (ref "R7")
+        (ref "R9")
         (pin "1")
         (pintype "PASSIVE"))
       (node
@@ -1233,11 +1389,11 @@
         (pin "9")
         (pintype "INPUT")))
     (net
-      (code 17)
+      (code 19)
       (name "CH2_OP_C")
       (class "Default")
       (node
-        (ref "R8")
+        (ref "R10")
         (pin "1")
         (pintype "PASSIVE"))
       (node
@@ -1249,35 +1405,11 @@
         (pin "14")
         (pintype "OUTPUT")))
     (net
-      (code 18)
+      (code 20)
       (name "CH2_OUT_A")
       (class "Default")
       (node
         (ref "J7")
-        (pin "T")
-        (pintype "PASSIVE"))
-      (node
-        (ref "R6")
-        (pin "2")
-        (pintype "PASSIVE")))
-    (net
-      (code 19)
-      (name "CH2_OUT_B")
-      (class "Default")
-      (node
-        (ref "J8")
-        (pin "T")
-        (pintype "PASSIVE"))
-      (node
-        (ref "R7")
-        (pin "2")
-        (pintype "PASSIVE")))
-    (net
-      (code 20)
-      (name "CH2_OUT_C")
-      (class "Default")
-      (node
-        (ref "J9")
         (pin "T")
         (pintype "PASSIVE"))
       (node
@@ -1286,6 +1418,30 @@
         (pintype "PASSIVE")))
     (net
       (code 21)
+      (name "CH2_OUT_B")
+      (class "Default")
+      (node
+        (ref "J8")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R9")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 22)
+      (name "CH2_OUT_C")
+      (class "Default")
+      (node
+        (ref "J9")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R10")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 23)
       (name "GND")
       (class "Power,Default")
       (node
@@ -1311,6 +1467,14 @@
       (node
         (ref "C6")
         (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D3")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D4")
+        (pin "2")
         (pintype "PASSIVE"))
       (node
         (ref "J1")
@@ -1377,6 +1541,6 @@
         (pin "2")
         (pintype "PASSIVE"))
       (node
-        (ref "R5")
+        (ref "R6")
         (pin "2")
         (pintype "PASSIVE")))))

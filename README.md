@@ -109,9 +109,14 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
        --drc
    ```
 
-4. **Lint and format with `ruff`**:
+4. **Build and validate the interactive tutorial HTML from Markdown** (optional, for local previewing; GitHub Actions builds and deploys automatically via [`.github/workflows/pages.yml`](.github/workflows/pages.yml)):
    ```bash
-   ruff check --fix buffered_multiple.py buffered_multiple_sklib.py && ruff format buffered_multiple.py buffered_multiple_sklib.py
+   .venv/bin/python tutorial/build.py --check
+   ```
+
+5. **Lint and format with `ruff`**:
+   ```bash
+   ruff check --fix buffered_multiple.py buffered_multiple_sklib.py tutorial/build.py && ruff format buffered_multiple.py buffered_multiple_sklib.py tutorial/build.py
    ```
 
 ---
@@ -147,7 +152,7 @@ Both the main circuit board and a mated 3U × 4HP Eurorack front panel are inclu
 
 ## Documentation & Guides
 
-- **[`tutorial/index.html`](tutorial/index.html)** — Interactive, self-contained HTML & Python/SKiDL tutorial walking through building `buffered_multiple.py`, programmatic KiCad 10 / JLCPCB component discovery, and runnable per-lesson apps (`tutorial/apps/`).
+- **[`tutorial/index.md`](tutorial/index.md)** (compiled to `tutorial/index.html` via [`tutorial/build.py`](tutorial/build.py)) — Interactive HTML & Python/SKiDL tutorial authored in Markdown, walking through building `buffered_multiple.py`, programmatic KiCad 10 / JLCPCB component discovery, PCB layout, front-panel generation, pre-fab DRC reviews, and runnable per-lesson apps (`tutorial/apps/`).
 - **[`PCB_LAYOUT_GUIDE.md`](PCB_LAYOUT_GUIDE.md)** — Step-by-step KiCad 10 PCB layout, component placement, routing, and JLCPCB export guide.
 - **[`FRONT_PANEL_GUIDE.md`](FRONT_PANEL_GUIDE.md)** — 4HP Eurorack front panel mechanical dimensions, bushing offset coordinate table, and automated generation workflow.
 - **[`DESIGN_REVIEW.md`](DESIGN_REVIEW.md)** — Full schematic, PCB, DRC, Gerber, and EMC pre-compliance design review report.

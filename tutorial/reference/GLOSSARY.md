@@ -1,3 +1,15 @@
+---
+title: "SKiDL & Eurorack Hardware Glossary"
+page_title: "SKiDL & Eurorack Hardware Glossary | Eurorack SKiDL Tutorial"
+nav_id: "glossary"
+nav_label: "Glossary"
+kicker: "Reference Sheet · Canonical Terminology"
+lead: "Canonical definitions for SKiDL constructs, KiCad 10 library concepts, and JLCPCB manufacturing terms used across all lessons and learning records."
+card:
+  title: "SKiDL & Eurorack Hardware Glossary"
+  summary: "Canonical definitions for `dest=TEMPLATE`, `part.fields`, `part.p[n]`, `@subcircuit`, `NetClass`, `POWER` drive, `builtins.NC`, `tstamps`, and `+6.48 mm` bushing offsets."
+---
+
 # SKiDL & Eurorack Hardware Glossary
 
 Canonical definitions for SKiDL constructs, KiCad 10 library concepts, and JLCPCB manufacturing terms used across all lessons and learning records in this workspace.

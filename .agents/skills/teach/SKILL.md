@@ -16,12 +16,13 @@ The user has asked you to teach them something or build out the course materials
 The dedicated teaching workspace lives inside `./tutorial/` at the root of this repository (so root hardware design files like `README.md`, `buffered_multiple.py`, and `BufferedMult.kicad_pcb` remain untouched). All course paths below are relative to `./tutorial/`, while `references/*-FORMAT.md` links resolve from this skill's directory (`.agents/skills/teach/`):
 
 - `tutorial/MISSION.md`: A document capturing the _reason_ the user is interested in the topic. This grounds all teaching. Use the format in [MISSION-FORMAT.md](./references/MISSION-FORMAT.md).
-- `tutorial/reference/*.html`: A directory of reference materials. These are the compressed learnings from the lessons — SKiDL syntax cheat sheets, KiCad 10 symbol/footprint lookup patterns, JLCPCB/LCSC catalog rules, Eurorack standards, and glossaries. They are the raw units of learning, designed for quick reference and clean printing.
+- `tutorial/reference/*.md`: A directory of Markdown reference materials (compiled to `tutorial/reference/*.html` by `tutorial/build.py`, with `GLOSSARY.md` compiling to `glossary.html`). These are the compressed learnings from the lessons — SKiDL syntax cheat sheets, KiCad 10 symbol/footprint lookup patterns, JLCPCB/LCSC catalog rules, Eurorack standards, and glossaries. They are the raw units of learning, designed for quick reference and clean printing.
 - `tutorial/RESOURCES.md`: A curated list of trusted resources and repository skills used to ground your teaching in verified knowledge. Use the format in [RESOURCES-FORMAT.md](./references/RESOURCES-FORMAT.md).
 - `tutorial/learning-records/*.md`: A directory of learning records capturing what the user has learned. These are loosely equivalent to architectural decision records (ADRs) — they capture non-obvious lessons, prior knowledge, and key insights that drive future sessions and calculate the zone of proximal development. Titled `0001-<dash-case-name>.md`, incrementing sequentially. Use the format in [LEARNING-RECORD-FORMAT.md](./references/LEARNING-RECORD-FORMAT.md).
-- `tutorial/lessons/*.html`: A directory of lessons. A **lesson** is a single, self-contained HTML output that teaches one tightly-scoped concept or skill tied to the mission. This is the primary unit of teaching in this workspace.
-- `tutorial/index.html`: The course landing page for GitHub Pages hosting, linking to all published lessons (via `.lesson-grid` / `.lesson-card` cards with ERC/Ruff verification badges and runnable script paths) and `tutorial/reference/*.html` sheets.
-- `tutorial/apps/<NNNN-lesson-slug>/`: A series of runnable Python/SKiDL directories where each directory represents the exact runnable scripts and generated outputs after completing the corresponding lesson (`tutorial/lessons/<NNNN-lesson-slug>.html`).
+- `tutorial/lessons/*.md`: A directory of Markdown lesson sources (compiled to `tutorial/lessons/*.html` by `tutorial/build.py`). A **lesson** is a single, self-contained tutorial unit that teaches one tightly-scoped concept or skill tied to the mission. This is the primary unit of teaching in this workspace.
+- `tutorial/index.md`: The Markdown course landing page (compiled to `tutorial/index.html` by `tutorial/build.py`) for GitHub Pages hosting, auto-rendering lesson cards via `{{widget:lesson-cards}}` and reference sheet cards via `{{widget:reference-cards}}`.
+- `tutorial/build.py`: The Markdown-to-HTML static site builder (`markdown-it-py` + `pyyaml`). Only `.md` source files are tracked in Git (`tutorial/index.html`, `tutorial/lessons/*.html`, and `tutorial/reference/*.html` are gitignored and generated locally via `.venv/bin/python tutorial/build.py --check` or in CI via `.github/workflows/pages.yml`).
+- `tutorial/apps/<NNNN-lesson-slug>/`: A series of runnable Python/SKiDL directories where each directory represents the exact runnable scripts and generated outputs after completing the corresponding lesson (`tutorial/lessons/<NNNN-lesson-slug>.md`).
 - `tutorial/assets/*`: Reusable **components** shared across lessons (`style.css`, `course.js`, quiz/exercise widgets, interactive simulators). See [Assets](#assets).
 - `tutorial/NOTES.md`: A scratchpad for recording user preferences or working notes.
 
@@ -48,11 +49,22 @@ Fluency can give an illusory sense of mastery, whereas storage strength is the r
 - Spacing (distributing practice and revisiting earlier concepts across lessons)
 - Interleaving (mixing related skills, such as part lookup, pin indexing, net wiring, and ERC debugging)
 
-## Lessons
+## Lessons & Markdown-to-HTML Pipeline (`tutorial/build.py`)
 
-A lesson is the primary artifact you produce: the unit in which knowledge and skills reach the user. Each lesson is one self-contained HTML file saved to `tutorial/lessons/` and titled `0001-<dash-case-name>.html` (or starting at `0000-<dash-case-name>.html` for environment bootstrap).
+A lesson is the primary artifact you produce: the unit in which knowledge and skills reach the user. Each lesson is authored as a clean Markdown file saved to `tutorial/lessons/` and titled `0001-<dash-case-name>.md` (or starting at `0000-<dash-case-name>.md` for environment bootstrap), then compiled to HTML (`tutorial/lessons/<NNNN-slug>.html`) by running `.venv/bin/python tutorial/build.py --check`.
 
-When teaching a programming framework or tool where Lesson `0001` needs a configured environment, start with a `0000-<dash-case-name>.html` bootstrap lesson covering `uv` virtual environment creation (`uv venv --clear --python 3.14 .venv` and `uv pip install skidl`), KiCad 10 symbol/footprint environment variables, and `ruff` linting setup so subsequent lessons have a concrete, runnable foundation.
+When teaching a programming framework or tool where Lesson `0001` needs a configured environment, start with a `0000-<dash-case-name>.md` bootstrap lesson covering `uv` virtual environment creation (`uv venv --clear --python 3.14 .venv` and `uv pip install skidl`), KiCad 10 symbol/footprint environment variables, and `ruff` linting setup so subsequent lessons have a concrete, runnable foundation.
+
+### Markdown Directives & Frontmatter (`tutorial/build.py`)
+
+All course pages (`tutorial/index.md`, `tutorial/lessons/*.md`, `tutorial/reference/*.md`) use YAML frontmatter (`type`, `id`, `title`, `kicker`, `lead`, plus `badge`, `summary`, `app_dir`, `meta`, `prev`, `next` for lessons or `nav_label`, `card_title`, `card_desc` for reference sheets) and clean Markdown directives:
+
+- **Callouts**: `:::callout Title`, `:::callout-warn Title`, `:::callout-success Title` ... `:::`
+- **Code Blocks with Captions**: ```` ```python title="tutorial/apps/..." copy=false ```` (and ```` ```mermaid ```` for `<pre class="mermaid">` diagrams)
+- **Tables with Captions**: Precede a pipe table with `Table: Caption text` to wrap it in `<div class="table-wrap">` with `<caption>`.
+- **Interactive Fill-in-the-Blank Exercises**: `:::exercise id="ex-NNNN-title" title="Retrieval Practice: ..."` containing a fenced code block with `{{blank:answer|hint|aria_label|size}}` tokens (use `/` inside `answer` for multi-answer alternatives like `128.5/128.50`).
+- **Multiple-Choice Quizzes**: `:::quiz id="quiz-NNNN-title" title="Knowledge Check"` with numbered questions (`1. Question text`) and `- [x] Option text | Explanation` / `- [ ] Option text | Explanation`. `tutorial/build.py --check` enforces that all options within each question have identical word counts!
+- **Interactive Widgets**: `{{widget:lesson-cards}}`, `{{widget:reference-cards}}`, `{{widget:part-explorer}}`, `{{widget:normalling-sim}}`, `{{widget:panel-bushing-calc}}`.
 
 ### Runnable Per-Lesson Python / SKiDL Directories (`tutorial/apps/<NNNN-lesson-slug>/`)
 
@@ -92,12 +104,12 @@ A lesson should be **beautiful**, with clean, readable typography and layout (th
 
 Keep the course navigable both locally and on GitHub Pages:
 
-1. **Synchronize Navigation & Index on Every New Lesson:** Whenever you add a lesson (`tutorial/lessons/<NNNN-slug>.html`) or reference sheet (`tutorial/reference/*.html`):
-   - Include `<a href="../index.html">Index</a>` as the first link in `<nav class="course-nav">` across all lessons and reference pages, and add the new lesson link (`NNNN`) to `.course-nav` in `tutorial/index.html`, `tutorial/lessons/*.html`, and `tutorial/reference/*.html`.
-   - Add a `.lesson-card` entry to `tutorial/index.html` (showing the lesson number, ERC/Ruff verification badge, SKiDL/circuit concept, Python/`uv` tooling skill, and `./apps/<NNNN-slug>` path) and link the tutorial in the root `README.md` if not already linked.
+1. **Synchronize Navigation & Index via `tutorial/build.py --check` on Every New Lesson:** Whenever you add a lesson (`tutorial/lessons/<NNNN-slug>.md`) or reference sheet (`tutorial/reference/*.md`):
+   - Populate its YAML frontmatter (`type: lesson`, `id: "NNNN"`, `title`, `kicker`, `lead`, `badge`, `summary`, `app_dir`, `meta`, `prev`, `next`) and update the previous lesson's `next:` frontmatter field.
+   - Run `.venv/bin/python tutorial/build.py --check` so `tutorial/build.py` automatically regenerates `<nav class="course-nav">` across every page, updates the `.lesson-card` grid in `tutorial/index.html`, compiles all `.md` files to `.html`, and validates equal-word-count quiz rules and internal `.md` links (rewritten to `.html`).
    - Preserve the license link (`Apache License, Version 2.0`) and the `This is not an official Google product.` disclaimer in the course footer and `README.md`.
 2. **GitHub Pages Deployment (`.github/workflows/pages.yml` & `tutorial/.nojekyll`):**
-   - Stage only the static course web files from `tutorial/` (`tutorial/index.html`, `tutorial/.nojekyll`, `tutorial/assets/`, `tutorial/lessons/`, `tutorial/reference/`) into `_site/` in `.github/workflows/pages.yml` (`actions/configure-pages@v5` with `enablement: true`, `actions/upload-pages-artifact@v3`, and `actions/deploy-pages@v4`) so companion Python scripts (`tutorial/apps/`) and internal markdown files (`MISSION.md`, `RESOURCES.md`, `NOTES.md`, `learning-records/`) are excluded from the published web artifact.
+   - `.github/workflows/pages.yml` runs `python tutorial/build.py --out-dir _site --check` to compile the Markdown sources directly into `_site/` (`index.html`, `.nojekyll`, `assets/`, `lessons/*.html`, `reference/*.html`) so companion Python scripts (`tutorial/apps/`) and internal markdown files (`MISSION.md`, `RESOURCES.md`, `NOTES.md`, `learning-records/`) are excluded from the published web artifact.
    - Pass `env: NODE_OPTIONS: --no-deprecation` on the `actions/deploy-pages@v4` step to suppress the benign Node.js `[DEP0040] DeprecationWarning: The punycode module is deprecated` warning.
 
 Each lesson should be short, focused, and completable quickly within working-memory limits, giving the user a single tangible win directly tied to the mission and within their zone of proximal development.

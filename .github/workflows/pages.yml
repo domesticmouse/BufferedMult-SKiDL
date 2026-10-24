@@ -27,14 +27,16 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Stage static tutorial site
-        run: |
-          mkdir -p _site
-          cp tutorial/index.html _site/
-          cp tutorial/.nojekyll _site/
-          cp -R tutorial/assets _site/assets
-          cp -R tutorial/lessons _site/lessons
-          cp -R tutorial/reference _site/reference
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install build dependencies
+        run: pip install markdown-it-py pyyaml
+
+      - name: Build static tutorial site from Markdown
+        run: python tutorial/build.py --out-dir _site --check
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

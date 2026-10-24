@@ -4,5 +4,6 @@
 - **Prior Knowledge**:
   - Comfortable with basic analog/Eurorack electronics (op-amps, unity-gain followers, ceramic/bulk decoupling, `±12V` rails, switched 3.5mm jacks).
   - Newer to Python packaging/idioms (`uv`, decorators like `@subcircuit`), KiCad symbol/footprint internals, SKiDL syntax, and programmatic LCSC/JLCPCB part lookup.
-- **Pacing Preference**:
-  - Iterate lesson by lesson, starting with Lesson `0000` (Environment & KiCad 10 Bootstrap) and Lesson `0001` (Side Tour: Programmatic Part, Pinout & Footprint Discovery), accompanied by core reference sheets (`tutorial/reference/*.html`) and runnable scripts in `tutorial/apps/`.
+- **Pacing & Code Presentation Preference**:
+  - **Self-Contained Code in Every Lesson (Start from Nothing & Grow It)**: Never assume the learner has another Python file open or is referencing an external file. Start from an empty file in Lesson `0000` and progressively grow the Python script across Lessons `0000` → `0001` → `0002` → `0003` → `0004`. Every lesson must explain each new code block as it is added AND include the complete, standalone, runnable Python script inline in the lesson HTML alongside its terminal output.
+  - Accompany the lessons with printable reference sheets (`tutorial/reference/*.html`) and verified runnable scripts in `tutorial/apps/`.

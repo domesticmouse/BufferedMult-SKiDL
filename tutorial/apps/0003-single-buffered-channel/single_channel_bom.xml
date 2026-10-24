@@ -2,7 +2,7 @@
 <export version="D">
   <design>
     <source>/Users/brett/Documents/GitHub/BufferedMult-SKiDL/tutorial/apps/0003-single-buffered-channel/single_channel.py</source>
-    <date>10/24/2026 11:01 AM</date>
+    <date>10/24/2026 11:27 AM</date>
     <tool>SKiDL (3.0.0)</tool>
   </design>
   <components>
@@ -182,9 +182,9 @@
   <nets>
     <net code="0" name="+12V">
       <node ref="C1" pin="1"/>
+      <node ref="C3" pin="1"/>
       <node ref="D1" pin="1"/>
       <node ref="U1" pin="4"/>
-      <node ref="C3" pin="1"/>
     </net>
     <net code="1" name="-12V">
       <node ref="C2" pin="2"/>

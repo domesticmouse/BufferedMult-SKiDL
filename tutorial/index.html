@@ -37,33 +37,33 @@
       <div class="lesson-kicker">Interactive Hardware-as-Code Course</div>
       <h1>Building the Eurorack Buffered Multiple in Python with SKiDL</h1>
       <p class="lead">
-        A hands-on, code-first walkthrough of <a href="../buffered_multiple.py"><code>buffered_multiple.py</code></a>—from programmatic KiCad 10 symbol/footprint discovery and live JLCPCB catalog queries to hierarchical <code>@subcircuit</code> design, cascaded <code>1:3 → 1:6 → 1:9</code> normalling, zero-warning <code>ERC()</code>, and automated SMT BOM generation.
+        Start from an empty Python file and progressively grow a complete, production-ready 3-channel Eurorack Buffered Multiple (<code>buffered_multiple.py</code>)—with every line of Python code, terminal command, and verification output shown directly inside each lesson.
       </p>
 
       <figure class="diagram-card">
         <pre class="mermaid">flowchart LR
-  L0["0000: Environment &amp;<br/>KiCad 10 Bootstrap"] --> L1["0001: Programmatic Part<br/>&amp; JLCPCB Discovery"]
-  L1 --> L2["0002: Eurorack Power<br/>@subcircuit &amp; Protection"]
-  L2 --> L3["0003: Single 1-to-3<br/>Buffered Channel"]
-  L3 --> L4["0004: Cascaded Normalling,<br/>NetClasses &amp; JLCPCB BOM"]</pre>
-        <figcaption>Course progression from environment setup and programmatic component lookup to full fabrication outputs.</figcaption>
+  L0["0000: Empty File →<br/>Pre-Import Header &amp; ERC"] --> L1["0001: Part Discovery →<br/>+ FP_* &amp; LCSC_* Constants"]
+  L1 --> L2["0002: Grow Script →<br/>+ eurorack_power()"]
+  L2 --> L3["0003: Grow Script →<br/>+ buffered_channel_1to3()"]
+  L3 --> L4["0004: Final Script →<br/>+ 1:3/1:6/1:9 &amp; JLCPCB BOM"]</pre>
+        <figcaption>How the Python circuit script grows from 0 lines in Lesson 0000 to the complete 334-line fabrication generator in Lesson 0004.</figcaption>
       </figure>
 
-      <h2>Course Lessons</h2>
+      <h2>Course Lessons (Start from Nothing &amp; Grow the Code)</h2>
       <div class="lesson-grid">
         <!-- Lesson 0000 -->
         <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge badge-accent">Lesson 0000</span>
+              <span class="badge badge-accent">Lesson 0000 · Stage 0</span>
               <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3><a href="lessons/0000-environment-and-kicad-bootstrap.html">Environment, <code>uv</code> &amp; KiCad 10 Bootstrap</a></h3>
+            <h3><a href="lessons/0000-environment-and-kicad-bootstrap.html">From Empty File to KiCad 10 Bootstrap &amp; First <code>ERC()</code></a></h3>
             <p>
-              Set up Python 3.14 with <code>uv</code>, configure pre-import KiCad 10 library and cache variables, and run your first 0-warning <code>ERC()</code> smoke check.
+              Start with a blank script, configure Python 3.14 with <code>uv</code>, write the pre-import KiCad 10 environment header, and run a 0-warning <code>ERC()</code> smoke check.
             </p>
             <ul class="lesson-meta-list">
-              <li><strong>SKiDL Concept</strong>: Pre-import <code>os.environ</code>, <code>TEMPLATE</code>, <code>POWER</code> drive, <code>ERC()</code></li>
+              <li><strong>Code Grown</strong>: <code>0 → 72 lines</code> (Pre-import <code>os.environ</code>, <code>TEMPLATE</code>, <code>POWER</code>, <code>ERC()</code>)</li>
               <li><strong>Tooling Skill</strong>: <code>uv venv --python 3.14</code>, <code># noqa: E402</code>, post-run <code>ruff</code></li>
             </ul>
           </div>
@@ -77,16 +77,16 @@
         <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge badge-accent">Lesson 0001</span>
+              <span class="badge badge-accent">Lesson 0001 · Stage 1</span>
               <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3><a href="lessons/0001-programmatic-component-discovery.html">Side Tour: Programmatic Part, Pinout &amp; Footprint Discovery</a></h3>
+            <h3><a href="lessons/0001-programmatic-component-discovery.html">Programmatic Part Discovery &amp; Adding <code>FP_*</code> / <code>LCSC_*</code> Constants</a></h3>
             <p>
-              Query KiCad 10 symbols and pinouts from Python, verify <code>.pretty</code> footprints, search live JLCPCB stock, and persist LCSC numbers in <code>part.fields</code>.
+              Write a Python discovery script to inspect KiCad 10 pinouts and footprints, query live JLCPCB stock, and grow our circuit script with verified <code>FP_*</code> and <code>LCSC_*</code> constants.
             </p>
             <ul class="lesson-meta-list">
-              <li><strong>SKiDL Concept</strong>: <code>search()</code>, <code>show()</code>, <code>u.p[n]</code> vs <code>u["V+"]</code>, <code>part.fields["LCSC"]</code></li>
-              <li><strong>Tooling Skill</strong>: <code>jlcpcb_search.py</code> (Basic vs. Extended feeder status)</li>
+              <li><strong>Code Grown</strong>: Full <code>discover_parts.py</code> + Stage 1 <code>FP_*</code> &amp; <code>LCSC_*</code> constants</li>
+              <li><strong>Tooling Skill</strong>: <code>part.pins</code>, <code>u.p[n]</code> vs <code>u["V+"]</code>, <code>part.fields["LCSC"]</code></li>
             </ul>
           </div>
           <div class="card-footer">
@@ -99,16 +99,16 @@
         <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge badge-accent">Lesson 0002</span>
+              <span class="badge badge-accent">Lesson 0002 · Stage 2</span>
               <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3><a href="lessons/0002-eurorack-power-subcircuit.html">Eurorack Power Supply <code>@subcircuit</code> &amp; Protection</a></h3>
+            <h3><a href="lessons/0002-eurorack-power-subcircuit.html">Growing the Script: Adding <code>eurorack_power(vcc, vee, gnd)</code></a></h3>
             <p>
-              Build <code>eurorack_power(vcc, vee, gnd)</code> with the 10-pin IDC header, <code>1N5819WS</code> Schottky reverse-polarity protection, and <code>10uF</code> bulk caps.
+              Add the <code>@subcircuit</code> power block with the 10-pin IDC header, <code>1N5819WS</code> Schottky reverse-polarity protection, and <code>10uF</code> bulk caps.
             </p>
             <ul class="lesson-meta-list">
-              <li><strong>SKiDL Concept</strong>: <code>@subcircuit</code> decorator, multi-pin slice <code>j_pwr[3, 4, 5, 6, 7, 8]</code>, <code>d_t(2)</code></li>
-              <li><strong>Tooling Skill</strong>: Hierarchical <code>tag</code> UUIDs, bipolar diode/cap polarity, <code>.net</code>/<code>.xml</code> export</li>
+              <li><strong>Code Grown</strong>: <code>Stage 1 → 155 lines</code> (Full runnable <code>power_subcircuit.py</code> inline)</li>
+              <li><strong>Tooling Skill</strong>: <code>@subcircuit</code>, multi-pin slice <code>j_pwr[3..8]</code>, <code>.net</code>/<code>.xml</code> export</li>
             </ul>
           </div>
           <div class="card-footer">
@@ -121,16 +121,16 @@
         <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge badge-accent">Lesson 0003</span>
+              <span class="badge badge-accent">Lesson 0003 · Stage 3</span>
               <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3><a href="lessons/0003-single-buffered-channel.html">Single 1-to-3 Buffered Channel (<code>TL074H</code>)</a></h3>
+            <h3><a href="lessons/0003-single-buffered-channel.html">Growing the Script: Adding <code>buffered_channel_1to3()</code></a></h3>
             <p>
-              Wire <code>buffered_channel_1to3</code>: switched input jack, <code>PESD12VL1BA</code> TVS diode, <code>U1A</code> input buffer, and 3 loop-generated <code>470R</code> output stages with <code>builtins.NC</code>.
+              Add the 1-to-3 op-amp channel subcircuit (`TL074H`, `PESD12VL1BA` TVS diode, `U1A` input buffer, and 3 loop-generated `470R` output followers with `builtins.NC`).
             </p>
             <ul class="lesson-meta-list">
-              <li><strong>SKiDL Concept</strong>: Series <code>&amp;</code> operator, Python tuple-loop stage wiring, <code>builtins.NC</code></li>
-              <li><strong>Tooling Skill</strong>: Multi-pin feedback <code>u.p[1], u.p[2]</code>, parameterized <code>ch_num</code> tags</li>
+              <li><strong>Code Grown</strong>: <code>155 → 255 lines</code> (Full runnable <code>single_channel.py</code> inline)</li>
+              <li><strong>Tooling Skill</strong>: Series <code>&amp;</code> operator, tuple-loop stage wiring, <code>builtins.NC</code></li>
             </ul>
           </div>
           <div class="card-footer">
@@ -143,16 +143,16 @@
         <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge badge-accent">Lesson 0004</span>
+              <span class="badge badge-accent">Lesson 0004 · Stage 4 (Complete)</span>
               <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3><a href="lessons/0004-cascaded-normalling-and-bom-export.html">Cascaded Normalling, <code>NetClass</code> &amp; JLCPCB BOM Export</a></h3>
+            <h3><a href="lessons/0004-cascaded-normalling-and-bom-export.html">Completing <code>buffered_multiple.py</code>: Cascaded Normalling &amp; JLCPCB BOM</a></h3>
             <p>
-              Cascade Channels 1–3 (<code>1:3 → 1:6 → 1:9</code>), assign KiCad <code>Power</code> and <code>Signal</code> net classes, and write <code>generate_jlcpcb_bom()</code>.
+              Add <code>generate_jlcpcb_bom()</code>, assign KiCad <code>Power</code> and <code>Signal</code> <code>NetClass</code> rules, and cascade Channels 1–3 (`1:3 → 1:6 → 1:9`).
             </p>
             <ul class="lesson-meta-list">
-              <li><strong>SKiDL Concept</strong>: <code>NetClass</code>, <code>generate_netlist()</code>, <code>generate_xml()</code>, SMT CSV grouping</li>
-              <li><strong>Tooling Skill</strong>: <code>builtins.default_circuit.parts</code> filtering, interactive normalling simulator</li>
+              <li><strong>Code Grown</strong>: <code>255 → 334 lines</code> (Complete <code>buffered_multiple.py</code> inline)</li>
+              <li><strong>Tooling Skill</strong>: <code>NetClass</code>, SMT CSV grouping, interactive normalling simulator</li>
             </ul>
           </div>
           <div class="card-footer">
@@ -213,7 +213,7 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span>Licensed under the <a href="../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</span>
       <span>This is not an official Google product.</span>
     </div>
   </footer>

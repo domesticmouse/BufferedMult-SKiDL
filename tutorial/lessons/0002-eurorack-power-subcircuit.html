@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>Lesson 0002: Eurorack Power Supply @subcircuit &amp; Protection | Eurorack SKiDL Tutorial</title>
+  <title>Lesson 0002: Growing the Script — Adding eurorack_power(vcc, vee, gnd) | Eurorack SKiDL Tutorial</title>
   <link rel="stylesheet" href="../assets/style.css">
   <script src="../assets/course.js" defer></script>
 </head>
@@ -34,29 +34,28 @@
 
   <main id="content" class="page-main" tabindex="-1">
     <article>
-      <div class="lesson-kicker">Lesson 0002 · Hierarchical Power Entry</div>
-      <h1>Eurorack Power Supply <code>@subcircuit</code> &amp; Reverse-Polarity Protection</h1>
+      <div class="lesson-kicker">Lesson 0002 · Stage 2 (68 → 155 Lines)</div>
+      <h1>Growing the Script: Adding <code>eurorack_power(vcc, vee, gnd)</code></h1>
       <p class="lead">
-        Encapsulate the standard 10-pin Doepfer Eurorack power header, <code>1N5819WS</code> Schottky reverse-polarity protection diodes, and <code>10uF</code> bulk electrolytic capacitors inside a reusable SKiDL <code>@subcircuit</code> function.
+        Take our Stage 1 foundation (pre-import header + footprint and LCSC constants) and grow it into a working, ERC-verified Eurorack power supply script with a 10-pin Doepfer IDC header, <code>1N5819WS</code> Schottky reverse-polarity protection, and <code>10uF</code> bulk electrolytic capacitors.
       </p>
 
       <div class="meta-bar">
+        <span class="badge badge-accent">Script Growth: Stage 1 → 155 Lines (5 Parts)</span>
         <span class="badge badge-success">✓ ERC: 0 Errors, 0 Warnings</span>
         <span class="badge badge-success">✓ Ruff: Clean</span>
-        <span class="badge badge-accent">App: ./apps/0002-eurorack-power-subcircuit/</span>
       </div>
 
       <h2>How <code>@subcircuit</code> Maps a Python Function to KiCad Hierarchy</h2>
       <p>
-        In <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code></a> (lines 83–151), the power entry block is written as a plain Python function decorated with <code>@subcircuit</code>:
-        <code>def eurorack_power(vcc, vee, gnd):</code>.
+        In <a href="0001-programmatic-component-discovery.html">Lesson 0001</a>, we grew our script to include the pre-import environment setup and our verified <code>FP_*</code> and <code>LCSC_*</code> constants. Now we will add our first hierarchical circuit block: <code>@subcircuit def eurorack_power(vcc, vee, gnd):</code>.
       </p>
       <p>
-        Decorating a function with <strong>Subcircuit Decorator (<code>@subcircuit</code>)</strong> does two important things in SKiDL:
+        Decorating a function with SKiDL's <strong>Subcircuit Decorator (<code>@subcircuit</code>)</strong> does two important things:
       </p>
       <ol>
         <li>
-          <strong>Interface Nets vs. Local Nets</strong>: The top-level protected rails (<code>vcc</code>, <code>vee</code>, <code>gnd</code>) are passed in as function arguments so downstream op-amp channels can attach to them, while the raw header nets (<code>vcc_raw = Net("+12V_RAW")</code> and <code>vee_raw = Net("-12V_RAW")</code>) remain private to <code>eurorack_power</code>.
+          <strong>Interface Nets vs. Private Local Nets</strong>: The protected module rails (<code>vcc</code>, <code>vee</code>, <code>gnd</code>) are passed in as function arguments so downstream op-amp channels can attach to them later, while the raw header nets (<code>vcc_raw = Net("+12V_RAW")</code> and <code>vee_raw = Net("-12V_RAW")</code>) remain private inside <code>eurorack_power</code>.
         </li>
         <li>
           <strong>Deterministic Hierarchical Path Tags</strong>: When the top-level circuit calls <code>eurorack_power(vcc, vee, gnd, tag="pwr")</code> and each internal part defines a <code>tag</code> (such as <code>tag="j_pwr"</code>, <code>tag="d_prot"</code>, <code>tag="c_bulk"</code>), SKiDL hashes the hierarchical path (<code>/pwr/c_bulk</code>) into a deterministic KiCad <code>tstamp</code> UUID. Re-running your Python script never scrambles component associations in KiCad's PCB editor!
@@ -85,9 +84,9 @@
         <figcaption>Signal and current return topology inside <code>eurorack_power(vcc, vee, gnd)</code>.</figcaption>
       </figure>
 
-      <h2>1. Multi-Pin Tuple Indexing on the 10-Pin Eurorack IDC Header</h2>
+      <h2>Step 1. Add the 10-Pin Eurorack IDC Header &amp; Multi-Pin Slices</h2>
       <p>
-        As we verified in <a href="0001-programmatic-component-discovery.html">Lesson 0001</a>, the 10-pin (`2×5`) Eurorack power connector uses KiCad 10's <code>Connector_Generic:Conn_02x05_Odd_Even</code> symbol and <code>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical</code> footprint. Instead of writing ten separate <code>+=</code> statements, SKiDL lets you index multiple pins in a single tuple subscript:
+        Instead of writing ten separate <code>+=</code> statements for the 10-pin (`2×5`) Eurorack power header, SKiDL lets you index multiple pins in a single tuple subscript:
       </p>
       <ul>
         <li><code>vee_raw += j_pwr[1, 2]</code> wires pins 1 and 2 (the <code>-12V</code> red-stripe end) to <code>-12V_RAW</code>.</li>
@@ -95,9 +94,41 @@
         <li><code>vcc_raw += j_pwr[9, 10]</code> wires pins 9 and 10 to <code>+12V_RAW</code>.</li>
       </ul>
 
-      <h2>2. Bipolar Schottky Diode &amp; Bulk Capacitor Polarity</h2>
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>New Code Added · eurorack_power() Part 1: 10-Pin IDC Header</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">@subcircuit
+def eurorack_power(vcc, vee, gnd):
+    """
+    10-pin Eurorack power input with Schottky reverse-polarity protection
+    and bulk electrolytic filtering on +12V and -12V rails.
+    """
+    j_pwr = Part(
+        "Connector_Generic",
+        "Conn_02x05_Odd_Even",
+        value="EURORACK_PWR_10PIN",
+        footprint=FP_PWR_HEADER_10P,
+        tag="j_pwr",
+    )
+    j_pwr.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
+
+    vcc_raw = Net("+12V_RAW")
+    vee_raw = Net("-12V_RAW")
+
+    # Standard 10-pin Eurorack pinout:
+    # Pins 1, 2: -12V (Red stripe)
+    # Pins 3..8: GND
+    # Pins 9, 10: +12V
+    vee_raw += j_pwr[1, 2]
+    gnd += j_pwr[3, 4, 5, 6, 7, 8]
+    vcc_raw += j_pwr[9, 10]</code></pre>
+      </figure>
+
+      <h2>Step 2. Add Bipolar Schottky Diode &amp; Bulk Capacitor Polarity</h2>
       <p>
-        Even when you know bipolar power supplies well, expressing <code>-12V</code> diode and electrolytic capacitor orientation in code requires care with pin names (`"A"`, `"K"`) and numbers (`1`, `2`):
+        Next, inside <code>eurorack_power()</code>, we add two <code>1N5819WS</code> Schottky diodes (<code>d_pos</code>, <code>d_neg</code>) and two <code>10uF</code> radial electrolytic bulk capacitors (<code>c_bulk_pos</code>, <code>c_bulk_neg</code>) cloned from templates. Expressing <code>-12V</code> diode and electrolytic capacitor orientation in code requires care with pin names (<code>"A"</code>, <code>"K"</code>) and numbers (<code>1</code>, <code>2</code>):
       </p>
 
       <div class="table-wrap scroller">
@@ -140,17 +171,163 @@
         </table>
       </div>
 
-      <h2>3. Inspect &amp; Run Lesson 0002's Companion Script</h2>
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>New Code Added · eurorack_power() Part 2: 1N5819WS Diodes &amp; 10uF Bulk Caps</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">    # Reverse-polarity protection Schottky diodes (1N5819WS in SOD-323)
+    d_t = Part(
+        "Device",
+        "D_Schottky",
+        dest=TEMPLATE,
+        value="1N5819WS",
+        footprint=FP_DIODE_SOD323,
+    )
+    d_t.fields["LCSC"] = LCSC_D_1N5819WS_SOD323
+    d_t.fields["MPN"] = "1N5819WS"
+    d_t.fields["JLCPCB_Class"] = "Basic"
+    d_t.fields["Notes"] = (
+        "40V 1A Schottky diode in Diode_SMD:D_SOD-323; Alt larger package: B5819W in Diode_SMD:D_SOD-123 (LCSC C8598, Basic)"
+    )
+    d_pos, d_neg = d_t(2, tag="d_prot")
+
+    # +12V protection: Anode (A) at header -> Cathode (K) at +12V rail
+    vcc_raw += d_pos["A"]
+    vcc += d_pos["K"]
+
+    # -12V protection: Cathode (K) at header <- Anode (A) at -12V rail
+    vee_raw += d_neg["K"]
+    vee += d_neg["A"]
+
+    # Bulk electrolytic bypass capacitors (10uF / 25V radial through-hole, Panasonic ECEA1EKS100)
+    c_bulk_t = Part(
+        "Device",
+        "C_Polarized",
+        dest=TEMPLATE,
+        value="10uF",
+        footprint=FP_C_ELEC,
+    )
+    c_bulk_t.fields["MPN"] = "ECEA1EKS100"
+    c_bulk_t.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
+    c_bulk_pos, c_bulk_neg = c_bulk_t(2, tag="c_bulk")
+
+    # +12V bulk cap: (+) to +12V, (-) to GND
+    vcc += c_bulk_pos[1]
+    gnd += c_bulk_pos[2]
+
+    # -12V bulk cap: (+) to GND, (-) to -12V (since GND is positive relative to -12V)
+    gnd += c_bulk_neg[1]
+    vee += c_bulk_neg[2]</code></pre>
+      </figure>
+
+      <h2>Step 3. Add Top-Level Power Net Wiring, <code>ERC()</code> &amp; Export</h2>
       <p>
-        Review the complete runnable script in <a href="../apps/0002-eurorack-power-subcircuit/power_subcircuit.py"><code>tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py</code></a>:
+        Finally, we add a top-level function <code>run_power_subcircuit()</code> that creates the three global power nets (<code>vcc</code>, <code>vee</code>, <code>gnd</code>), sets <code>.drive = POWER</code> on each, calls <code>eurorack_power(vcc, vee, gnd, tag="pwr")</code>, runs <code>ERC()</code>, and exports our first KiCad 10 netlist (<code>.net</code>) and XML BOM (<code>.xml</code>):
       </p>
 
       <figure class="code-figure">
         <div class="code-header">
-          <span>tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py (excerpt)</span>
+          <span>New Code Added · Top-Level Runner &amp; Netlist/XML Export</span>
           <button type="button" class="copy-btn">Copy</button>
         </div>
-        <pre><code class="language-python">@subcircuit
+        <pre><code class="language-python">def run_power_subcircuit():
+    """Instantiate `eurorack_power`, verify with `ERC()`, and export `.net` / `.xml`."""
+    vcc = Net("+12V")
+    vee = Net("-12V")
+    gnd = Net("GND")
+
+    # Mark protected rails as POWER-driven for ERC verification
+    vcc.drive = POWER
+    vee.drive = POWER
+    gnd.drive = POWER
+
+    eurorack_power(vcc, vee, gnd, tag="pwr")
+
+    ERC()
+    generate_netlist(file_="power_subcircuit.net")
+    generate_xml(file_="power_subcircuit_bom.xml")
+
+    print("=== Eurorack Power Subcircuit Verification ===")
+    for part in builtins.default_circuit.parts:
+        lcsc = part.fields.get("LCSC", "—")
+        jlc_cls = part.fields.get("JLCPCB_Class", "—")
+        print(f"  {part.ref:<4} | {part.value:<18} | LCSC: {lcsc:<8} | {jlc_cls}")
+
+    for rail in (vcc, vee, gnd):
+        sorted_pins = sorted(rail.pins, key=lambda p: (p.part.ref, int(p.num)))
+        pin_list = ", ".join(f"{p.part.ref}.{p.num}" for p in sorted_pins)
+        print(f"  Net {rail.name:<5} -> {pin_list}")
+
+
+if __name__ == "__main__":
+    run_power_subcircuit()</code></pre>
+      </figure>
+
+      <h2>Step 4. Complete Stage 2 Script &amp; Terminal Verification</h2>
+      <p>
+        Here is the **complete, standalone 155-line Stage 2 Python script** combining our pre-import header, constants, <code>eurorack_power</code> subcircuit, and verification runner (saved at <code>tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py</code>):
+      </p>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Complete Stage 2 Script · tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">#!/usr/bin/env python3
+"""
+Lesson 0002: Eurorack Power Supply `@subcircuit` &amp; Reverse-Polarity Protection.
+
+Builds and verifies `eurorack_power(vcc, vee, gnd)` with:
+- 10-pin (2x5) shrouded IDC header (`Connector_Generic:Conn_02x05_Odd_Even`)
+- 1N5819WS Schottky reverse-polarity protection diodes (`Device:D_Schottky`, SOD-323)
+- 10uF radial electrolytic bulk bypass capacitors (`Device:C_Polarized`)
+"""
+
+import builtins
+import os
+from pathlib import Path
+
+# Keep generated .erc, .log, .net, .xml, and _sklib.py files inside this lesson's app directory
+os.chdir(Path(__file__).resolve().parent)
+
+# Configure writable cache directories and KiCad 10 library paths BEFORE importing skidl
+os.environ.setdefault("XDG_DATA_HOME", "/tmp/xdg_data")
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/mpl_config")
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols"):
+    os.environ.setdefault(
+        "KICAD10_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+    os.environ.setdefault(
+        "KICAD_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints"):
+    os.environ.setdefault(
+        "KICAD10_FOOTPRINT_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints",
+    )
+
+from skidl import (  # noqa: E402
+    ERC,
+    POWER,
+    TEMPLATE,
+    Net,
+    Part,
+    generate_netlist,
+    generate_xml,
+    subcircuit,
+)
+
+FP_C_ELEC = "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
+FP_DIODE_SOD323 = "Diode_SMD:D_SOD-323"
+FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
+
+LCSC_D_1N5819WS_SOD323 = "C191023"  # CJ 1N5819WS (40V 1A Schottky SOD-323, Basic Part)
+
+
+@subcircuit
 def eurorack_power(vcc, vee, gnd):
     """
     10-pin Eurorack power input with Schottky reverse-polarity protection
@@ -168,10 +345,15 @@ def eurorack_power(vcc, vee, gnd):
     vcc_raw = Net("+12V_RAW")
     vee_raw = Net("-12V_RAW")
 
+    # Standard 10-pin Eurorack pinout:
+    # Pins 1, 2: -12V (Red stripe)
+    # Pins 3..8: GND
+    # Pins 9, 10: +12V
     vee_raw += j_pwr[1, 2]
     gnd += j_pwr[3, 4, 5, 6, 7, 8]
     vcc_raw += j_pwr[9, 10]
 
+    # Reverse-polarity protection Schottky diodes (1N5819WS in SOD-323)
     d_t = Part(
         "Device",
         "D_Schottky",
@@ -182,6 +364,9 @@ def eurorack_power(vcc, vee, gnd):
     d_t.fields["LCSC"] = LCSC_D_1N5819WS_SOD323
     d_t.fields["MPN"] = "1N5819WS"
     d_t.fields["JLCPCB_Class"] = "Basic"
+    d_t.fields["Notes"] = (
+        "40V 1A Schottky diode in Diode_SMD:D_SOD-323; Alt larger package: B5819W in Diode_SMD:D_SOD-123 (LCSC C8598, Basic)"
+    )
     d_pos, d_neg = d_t(2, tag="d_prot")
 
     # +12V protection: Anode (A) at header -> Cathode (K) at +12V rail
@@ -192,6 +377,7 @@ def eurorack_power(vcc, vee, gnd):
     vee_raw += d_neg["K"]
     vee += d_neg["A"]
 
+    # Bulk electrolytic bypass capacitors (10uF / 25V radial through-hole, Panasonic ECEA1EKS100)
     c_bulk_t = Part(
         "Device",
         "C_Polarized",
@@ -203,10 +389,46 @@ def eurorack_power(vcc, vee, gnd):
     c_bulk_t.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
     c_bulk_pos, c_bulk_neg = c_bulk_t(2, tag="c_bulk")
 
+    # +12V bulk cap: (+) to +12V, (-) to GND
     vcc += c_bulk_pos[1]
     gnd += c_bulk_pos[2]
+
+    # -12V bulk cap: (+) to GND, (-) to -12V (since GND is positive relative to -12V)
     gnd += c_bulk_neg[1]
-    vee += c_bulk_neg[2]</code></pre>
+    vee += c_bulk_neg[2]
+
+
+def run_power_subcircuit():
+    """Instantiate `eurorack_power`, verify with `ERC()`, and export `.net` / `.xml`."""
+    vcc = Net("+12V")
+    vee = Net("-12V")
+    gnd = Net("GND")
+
+    # Mark protected rails as POWER-driven for ERC verification
+    vcc.drive = POWER
+    vee.drive = POWER
+    gnd.drive = POWER
+
+    eurorack_power(vcc, vee, gnd, tag="pwr")
+
+    ERC()
+    generate_netlist(file_="power_subcircuit.net")
+    generate_xml(file_="power_subcircuit_bom.xml")
+
+    print("=== Eurorack Power Subcircuit Verification ===")
+    for part in builtins.default_circuit.parts:
+        lcsc = part.fields.get("LCSC", "—")
+        jlc_cls = part.fields.get("JLCPCB_Class", "—")
+        print(f"  {part.ref:<4} | {part.value:<18} | LCSC: {lcsc:<8} | {jlc_cls}")
+
+    for rail in (vcc, vee, gnd):
+        sorted_pins = sorted(rail.pins, key=lambda p: (p.part.ref, int(p.num)))
+        pin_list = ", ".join(f"{p.part.ref}.{p.num}" for p in sorted_pins)
+        print(f"  Net {rail.name:<5} -> {pin_list}")
+
+
+if __name__ == "__main__":
+    run_power_subcircuit()</code></pre>
       </figure>
 
       <figure class="code-figure">
@@ -217,6 +439,26 @@ def eurorack_power(vcc, vee, gnd):
         <pre><code class="language-bash">.venv/bin/python tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py
 ruff check --fix tutorial/apps/0002-eurorack-power-subcircuit/*.py
 ruff format tutorial/apps/0002-eurorack-power-subcircuit/*.py</code></pre>
+      </figure>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Verified Output · power_subcircuit.py</span>
+        </div>
+        <pre><code class="language-bash">ERC INFO: No errors or warnings found while running ERC.
+
+INFO: 0 errors found while generating netlist.
+INFO: 0 errors found while generating XML.
+
+=== Eurorack Power Subcircuit Verification ===
+  J1   | EURORACK_PWR_10PIN | LCSC: —        | Manual THT (DNP for SMT)
+  D1   | 1N5819WS           | LCSC: C191023  | Basic
+  D2   | 1N5819WS           | LCSC: C191023  | Basic
+  C1   | 10uF               | LCSC: —        | Manual THT (DNP for SMT)
+  C2   | 10uF               | LCSC: —        | Manual THT (DNP for SMT)
+  Net +12V  -> C1.1, D1.1
+  Net -12V  -> C2.2, D2.2
+  Net GND   -> C1.2, C2.1, J1.3, J1.4, J1.5, J1.6, J1.7, J1.8</code></pre>
       </figure>
 
       <!-- Interactive Code Exercise -->
@@ -308,19 +550,19 @@ def eurorack_power(vcc, vee, gnd):
       <div class="callout callout-success">
         <div class="callout-title">Primary Sources &amp; Follow-Up Questions</div>
         <p style="margin:0;">
-          <strong>Primary Sources</strong>: <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a> · <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code> (lines 83–151)</a> · <a href="../../DESIGN_REVIEW.md"><code>DESIGN_REVIEW.md</code></a>.<br>
-          <strong>Ask the Agent</strong>: Curious when to choose <code>1N5819WS</code> (`SOD-323`) vs. <code>B5819W</code> (`SOD-123`) or series PTC fuses on higher-current digital modules? Ask in chat anytime, or proceed to <strong>Lesson 0003</strong>!
+          <strong>Primary Sources</strong>: <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a> · <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a>.<br>
+          <strong>Ask the Agent</strong>: Curious when to choose <code>1N5819WS</code> (`SOD-323`) vs. <code>B5819W</code> (`SOD-123`) or series PTC fuses on higher-current digital modules? Ask in chat anytime, or proceed to <strong>Lesson 0003</strong> where we grow this script by adding <code>buffered_channel_1to3()</code>!
         </p>
       </div>
 
       <nav class="pager" aria-label="Lesson pagination">
         <a href="0001-programmatic-component-discovery.html">
           <span class="pager-label">← Previous Lesson</span>
-          <span class="pager-title">0001: Programmatic Part, Pinout &amp; Footprint Discovery</span>
+          <span class="pager-title">0001: Programmatic Part Discovery &amp; Constants</span>
         </a>
         <a href="0003-single-buffered-channel.html">
           <span class="pager-label">Next Lesson →</span>
-          <span class="pager-title">0003: Single 1-to-3 Buffered Channel (TL074H)</span>
+          <span class="pager-title">0003: Growing the Script — Adding buffered_channel_1to3()</span>
         </a>
       </nav>
     </article>
@@ -328,7 +570,7 @@ def eurorack_power(vcc, vee, gnd):
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span>Licensed under the <a href="../../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</span>
       <span>This is not an official Google product.</span>
     </div>
   </footer>

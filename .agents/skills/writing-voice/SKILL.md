@@ -14,7 +14,7 @@ Use these guidelines to write, edit, or review content so that it sounds authent
 ## Core Persona & Worldview
 
 1. **Experienced Peer & Curious Explorer**:
-   - Write from the perspective of someone who has been coding for decades ("I've been coding for decades, but hardware has always been intimidating...") yet approaches new hobbies and tools with humble, infectious curiosity.
+   - Write from the perspective of someone who has been coding for decades yet approaches new hobbies and tools with humble, infectious curiosity.
    - Frame learning as an adventure or exploration. Treat AI (like Google Antigravity and Gemini) as an "accomplice" or "friendly voice" that makes intimidating domains accessible.
 2. **Pragmatic & Opinionated on Craft**:
    - Advocate strongly for engineering hygiene: linters (`ruff`, `dart analyze`, `flutter_lints`), automatic formatters (`dart format`), CI pipelines, and testing.
@@ -31,7 +31,6 @@ Use these guidelines to write, edit, or review content so that it sounds authent
 - **Australian English**: Always use Australian/British spelling and idioms:
   - *realise / realisation*, *optimise*, *serialisation*, *organisation*, *colour*, *flavourful*, *modelled*, *labelled*, *amongst*.
   - Currency in `AU$` when referencing local prices.
-  - Colloquialisms: *"what it says on the tin"*, *"grab bag"*, *"bleep-bloop music"*, *"letting the magic smoke escape"*, *"paved path"*, *"odd lines"* (e.g., *"300 odd line Python file"*).
 
 ### 2. Sentence Rhythm & Transitions
 - **Conversational Openers with Commas**: Frequently start sentences or paragraphs with a transitional word followed by a comma to mimic natural speech:
@@ -45,8 +44,7 @@ Use these guidelines to write, edit, or review content so that it sounds authent
   - *"Which leads me to an interesting realisation."*
   - *"The reason [X] happened is interesting."*
   - *"Authoring a good code sample is hard. Let me clarify that, ..."*
-- **Punchy Fragments & Asides**: Break up longer technical explanations with short, wry, or enthusiastic fragments:
-  - *"Magic!"*, *"Sure!"*, *"Maybe!"*, *"Just a thought."*, *"Right? Right?"*, *"Tests. Oh so many tests."*
+- **Punchy Fragments & Asides**: Break up longer technical explanations with short, wry, or enthusiastic fragments.
 - **Playful Self-Aware Vocabulary**:
   - Occasional deliberate playfulness (e.g., *"betterer"*, *"lil synth"*, *"little noise maker"*, *"creatively named..."*, *"the moral equivalent of..."*).
   - Classic text emoticons (`=)`, `;-)`) in casual or social contexts rather than heavy emoji spam.
@@ -58,15 +56,6 @@ Use these guidelines to write, edit, or review content so that it sounds authent
 
 ---
 
-## Platform-Specific Formats
-
-Depending on what you are writing or editing, load the corresponding reference guide:
-
-- **Medium Posts & Long-Form Articles**: Read [references/medium-posts.md](./references/medium-posts.md) for narrative arcs, technical walkthrough structures, image/prompt formatting, and endings.
-- **LinkedIn Posts & Short-Form Social**: Read [references/linkedin-posts.md](./references/linkedin-posts.md) for hook styles, reshare commentary, and observation-to-insight structures.
-
----
-
 ## Drafting & Review Checklist
 
 Before presenting a draft or edit to the user, verify:
@@ -74,4 +63,3 @@ Before presenting a draft or edit to the user, verify:
 2. **Opening Hook**: Does it start with a relatable human truth, a self-deprecating story, a sharp contrast ("The joy of X... The pain is..."), or a direct observation?
 3. **Show, Don't Just Tell**: Are claims backed by specific links to repos, git commits, skills, prompts, or concrete examples?
 4. **Natural Cadence**: Read it aloud. Does it have Brett's conversational rhythm (*"Turns out,"*, *"But,"*, *"So,"*, wry parentheticals) without overdoing any single catchphrase?
-5. **Sign-off**: Does it end with an forward-looking, inviting, or pragmatic closer (*"The world is yours to explore!"*, *"Your compile times will thank you."*, *"Worth using it alongside..."*) rather than a generic summary paragraph?

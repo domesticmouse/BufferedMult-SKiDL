@@ -40,7 +40,7 @@
       <div class="lesson-kicker">Lesson 0006 · Stage 6 (Mechanical CAD-as-Code)</div>
       <h1>Automated 4HP Eurorack Front Panel Generation in Python (<code>+6.48 mm</code> Bushing Offset)</h1>
       <p class="lead">
-        Generate a mated Doepfer A-100 3U × 4HP (<code>20.0 × 128.5 mm</code>) Eurorack front panel PCB directly from Python—solving the classic <code>+6.48 mm</code> <code>WQP-PJ398SM</code> (Thonkiconn) sleeve-to-bushing mechanical offset so every <code>6.2 mm</code> panel hole aligns to the sub-millimeter with the main circuit board.
+        Generate a mated Doepfer A-100 3U × 4HP (<code>20.0 × 128.5 mm</code>) Eurorack front panel PCB directly from Python—solving the classic <code>+6.48 mm</code> <code>WQP-PJ398SM</code> (Thonkiconn) sleeve-to-bushing mechanical offset so every <code>6.2 mm</code> panel hole aligns to the sub-millimetre with the main circuit board.
       </p>
 
       <div class="meta-bar">
@@ -51,23 +51,23 @@
 
       <h2>Step 1. Doepfer A-100 3U × 4HP Geometry &amp; the <code>+6.48 mm</code> Thonkiconn Trap</h2>
       <p>
-        In <a href="0005-kicad-pcb-layout-and-assembly.html">Lesson 0005</a>, we placed our 12 vertical <code>WQP-PJ398SM</code> (Thonkiconn) jacks (<code>J2</code>–<code>J13</code>) on a <code>20.0 × 108.0 mm</code> main PCB spanning <code>X = 20.0..40.0 mm</code> and <code>Y = 20.0..128.0 mm</code>. Now we need a <strong>3U × 4HP Eurorack Front Panel</strong> (<code>20.0 × 128.5 mm</code> per the Doepfer A-100 standard) that mates directly over those 12 jack bushings.
+        In <a href="0005-kicad-pcb-layout-and-assembly.html">Lesson 0005</a>, we placed our 12 vertical <code>WQP-PJ398SM</code> (Thonkiconn) jacks (<code>J2</code>–<code>J13</code>) on a <code>20.0 × 108.0 mm</code> main PCB spanning <code>X = 20.0..40.0 mm</code> and <code>Y = 20.0..128.0 mm</code>. Now we need a <strong>3U × 4HP Eurorack Front Panel</strong> (<code>20.0 × 128.5 mm</code> per the Doepfer A-100 standard) that bolts directly over those 12 jack bushings.
       </p>
       <p>
-        If you simply drill front-panel holes at the <code>(X, Y)</code> coordinates of the jack footprints from Lesson 0005, <strong>your front panel will not fit!</strong> Here is why:
+        Now, you might assume we can just drill front-panel holes at the exact <code>(X, Y)</code> coordinates where we placed the jack footprints in Lesson 0005. Turns out, if you do that, <strong>your front panel will be off by nearly six and a half millimetres and won't fit over a single jack!</strong> The reason this happens comes down to two mechanical details:
       </p>
       <ul>
         <li>
-          <strong>Footprint Origin <code>(0, 0)</code> vs. Bushing Shaft Center <code>(0, +6.48 mm)</code></strong>: Inside KiCad 10's <code>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</code> footprint, the origin <code>(0, 0)</code> is placed at <strong>Pad <code>S</code> (Sleeve)</strong> at the top of the jack body. The threaded M6 bushing shaft where your patch cable plugs in (`fp_circle`) sits <strong><code>+6.48 mm</code> lower in Y</strong> (at <code>0.0, +6.48 mm</code> when rotation is <code>0°</code>).
+          <strong>Footprint Origin <code>(0, 0)</code> vs. Bushing Shaft Centre <code>(0, +6.48 mm)</code></strong>: Inside KiCad 10's <code>Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles</code> footprint, the origin <code>(0, 0)</code> sits at <strong>Pad <code>S</code> (Sleeve)</strong> at the top of the jack body. The threaded M6 bushing shaft where your patch cable plugs in (<code>fp_circle</code>) sits <strong><code>+6.48 mm</code> lower in Y</strong> (at <code>0.0, +6.48 mm</code> when rotation is <code>0°</code>).
         </li>
         <li>
-          <strong>Vertical PCB-to-Panel Centering (<code>10.25 mm</code> Rail Margin)</strong>: Centering our <code>108.0 mm</code> tall main PCB behind a <code>128.5 mm</code> tall 3U panel leaves <code>(128.5 - 108.0) / 2 = 10.25 mm</code> of margin at both the top and bottom edges—clearing standard <code>~7.5 mm</code> Eurorack mounting rail lips with <code>2.75 mm</code> to spare. Because the main PCB starts at <code>(20.0, 20.0 mm)</code>, the top-left corner of the centered front panel sits at <code>(20.0, 9.75 mm)</code> in main-PCB coordinates.
+          <strong>Vertical PCB-to-Panel Centring (<code>10.25 mm</code> Rail Margin)</strong>: Centring our <code>108.0 mm</code> tall main PCB behind a <code>128.5 mm</code> tall 3U panel leaves <code>(128.5 - 108.0) / 2 = 10.25 mm</code> of margin at both the top and bottom edges—clearing standard <code>~7.5 mm</code> Eurorack mounting rail lips with <code>2.75 mm</code> to spare. Because the main PCB starts at <code>(20.0, 20.0 mm)</code>, the top-left corner of the centred front panel sits at <code>(20.0, 9.75 mm)</code> in main-PCB coordinates.
         </li>
       </ul>
 
       <figure class="diagram-card">
         <pre class="mermaid">flowchart LR
-  FP["Main PCB Jack Footprint<br/>J2 Origin (Pad S)<br/>(25.00, 27.00 mm)"] -- "+ (0.00, +6.48 mm)<br/>Bushing Offset" --> BUSH["Main PCB Bushing Center<br/>M6 Shaft Axis<br/>(25.00, 33.48 mm)"]
+  FP["Main PCB Jack Footprint<br/>J2 Origin (Pad S)<br/>(25.00, 27.00 mm)"] -- "+ (0.00, +6.48 mm)<br/>Bushing Offset" --> BUSH["Main PCB Bushing Centre<br/>M6 Shaft Axis<br/>(25.00, 33.48 mm)"]
   BUSH -- "- (20.00, 9.75 mm)<br/>Panel Top-Left Origin" --> PANEL["Panel-Local 6.2 mm Hole<br/>BufferedMult_Panel.kicad_pcb<br/>(5.00, 23.73 mm)"]</pre>
         <figcaption>Coordinate pipeline transforming each <code>WQP-PJ398SM</code> footprint origin into its panel-local drill coordinate.</figcaption>
       </figure>
@@ -76,7 +76,7 @@
       <section class="exercise-box" id="panel-bushing-calc" aria-labelledby="calc-0006-title">
         <h3 id="calc-0006-title">Interactive <code>WQP-PJ398SM</code> Bushing Offset &amp; Panel Coordinate Calculator</h3>
         <p>
-          Select any of the 12 jacks (<code>J2</code>–<code>J13</code>) and inspect how its main-PCB footprint coordinate transforms into the bushing center, panel-local drill hole, and silkscreen label safe zones (outside the <code>9.5 mm</code> M6 nut diameter):
+          Select any of the 12 jacks (<code>J2</code>–<code>J13</code>) and inspect how its main-PCB footprint coordinate transforms into the bushing centre, panel-local drill hole, and silkscreen label safe zones (outside the <code>9.5 mm</code> M6 nut diameter):
         </p>
         <div class="explorer-toolbar">
           <label style="flex:1 1 240px;">
@@ -109,8 +109,8 @@
         <ul class="norm-outputs-list">
           <li><span>1. Main PCB Footprint Origin (Pad S)</span><strong id="calc-out-fp">J2 (IN 1) @ (25.00, 27.00 mm)</strong></li>
           <li><span>2. Rotated Bushing Offset (dX, dY)</span><strong id="calc-out-delta">(+0.00, +6.48 mm) [rot=0°]</strong></li>
-          <li><span>3. Main PCB Bushing Shaft Center</span><strong id="calc-out-bush">(25.00, 33.48 mm)</strong></li>
-          <li><span>4. Panel-Local 6.2 mm Hole Center</span><strong id="calc-out-panel">(5.00, 23.73 mm)</strong></li>
+          <li><span>3. Main PCB Bushing Shaft Centre</span><strong id="calc-out-bush">(25.00, 33.48 mm)</strong></li>
+          <li><span>4. Panel-Local 6.2 mm Hole Centre</span><strong id="calc-out-panel">(5.00, 23.73 mm)</strong></li>
           <li><span>5. Recommended Silkscreen Label Y</span><strong id="calc-out-nut">Y = 17.50 mm (above) or Y = 29.96 mm (below)</strong></li>
         </ul>
       </section>
@@ -136,7 +136,7 @@
 def compute_panel_coordinates(jacks: list[Part]) -> tuple[float, list[dict]]:
     """
     Transform main PCB WQP-PJ398SM footprint coordinates into 4HP front panel
-    bushing center coordinates in both Main-PCB and Panel-Local coordinate spaces.
+    bushing centre coordinates in both Main-PCB and Panel-Local coordinate spaces.
     """
     rail_clearance_y = (PANEL_HEIGHT_3U_MM - MAIN_PCB_HEIGHT_MM) / 2.0
     panel_origin_x = MAIN_PCB_MIN_X_MM
@@ -149,11 +149,11 @@ def compute_panel_coordinates(jacks: list[Part]) -> tuple[float, list[dict]]:
       </figure>
 
       <p>
-        When fabricated as an FR-4 PCB front panel (<code>BufferedMult_Panel.kicad_pcb</code>), pouring solid copper planes across <code>F.Cu</code> and <code>B.Cu</code> with exposed rear solder-mask rings (<code>B.Mask</code>) around the <code>6.2 mm</code> jack holes gives two hardware wins for free:
+        So, when we order the front panel as a standard <code>1.6 mm</code> FR-4 PCB (<code>BufferedMult_Panel.kicad_pcb</code>) from the same fab house, pouring solid copper planes across <code>F.Cu</code> and <code>B.Cu</code> with exposed rear solder-mask rings (<code>B.Mask</code>) around the <code>6.2 mm</code> jack holes gives us two hardware wins for free:
       </p>
       <ol>
         <li><strong>Automatic Chassis Shielding</strong>: Tightening the M6 knurled jack nuts presses the grounded jack bushings against the exposed copper rings, bonding both copper planes to <code>GND</code> as a full-height Faraday shield over your op-amps.</li>
-        <li><strong>Zero Light Bleed &amp; Extra Rigidity</strong>: Solid dual-layer copper blocks case LEDs from shining through the fiberglass substrate and stiffens the <code>1.6 mm</code> panel against patching flex.</li>
+        <li><strong>Zero Light Bleed &amp; Extra Rigidity</strong>: Solid dual-layer copper blocks case LEDs from shining through the fibreglass substrate and stiffens the <code>1.6 mm</code> panel against patching flex.</li>
       </ol>
 
       <h2>Step 3. Complete Runnable Script (<code>generate_panel_plan.py</code>)</h2>
@@ -553,11 +553,11 @@ ruff format tutorial/apps/0006-eurorack-front-panel-generator/*.py</code></pre>
           <div class="code-header">
             <span>Interactive Python Exercise (Prism keep-markup)</span>
           </div>
-          <pre><code class="language-python"># Standard Doepfer A-100 3U panel height in millimeters
+          <pre><code class="language-python"># Standard Doepfer A-100 3U panel height in millimetres
 PANEL_HEIGHT_3U_MM = <input type="text" class="code-blank" aria-label="Doepfer 3U panel height in mm" data-answer="128.5|128.50" data-hint="Standard 3U Eurorack panel height in mm: 128.50" size="7">
 
 # WQP-PJ398SM (Thonkiconn) sleeve-to-bushing offset in Y (mm)
-THONKICONN_BUSHING_OFFSET_Y_MM = <input type="text" class="code-blank" aria-label="Thonkiconn Y bushing offset in mm" data-answer="6.48|+6.48" data-hint="Distance in mm from Pad S (0,0) to M6 bushing shaft center: 6.48" size="6">
+THONKICONN_BUSHING_OFFSET_Y_MM = <input type="text" class="code-blank" aria-label="Thonkiconn Y bushing offset in mm" data-answer="6.48|+6.48" data-hint="Distance in mm from Pad S (0,0) to M6 bushing shaft centre: 6.48" size="6">
 
 # Recommended drill diameter (mm) for M6 Thonkiconn bushings
 JACK_DRILL_MM = <input type="text" class="code-blank" aria-label="Jack drill hole diameter in mm" data-answer="6.2|6.20" data-hint="Panel hole drill diameter in mm for 6.0mm M6 bushings: 6.20" size="6">
@@ -582,17 +582,17 @@ panel_y = round(bush_y - <input type="text" class="code-blank" aria-label="Varia
             1. Why must we add <code>+6.48 mm</code> to the Y coordinate of each vertical <code>WQP-PJ398SM</code> (Thonkiconn) jack footprint when drilling front-panel holes?
           </p>
           <div class="quiz-options">
-            <button type="button" class="quiz-option" data-correct="true" data-explain="In KiCad's WQP-PJ398SM footprint, (0, 0) is Pad S (Sleeve) at the top of the housing, whereas the threaded M6 bushing center is located at (0, +6.48 mm).">
+            <button type="button" class="quiz-option" data-correct="true" data-explain="In KiCad's WQP-PJ398SM footprint, (0, 0) is Pad S (Sleeve) at the top of the housing, whereas the threaded M6 bushing centre is located at (0, +6.48 mm).">
               <span>A.</span>
-              <span>The footprint origin sits at the sleeve pad while the bushing center sits offset below.</span>
+              <span>The footprint origin sits at the sleeve pad while the bushing centre sits offset below.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="false" data-explain="KiCad exports drill holes at their exact placed coordinates without subtracting any offset.">
               <span>B.</span>
-              <span>KiCad ten automatically subtracts six millimeters from every non-plated drill coordinate during Excellon file generation.</span>
+              <span>KiCad ten automatically subtracts six millimetres from every non-plated drill coordinate during Excellon file generation.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="false" data-explain="The main PCB is mechanically supported by the 12 jack bushings bolted directly to the front panel, not by the case rails.">
               <span>C.</span>
-              <span>Doepfer mounting rails shift every attached circuit board downward by six millimeters inside the case.</span>
+              <span>Doepfer mounting rails shift every attached circuit board downward by six millimetres inside the case.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="false" data-explain="Reflow soldering of B.Cu SMD components happens before hand-soldering the F.Cu THT jacks and does not shift THT hole positions.">
               <span>D.</span>
@@ -613,7 +613,7 @@ panel_y = round(bush_y - <input type="text" class="code-blank" aria-label="Varia
             </button>
             <button type="button" class="quiz-option" data-correct="false" data-explain="JLCPCB can manufacture panels with or without copper pours.">
               <span>B.</span>
-              <span>JLCPCB rejects bare fiberglass front panels unless both copper layers exceed ninety percent coverage.</span>
+              <span>JLCPCB rejects bare fibreglass front panels unless both copper layers exceed ninety percent coverage.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="true" data-explain="Exposed rear copper rings bond the panel planes to the grounded jack sleeves when the nuts are tightened, shielding the audio circuitry and blocking light bleed through the FR-4.">
               <span>C.</span>

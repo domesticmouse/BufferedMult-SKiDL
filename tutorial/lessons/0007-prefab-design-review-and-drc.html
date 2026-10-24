@@ -51,10 +51,13 @@
 
       <h2>Step 1. Anatomy of a Real-World Hardware Design Review</h2>
       <p>
-        Passing SKiDL's <code>ERC()</code> proves that your Python netlist is electrically sound, but physical PCB layout introduces geometric and analog traps that only a post-layout <strong>Design Rules Check (<code>DRC</code>)</strong> and pre-fabrication audit can catch.
+        I could pretend that once SKiDL's <code>ERC()</code> printed <code>0 errors, 0 warnings</code>, our physical PCB layout worked on the very first try. Spoiler: it didn't.
       </p>
       <p>
-        During the engineering review of <code>BufferedMult.kicad_pcb</code>, running <code>kicad-cli pcb drc --refill-zones</code> alongside automated PCB, Gerber, and BOM analyzers caught and resolved <strong>9 real issues</strong> before ordering boards:
+        And honestly, that's the best part of bringing software-style verification to hardware design. Passing <code>ERC()</code> proves that your Python netlist is electrically sound, but physical PCB layout introduces geometric and analog traps that only a post-layout <strong>Design Rules Check (<code>DRC</code>)</strong> and pre-fabrication audit can catch.
+      </p>
+      <p>
+        During the engineering review of <code>BufferedMult.kicad_pcb</code>, running <code>kicad-cli pcb drc --refill-zones</code> alongside our automated PCB, Gerber, and BOM analysers caught and resolved <strong>9 real issues</strong> before we sent a single file to the fab house:
       </p>
 
       <div class="table-wrap">
@@ -72,7 +75,7 @@
               <td><strong>Critical Open Net</strong></td>
               <td><code>U1</code> Pin 5 (<code>INB+</code>) unrouted</td>
               <td>
-                Stage B's non-inverting input pin was left unrouted on <code>B.Cu</code>, which would have left <code>OUT_1A</code> floating. Routed <code>U1:5</code> to <code>CH1_BUF</code> (`0` unconnected items).
+                Stage B's non-inverting input pin was left unrouted on <code>B.Cu</code>, which would have left <code>OUT_1A</code> floating. Routed <code>U1:5</code> to <code>CH1_BUF</code> (<code>0</code> unconnected items).
               </td>
             </tr>
             <tr>
@@ -117,20 +120,20 @@
 
       <h2>Step 2. Distinguishing Real Blockers from Benign 4HP Form-Factor Warnings</h2>
       <p>
-        Automated PCB and EMC analyzers also flag geometric heuristics that an experienced Eurorack designer knows are intentional for a 4HP (<code>20.0 mm</code>) module. Knowing <em>why</em> an alert is benign is just as important as fixing real bugs:
+        Turns out, automated PCB and EMC analysers also flag geometric heuristics that are completely intentional for a compact 4HP (<code>20.0 mm</code>) module. Knowing <em>why</em> an alert is benign is just as important as fixing real bugs:
       </p>
       <ul>
         <li>
-          <strong>Jack Courtyard at <code>0.0 mm</code> from Board Edge (<code>PM-002</code>)</strong>: Each <code>WQP-PJ398SM</code> (Thonkiconn) housing is <code>10.0 mm</code> wide. Placing two columns centered at <code>X = 25.0 mm</code> and <code>X = 35.0 mm</code> on a board spanning <code>X = 20.0..40.0 mm</code> aligns the plastic jack bodies flush with the left and right PCB edges by design, while every copper pad sits safely inside the outline.
+          <strong>Jack Courtyard at <code>0.0 mm</code> from Board Edge (<code>PM-002</code>)</strong>: Each <code>WQP-PJ398SM</code> (Thonkiconn) housing is <code>10.0 mm</code> wide. Placing two columns centred at <code>X = 25.0 mm</code> and <code>X = 35.0 mm</code> on a board spanning <code>X = 20.0..40.0 mm</code> aligns the plastic jack bodies flush with the left and right PCB edges by design, while every copper pad sits safely inside the outline.
         </li>
         <li>
-          <strong>Series Schottky Drop vs. Unclipped Output Headroom</strong>: Our <code>1N5819WS</code> reverse-polarity protection diodes (<code>D1</code>, <code>D2</code>) drop <code>~0.38 V</code> per rail, supplying <code>±11.62 V</code> (`23.24 V` span) to <code>U1</code>–<code>U3</code>. With <code>TL074H</code>'s output stage, unclipped output swing is <code>~±10.4 V</code>—comfortably covering Eurorack's <code>±5 V</code> audio/LFO and <code>0..+10 V</code> CV standards while guaranteeing indestructible power plug protection.
+          <strong>Series Schottky Drop vs. Unclipped Output Headroom</strong>: Our <code>1N5819WS</code> reverse-polarity protection diodes (<code>D1</code>, <code>D2</code>) drop <code>~0.38 V</code> per rail, supplying <code>±11.62 V</code> (<code>23.24 V</code> span) to <code>U1</code>–<code>U3</code>. With <code>TL074H</code>'s output stage, unclipped output swing is <code>~±10.4 V</code>—comfortably covering Eurorack's <code>±5 V</code> audio/LFO and <code>0..+10 V</code> CV standards while guaranteeing reverse-plug protection.
         </li>
       </ul>
 
       <h2>Step 3. Write a 5-Stage Python Pre-Fab Audit Function (<code>run_prefab_audit()</code>)</h2>
       <p>
-        Because our entire circuit lives in Python objects inside <code>builtins.default_circuit</code>, we can write unit-test-style assertions that inspect every part, pin net, <code>NetClass</code>, thermal calculation, and exported BOM row automatically:
+        So, because our entire circuit lives in Python objects inside <code>builtins.default_circuit</code>, we can write unit-test-style assertions that inspect every part, pin net, <code>NetClass</code>, thermal calculation, and exported BOM row automatically:
       </p>
 
       <figure class="code-figure">
@@ -677,7 +680,7 @@ bom_ok = sum(len(r["refs"]) for r in bom_rows) == <input type="text" class="code
             2. What caused the <code>C5</code> Pad 2 (<code>GND</code>) open-circuit warning in the initial PCB layout review, and how was it resolved in <code>BufferedMult.kicad_pcb</code>?
           </p>
           <div class="quiz-options">
-            <button type="button" class="quiz-option" data-correct="false" data-explain="Non-polarized ceramic capacitors (Device:C) are symmetric and were wired to GND in the netlist.">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Non-polarised ceramic capacitors (Device:C) are symmetric and were wired to GND in the netlist.">
               <span>A.</span>
               <span>The capacitor symbol had reversed pin numbers inside SKiDL before running electrical rules checking.</span>
             </button>
@@ -702,7 +705,7 @@ bom_ok = sum(len(r["refs"]) for r in bom_rows) == <input type="text" class="code
         <div class="callout-title">Full Course Complete — From Empty Python File to Verified 4HP Hardware!</div>
         <p style="margin:0;">
           <strong>Primary Sources</strong>: <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a> · <a href="../reference/kicad-jlcpcb-lookup.html">KiCad 10 Symbol, Footprint &amp; JLCPCB Lookup Reference</a> · <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a> · <a href="../reference/glossary.html">Glossary</a>.<br>
-          <strong>Ask the Agent</strong>: You've now gone from a 0-line file (`0000`) through component discovery (`0001`), power protection (`0002`), op-amp channel followers (`0003`), cascaded normalling &amp; JLCPCB BOM export (`0004`), 4HP PCB layout &amp; deterministic `tstamps` (`0005`), automated front-panel generation (`0006`), and programmatic pre-fab auditing (`0007`). Want to design your next Eurorack module in Python? Ask in chat anytime!
+          <strong>Ask the Agent</strong>: You've now gone from a 0-line file (<code>0000</code>) through component discovery (<code>0001</code>), power protection (<code>0002</code>), op-amp channel followers (<code>0003</code>), cascaded normalling &amp; JLCPCB BOM export (<code>0004</code>), 4HP PCB layout &amp; deterministic <code>tstamps</code> (<code>0005</code>), automated front-panel generation (<code>0006</code>), and programmatic pre-fab auditing (<code>0007</code>). Want to design your next Eurorack module in Python? Ask in chat anytime!
         </p>
       </div>
 

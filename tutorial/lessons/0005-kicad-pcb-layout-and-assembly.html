@@ -51,13 +51,13 @@
 
       <h2>Step 1. How SKiDL Replaces <code>.kicad_sch</code> with Deterministic <code>tstamps</code></h2>
       <p>
-        In a traditional KiCad workflow, you draw a visual schematic (<code>.kicad_sch</code>) and click <strong>Update PCB from Schematic</strong>. When you design in Python with SKiDL (<a href="0004-cascaded-normalling-and-bom-export.html">Lesson 0004</a>), there is no <code>.kicad_sch</code> file—instead, you open KiCad 10's <strong>PCB Editor (<code>pcbnew</code>)</strong> and select <strong><code>File → Import → Netlist...</code></strong> to load <code>buffered_multiple.net</code> directly.
+        In a traditional KiCad workflow, you draw a visual schematic (<code>.kicad_sch</code>) and click <strong>Update PCB from Schematic</strong>. When we design in Python with SKiDL (<a href="0004-cascaded-normalling-and-bom-export.html">Lesson 0004</a>), there is no <code>.kicad_sch</code> file at all. Instead, you open KiCad 10's <strong>PCB Editor (<code>pcbnew</code>)</strong> and select <strong><code>File → Import → Netlist...</code></strong> to load <code>buffered_multiple.net</code> directly.
       </p>
       <p>
-        That raises a critical software-engineering question: <em>what happens when you tweak your Python script and re-import <code>buffered_multiple.net</code> into an already-routed PCB?</em>
+        Which leads me to a critical software-engineering question: <em>what happens when you tweak your Python script and re-import <code>buffered_multiple.net</code> into a PCB you already spent an hour routing?</em>
       </p>
       <p>
-        If a component's unique identifier changes between runs, KiCad rips up its existing footprint and drops a fresh unplaced copy at the cursor. That is why every subcircuit call and part instantiation in our script passes an explicit <code>tag=</code> string (<code>eurorack_power(..., tag="pwr")</code>, <code>buffered_channel_1to3(..., tag="ch1")</code>, <code>tag=f"u_ch{ch_num}"</code>, <code>tag=f"j_in_ch{ch_num}"</code>). SKiDL hashes the hierarchical path (<code>/ch1/u_ch1</code>) into a deterministic UUID inside the exported <code>.net</code> file:
+        Turns out, if a component's unique identifier changes between runs, KiCad rips up its existing footprint and drops a fresh unplaced copy at the cursor. Not ideal. That is why every subcircuit call and part instantiation in our script passes an explicit <code>tag=</code> string (<code>eurorack_power(..., tag="pwr")</code>, <code>buffered_channel_1to3(..., tag="ch1")</code>, <code>tag=f"u_ch{ch_num}"</code>, <code>tag=f"j_in_ch{ch_num}"</code>). SKiDL hashes the hierarchical path (<code>/ch1/u_ch1</code>) into a deterministic UUID inside the exported <code>.net</code> file, so KiCad updates nets in-place without touching your placed footprints:
       </p>
 
       <figure class="diagram-card">
@@ -70,7 +70,7 @@
 
       <h2>Step 2. The 4HP (<code>20.0 × 108.0 mm</code>) Layer &amp; Assembly Partition</h2>
       <p>
-        A 12-jack Triple 1-to-3 Buffered Multiple arranged in 6 rows × 2 columns fits comfortably on a single-board <strong>4HP</strong> (<code>20.0 mm</code> wide × <code>108.0 mm</code> tall) PCB. To keep JLCPCB assembly fast and economical, we partition the 44 circuit components across the front (<code>F.Cu</code>) and back (<code>B.Cu</code>) copper layers by assembly method:
+        Now, let's look at physical geometry. A 12-jack Triple 1-to-3 Buffered Multiple arranged in 6 rows × 2 columns fits comfortably on a single-board <strong>4HP</strong> (<code>20.0 mm</code> wide × <code>108.0 mm</code> tall) PCB. To keep JLCPCB assembly fast and economical, we partition the 44 circuit components across the front (<code>F.Cu</code>) and back (<code>B.Cu</code>) copper layers by how they get soldered:
       </p>
 
       <div class="table-wrap">
@@ -651,17 +651,17 @@ jack_layer = "<input type="text" class="code-blank" aria-label="KiCad front copp
               <span>A.</span>
               <span>KiCad ten prohibits placing surface-mount resistor footprints on the same layer as plated through holes.</span>
             </button>
-            <button type="button" class="quiz-option" data-correct="false" data-explain="Radial capacitor leads are trimmed after soldering; placing C1/C2 on F.Cu utilizes the 10.5mm standoff space behind the front panel.">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Radial capacitor leads are trimmed after soldering; placing C1/C2 on F.Cu utilises the 10.5mm standoff space behind the front panel.">
               <span>B.</span>
               <span>Mounting radial electrolytic capacitors on the back layer shorts their leads against the ribbon cable.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="false" data-explain="Each TL074H dissipates only ~130 mW (<11°C temperature rise) and does not require a panel heat sink.">
               <span>C.</span>
-              <span>Surface-mount operational amplifiers overheat unless they face away from the aluminum front panel heat sink.</span>
+              <span>Surface-mount operational amplifiers overheat unless they face away from the aluminium front panel heat sink.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="true" data-explain="Putting all 29 SMD parts on B.Cu allows single-sided JLCPCB PCBA, while the 7mm-tall ECEA1EKS100 bulk caps sit on F.Cu inside the 10.5mm space created by the Thonkiconn jacks.">
               <span>D.</span>
-              <span>Single-sided back placement enables economical automated assembly while seven-millimeter bulk capacitors fit underneath the panel.</span>
+              <span>Single-sided back placement enables economical automated assembly while seven-millimetre bulk capacitors fit underneath the panel.</span>
             </button>
           </div>
           <div class="feedback-msg" role="status" aria-live="polite"></div>

@@ -51,12 +51,12 @@
         In <a href="0003-single-buffered-channel.html">Lesson 0003</a>, we completed both <code>eurorack_power</code> and <code>buffered_channel_1to3</code>. Before we wire all three channels together, let's add a helper function <code>generate_jlcpcb_bom()</code> right below <code>buffered_channel_1to3</code>.
       </p>
       <p>
-        To order assembled boards from JLCPCB without paying for manual through-hole soldering of the 12 jacks, 2 radial bulk caps, and 10-pin IDC header, <code>generate_jlcpcb_bom()</code> iterates over <code>builtins.default_circuit.parts</code> and applies three transformations:
+        Personally, I love letting JLCPCB's pick-and-place machines handle the tiny <code>0603</code> passives and <code>SOIC-14</code> op-amps while I hand-solder the chunky through-hole Thonkiconn jacks, radial bulk capacitors, and 10-pin IDC power header at the bench. To order SMT-assembled boards without paying manual through-hole soldering fees, <code>generate_jlcpcb_bom()</code> iterates over <code>builtins.default_circuit.parts</code> and applies three clean transformations:
       </p>
       <ol>
         <li><strong>Filter out THT parts by default</strong>: Skips any component without an <code>LCSC</code> entry in <code>part.fields</code> or with <code>"THT"</code> in <code>part.fields.get("JLCPCB_Class", "")</code> when <code>include_tht=False</code>.</li>
-        <li><strong>Strip the KiCad library nickname from footprints</strong>: <code>getattr(part, "footprint", "").split(":")[-1]</code> turns <code>"Resistor_SMD:R_0603_1608Metric"</code> into <code>"R_0603_1608Metric"</code> so JLCPCB's placement parser recognizes the package.</li>
-        <li><strong>Group identical <code>(comment, footprint, lcsc)</code> tuples</strong>: Combines all 9 output resistors (`R3, R4, R5, R8, R9, R10, R13, R14, R15`) into a single CSV row under JLCPCB's required 4-column header: <code>Comment,Designator,Footprint,LCSC Part #</code>.</li>
+        <li><strong>Strip the KiCad library nickname from footprints</strong>: <code>getattr(part, "footprint", "").split(":")[-1]</code> turns <code>"Resistor_SMD:R_0603_1608Metric"</code> into <code>"R_0603_1608Metric"</code> so JLCPCB's placement parser recognises the package immediately.</li>
+        <li><strong>Group identical <code>(comment, footprint, lcsc)</code> tuples</strong>: Combines all 9 output resistors (<code>R3, R4, R5, R8, R9, R10, R13, R14, R15</code>) into a single CSV row under JLCPCB's required 4-column header: <code>Comment,Designator,Footprint,LCSC Part #</code>.</li>
       </ol>
 
       <figure class="code-figure">
@@ -257,7 +257,7 @@
 
       <h2>Step 4. The Complete 334-Line <code>buffered_multiple.py</code> Script &amp; Outputs</h2>
       <p>
-        Here is the **complete, final 334-line Python script** that we grew from an empty file in Lesson 0000—combining the pre-import environment setup, footprint/LCSC constants, <code>eurorack_power</code>, <code>buffered_channel_1to3</code>, <code>generate_jlcpcb_bom</code>, and <code>build_buffered_multiple</code> (saved at <code>tutorial/apps/0004-cascaded-normalling-and-bom-export/buffered_multiple.py</code>):
+        And there we have it! Here is the <strong>complete, final 334-line Python script</strong> that we grew from an empty file in Lesson 0000—combining the pre-import environment setup, footprint/LCSC constants, <code>eurorack_power</code>, <code>buffered_channel_1to3</code>, <code>generate_jlcpcb_bom</code>, and <code>build_buffered_multiple</code> (saved at <code>tutorial/apps/0004-cascaded-normalling-and-bom-export/buffered_multiple.py</code>):
       </p>
 
       <figure class="code-figure">
@@ -647,7 +647,7 @@ PESD12VL1BA,"D3, D4, D5",D_SOD-323,C38558
       <section class="exercise-box" aria-labelledby="ex-0004-title">
         <h3 id="ex-0004-title">Retrieval Practice: Wire the Cascaded Normalling &amp; BOM Exporter</h3>
         <p>
-          Fill in the four blanks below to assign the `Power` routing class to `rail.netclasses`, pass `ch1_buf` as Channel 2's `norm_in` net, pass `ch2_buf` as Channel 3's `norm_in` net, and iterate over `builtins.default_circuit.parts` inside `generate_jlcpcb_bom()`:
+          Fill in the four blanks below to assign the <code>Power</code> routing class to <code>rail.netclasses</code>, pass <code>ch1_buf</code> as Channel 2's <code>norm_in</code> net, pass <code>ch2_buf</code> as Channel 3's <code>norm_in</code> net, and iterate over <code>builtins.default_circuit.parts</code> inside <code>generate_jlcpcb_bom()</code>:
         </p>
         <div class="code-figure">
           <div class="code-header">
@@ -733,7 +733,7 @@ for part in builtins.<input type="text" class="code-blank" aria-label="Active SK
         <div class="callout-title">Mission Complete &amp; Next Custom Module Ideas</div>
         <p style="margin:0;">
           <strong>Primary Sources</strong>: <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a> · <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a> · <a href="../reference/kicad-jlcpcb-lookup.html">KiCad 10 Symbol, Footprint &amp; JLCPCB Lookup Reference</a>.<br>
-          <strong>Ask the Agent</strong>: You now have the complete 334-line Python/SKiDL script grown from scratch! Want to add a precision LED polarity indicator subcircuit, adapt this script into a 4-channel DC-coupled mixer, or inspect how the `.net` file imports into KiCad 10? Ask in chat anytime!
+          <strong>Ask the Agent</strong>: You now have the complete 334-line Python/SKiDL script grown from scratch! Want to add a precision LED polarity indicator subcircuit, adapt this script into a 4-channel DC-coupled mixer, or inspect how the <code>.net</code> file imports into KiCad 10? Ask in chat anytime!
         </p>
       </div>
 

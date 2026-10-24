@@ -48,7 +48,13 @@
 
       <h2>Starting from Nothing: How Our Python Script Will Grow</h2>
       <p>
-        You do not need any existing Python file open to follow this course. Across Lessons <code>0000</code> through <code>0004</code>, we will write the entire 3-channel Eurorack Buffered Multiple circuit script right here on the page—starting from an empty file today and adding one verified layer per lesson:
+        The joy of exploring synthesisers and Eurorack hardware as a software engineer is that you get to build physical little noise makers you can patch with real cables. The pain is traditional GUI schematic capture—hunting through nested menus, dragging wires around a canvas, and hoping a visual inspection catches a floating pin before you order boards.
+      </p>
+      <p>
+        But, what if our circuit was just Python code? Thanks to Dave Vandenbout's (<a href="https://github.com/devbisme/skidl"><code>devbisme</code></a>) brilliant <a href="https://devbisme.github.io/skidl/">SKiDL</a> library, we can treat hardware design the exact same way we treat software: version-controlled in Git, checked with a linter (<code>ruff</code>), and verified programmatically with Electrical Rules Checking (<code>ERC()</code>).
+      </p>
+      <p>
+        So, you do not need any existing Python file open to follow this course. Across Lessons <code>0000</code> through <code>0004</code>, we will write the entire 3-channel Eurorack Buffered Multiple circuit script right here on the page—starting from an empty file today and adding one verified layer per lesson:
       </p>
 
       <figure class="diagram-card">
@@ -62,7 +68,7 @@
 
       <h2>Step 1. Create the <code>uv</code> Virtual Environment (Python 3.14)</h2>
       <p>
-        SKiDL depends on <code>inspice</code> → <code>h5py</code>. Unreleased bleeding-edge Python builds often lack prebuilt binary wheels for <code>h5py</code> and fail trying to compile <code>libhdf5</code> from C source. Targeting <strong>Python 3.14</strong> with <code>uv venv --clear</code> guarantees fast, prebuilt binary wheel installation:
+        First up, environment setup. Turns out, SKiDL depends on <code>inspice</code> → <code>h5py</code>. If you grab an unreleased bleeding-edge Python build, <code>pip</code> often won't find prebuilt binary wheels for <code>h5py</code> and will grind to a halt trying to compile <code>libhdf5</code> from C source. Targeting <strong>Python 3.14</strong> with <code>uv venv --clear</code> guarantees fast, prebuilt binary wheel installation in seconds:
       </p>
 
       <figure class="code-figure">
@@ -76,15 +82,18 @@ uv pip install skidl</code></pre>
 
       <h2>Step 2. Write the Pre-Import Environment Header (Lines 1–31)</h2>
       <p>
-        Let's begin our Python script from line 1. Why can't we just write <code>from skidl import ...</code> on the very first line? Because the moment Python imports <code>skidl</code>, SKiDL immediately initializes its global <code>SkidlConfig</code> singleton and imports <code>matplotlib</code>. During that import, two things happen:
+        Now, let's begin our Python script from line 1. If you're anything like me, your first instinct is to type <code>from skidl import ...</code> on the very first line and start instantiating parts.
+      </p>
+      <p>
+        However, if you try that on macOS with KiCad 10 installed, SKiDL immediately complains that it can't find any symbol libraries. The reason this happens is interesting: the moment Python imports <code>skidl</code>, SKiDL immediately initialises its global <code>SkidlConfig</code> singleton and pulls in <code>matplotlib</code>. During that import, two things happen right under our feet:
       </p>
       <ol>
-        <li><strong>Writable cache directories</strong>: SKiDL and Matplotlib attempt to create config/cache folders in your home directory. Setting <code>XDG_DATA_HOME</code> and <code>MPLCONFIGDIR</code> to <code>/tmp/...</code> before importing <code>skidl</code> prevents permission errors in restricted shells or CI runners.</li>
-        <li><strong>KiCad 10 symbol &amp; footprint discovery</strong>: In SKiDL, the default tool <code>KICAD</code> aliases <code>KICAD10</code>. On macOS, KiCad 10 bundles its symbols and footprints inside <code>/Applications/KiCad/KiCad.app/Contents/SharedSupport/</code>, but does not export <code>KICAD10_SYMBOL_DIR</code> to your shell automatically. Setting <code>KICAD10_SYMBOL_DIR</code>, <code>KICAD_SYMBOL_DIR</code>, and <code>KICAD10_FOOTPRINT_DIR</code> in <code>os.environ</code> <strong>before</strong> <code>from skidl import ...</code> ensures SKiDL finds every KiCad 10 library immediately.</li>
+        <li><strong>Writable cache directories</strong>: SKiDL and Matplotlib attempt to create config and cache folders in your home directory. Setting <code>XDG_DATA_HOME</code> and <code>MPLCONFIGDIR</code> to <code>/tmp/...</code> before importing <code>skidl</code> prevents permission errors in sandboxed shells or CI runners.</li>
+        <li><strong>KiCad 10 symbol &amp; footprint discovery</strong>: In SKiDL, the default tool <code>KICAD</code> aliases <code>KICAD10</code>. On macOS, KiCad 10 bundles its symbols and footprints inside <code>/Applications/KiCad/KiCad.app/Contents/SharedSupport/</code>, but does not export <code>KICAD10_SYMBOL_DIR</code> to your shell automatically. Setting <code>KICAD10_SYMBOL_DIR</code>, <code>KICAD_SYMBOL_DIR</code>, and <code>KICAD10_FOOTPRINT_DIR</code> in <code>os.environ</code> <strong>before</strong> <code>from skidl import ...</code> ensures SKiDL finds every KiCad 10 library on the first try.</li>
       </ol>
 
       <p>
-        Here is the exact 31-line foundation header that starts our script:
+        So, here is the exact 31-line foundation header that starts our script:
       </p>
 
       <figure class="code-figure">
@@ -124,7 +133,7 @@ from skidl import ERC, KICAD, POWER, TEMPLATE, Net, Part, get_default_tool  # no
       <div class="callout callout-warn">
         <div class="callout-title">Why <code># noqa: E402</code> Is Placed on the <code>from skidl import ...</code> Line</div>
         <p style="margin:0;">
-          Python's linter (<code>ruff</code> rule <code>E402</code>) normally flags module imports that appear below executable statements like <code>os.environ.setdefault(...)</code>. Adding <code># noqa: E402</code> on the <code>from skidl import ...</code> line tells <code>ruff</code> that configuring <code>os.environ</code> before importing <code>skidl</code> is intentional.
+          I'm a big fan of strict linters because they keep codebases evergreen and let us focus on semantics instead of formatting. Python's linter (<code>ruff</code> rule <code>E402</code>) normally flags module imports that appear below executable statements like <code>os.environ.setdefault(...)</code>. Adding <code># noqa: E402</code> on the <code>from skidl import ...</code> line tells <code>ruff</code> that configuring <code>os.environ</code> before importing <code>skidl</code> is completely deliberate.
         </p>
       </div>
 
@@ -133,9 +142,9 @@ from skidl import ERC, KICAD, POWER, TEMPLATE, Net, Part, get_default_tool  # no
         Next, let's add a function <code>run_bootstrap_check()</code> to test three core SKiDL building blocks we will use throughout the Buffered Multiple:
       </p>
       <ul>
-        <li><strong>Template Part (<code>dest=TEMPLATE</code>)</strong>: Passing <code>dest=TEMPLATE</code> to <code>Part("Device", "R", dest=TEMPLATE, ...)</code> creates a reusable blueprint that does <em>not</em> enter the circuit until we call it: <code>r_top, r_bot = r_t(2, tag="r_boot")</code> instantiates two concrete `100K` resistors (`R1` and `R2`).</li>
-        <li><strong>Power Drive Flag (<code>net.drive = POWER</code>)</strong>: Marking `vcc.drive = POWER` and `gnd.drive = POWER` tells SKiDL's Electrical Rules Checker (`ERC()`) that `+12V` and `GND` are energized by an external power supply.</li>
-        <li><strong>Series Network Operator (<code>&amp;</code>)</strong>: For two-pin passives, `vcc &amp; c_dec &amp; gnd` wires `C1` across `+12V` and `GND`, while `vcc &amp; r_top &amp; mid &amp; r_bot &amp; gnd` wires `R1` and `R2` as a voltage divider so every net has at least 2 connected pins.</li>
+        <li><strong>Template Part (<code>dest=TEMPLATE</code>)</strong>: Passing <code>dest=TEMPLATE</code> to <code>Part("Device", "R", dest=TEMPLATE, ...)</code> creates a reusable blueprint that does <em>not</em> enter the circuit until we call it: <code>r_top, r_bot = r_t(2, tag="r_boot")</code> instantiates two concrete <code>100K</code> resistors (<code>R1</code> and <code>R2</code>).</li>
+        <li><strong>Power Drive Flag (<code>net.drive = POWER</code>)</strong>: Marking <code>vcc.drive = POWER</code> and <code>gnd.drive = POWER</code> tells SKiDL's Electrical Rules Checker (<code>ERC()</code>) that <code>+12V</code> and <code>GND</code> are energised by an external power supply.</li>
+        <li><strong>Series Network Operator (<code>&amp;</code>)</strong>: For two-pin passives, <code>vcc &amp; c_dec &amp; gnd</code> wires <code>C1</code> across <code>+12V</code> and <code>GND</code>, while <code>vcc &amp; r_top &amp; mid &amp; r_bot &amp; gnd</code> wires <code>R1</code> and <code>R2</code> as a voltage divider so every net has at least 2 connected pins.</li>
       </ul>
 
       <figure class="code-figure">
@@ -284,7 +293,7 @@ if __name__ == "__main__":
 
       <h3>Run and Lint from Your Terminal</h3>
       <p>
-        Whenever a SKiDL script exports a netlist or caches symbols, it writes a <strong>Backup Symbol Library (<code>&lt;script&gt;_sklib.py</code>)</strong> containing raw, unformatted Python code. Always run <code>ruff check --fix</code> and <code>ruff format</code> <strong>after</strong> executing a SKiDL script:
+        Now, here is a quirky SKiDL detail that caught me off guard the first time I wired up a CI linter. Whenever a SKiDL script exports a netlist or caches symbols, it writes a <strong>Backup Symbol Library (<code>&lt;script&gt;_sklib.py</code>)</strong> right next to your script containing raw, auto-generated, decidedly unformatted Python code. So, to keep your working tree clean and <code>ruff</code> happy, always run <code>ruff check --fix</code> and <code>ruff format</code> <strong>after</strong> executing a SKiDL script:
       </p>
       <figure class="code-figure">
         <div class="code-header">
@@ -330,7 +339,7 @@ from skidl import ERC, POWER, TEMPLATE, Net, Part  # noqa: <input type="text" cl
 
 r_t = Part("Device", "R", dest=<input type="text" class="code-blank" aria-label="SKiDL constant for a blueprint template part" data-answer="TEMPLATE" data-hint="SKiDL constant that prevents immediate netlist insertion: TEMPLATE" size="10">, value="100K")
 vcc = Net("+12V")
-vcc.drive = <input type="text" class="code-blank" aria-label="SKiDL drive constant for energized rails" data-answer="POWER" data-hint="SKiDL drive constant for power rails: POWER" size="7"></code></pre>
+vcc.drive = <input type="text" class="code-blank" aria-label="SKiDL drive constant for energised rails" data-answer="POWER" data-hint="SKiDL drive constant for power rails: POWER" size="7"></code></pre>
         </div>
         <div class="exercise-actions">
           <button type="button" class="btn btn-primary" data-action="check">Check Answers</button>
@@ -353,7 +362,7 @@ vcc.drive = <input type="text" class="code-blank" aria-label="SKiDL drive consta
               <span>A.</span>
               <span>Python clears all exported shell variables whenever external circuit packages first load.</span>
             </button>
-            <button type="button" class="quiz-option" data-correct="true" data-explain="Importing skidl immediately initializes SkidlConfig and matplotlib using the environment variables active at import time.">
+            <button type="button" class="quiz-option" data-correct="true" data-explain="Importing skidl immediately initialises SkidlConfig and matplotlib using the environment variables active at import time.">
               <span>B.</span>
               <span>Importing skidl immediately configures library paths and cache folders during module import.</span>
             </button>

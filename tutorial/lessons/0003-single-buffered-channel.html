@@ -37,7 +37,7 @@
       <div class="lesson-kicker">Lesson 0003 · Stage 3 (155 → 255 Lines)</div>
       <h1>Growing the Script: Adding <code>buffered_channel_1to3()</code></h1>
       <p class="lead">
-        Take our Stage 2 power supply script and grow it by adding <code>@subcircuit def buffered_channel_1to3(...)</code> around a single quad <code>TL074H</code> op-amp: wire input ESD/TVS clamping, Stage A input buffering, three loop-generated output followers with <code>470R</code> series isolation, and <code>builtins.NC</code> on unused jack switches.
+        For context, in Eurorack, a Buffered Multiple takes in a voltage signal and sends out multiple isolated copies without the voltage sagging—which is critical when that voltage controls musical pitch via the 1 Volt per Octave standard. Let's take our Stage 2 power supply script and grow it by adding <code>@subcircuit def buffered_channel_1to3(...)</code> around a single quad <code>TL074H</code> op-amp.
       </p>
 
       <div class="meta-bar">
@@ -48,15 +48,15 @@
 
       <h2>Anatomy of <code>buffered_channel_1to3</code></h2>
       <p>
-        In <a href="0002-eurorack-power-subcircuit.html">Lesson 0002</a>, our script reached 155 lines with a verified <code>eurorack_power(vcc, vee, gnd)</code> subcircuit. Now we add a second reusable <code>@subcircuit</code> directly below <code>eurorack_power</code>:
+        In <a href="0002-eurorack-power-subcircuit.html">Lesson 0002</a>, our script reached 155 lines with a verified <code>eurorack_power(vcc, vee, gnd)</code> subcircuit. Now, we add a second reusable <code>@subcircuit</code> directly below <code>eurorack_power</code>:
         <code>def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):</code>.
       </p>
       <p>
-        Each 1-to-3 channel maps all four internal operational amplifiers of one <code>TL074H</code> (<code>SOIC-14</code>) package to a two-tier buffer hierarchy:
+        Why four op-amp stages for just three output jacks? Good question! Each 1-to-3 channel maps all four internal operational amplifiers of one <code>TL074H</code> (<code>SOIC-14</code>) package to a two-tier buffer hierarchy:
       </p>
       <ul>
-        <li><strong>Stage A (Input Follower, Pins 1, 2, 3)</strong>: Presents a high-impedance load (<code>100K</code> pull-down) to the patched CV/audio source and produces a low-impedance buffered signal on <code>buffered_tap_out</code>.</li>
-        <li><strong>Stages B, C, D (Output Followers, Pins 5–14)</strong>: Three independent unity-gain followers driven by <code>buffered_tap_out</code>, each driving its own output jack through a <code>470R</code> series protection resistor so a short circuit or cable capacitance on one output never disturbs the other two outputs—or any downstream normalled channel.</li>
+        <li><strong>Stage A (Input Follower, Pins 1, 2, 3)</strong>: Presents a polite, high-impedance load (<code>100K</code> pull-down) to the patched CV/audio source and produces a rock-solid buffered signal on <code>buffered_tap_out</code>.</li>
+        <li><strong>Stages B, C, D (Output Followers, Pins 5–14)</strong>: Three independent unity-gain followers driven by <code>buffered_tap_out</code>, each driving its own output jack through a <code>470R</code> series protection resistor. Even if you short-circuit one output or plug in a long, capacitive patch cable, the other two outputs—and any downstream normalled channels—never flinch.</li>
       </ul>
 
       <figure class="diagram-card">
@@ -176,12 +176,12 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
       </figure>
 
       <p>
-        Notice how <code>buffered_tap_out += u.p[1], u.p[2]</code> attaches <em>both</em> the op-amp output (`pin 1`) and the inverting input (`pin 2`) to <code>buffered_tap_out</code> at once—closing the unity-gain feedback loop AND feeding the downstream output stages (`u.p[5]`, `u.p[10]`, `u.p[12]`) on the same net!
+        Notice how <code>buffered_tap_out += u.p[1], u.p[2]</code> attaches <em>both</em> the op-amp output (<code>pin 1</code>) and the inverting input (<code>pin 2</code>) to <code>buffered_tap_out</code> at once—closing the unity-gain feedback loop AND feeding the downstream output stages (<code>u.p[5]</code>, <code>u.p[10]</code>, <code>u.p[12]</code>) on the same net!
       </p>
 
       <h2>Step 3. Loop Over Output Stages B, C, D &amp; Mark Unused Switches with <code>builtins.NC</code></h2>
       <p>
-        Instead of copy-pasting identical schematic blocks three times for Outputs A, B, and C, Python lets us express Stages B, C, and D as a compact data table of <code>(suffix, pin_pos, pin_neg, pin_out)</code> tuples and iterate over it:
+        Here is where writing hardware in Python really shines. Instead of copy-pasting identical schematic blocks three times for Outputs A, B, and C (and inevitably making a typo on Output C), Python lets us express Stages B, C, and D as a compact data table of <code>(suffix, pin_pos, pin_neg, pin_out)</code> tuples and loop over it. Right? Right?
       </p>
 
       <div class="table-wrap scroller">
@@ -271,13 +271,13 @@ def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
       <div class="callout callout-warn">
         <div class="callout-title">Why Output Jacks Use <code>j_out["TN"] += builtins.NC</code> (Pin on the Left)</div>
         <p style="margin:0;">
-          All 12 jacks on the board use the same physical part (<code>WQP-PJ398SM</code> / <code>AudioJack2_SwitchT</code>) to simplify purchasing and panel assembly. On the output jacks, the <strong>Switched Tip Normal Contact (<code>TN</code>)</strong> is unused. In SKiDL, the <strong>No-Connect Net (<code>builtins.NC</code>)</strong> is injected into Python's <code>builtins</code> module at import time and is not exported in <code>skidl.__all__</code> (so <code>from skidl import NC</code> raises <code>ImportError</code>). Furthermore, inside a function or <code>@subcircuit</code>, writing <code>builtins.NC += j_out["TN"]</code> makes Python treat <code>builtins.NC</code> as a reassigned local variable; always place the pin on the left: <code>j_out["TN"] += builtins.NC</code>.
+          All 12 jacks on the board use the exact same physical part (<code>WQP-PJ398SM</code> / <code>AudioJack2_SwitchT</code>) to keep the BOM simple. On the output jacks, the <strong>Switched Tip Normal Contact (<code>TN</code>)</strong> is unused. Now, how do we tell SKiDL a pin is intentionally unconnected? Turns out, SKiDL injects its <strong>No-Connect Net (<code>builtins.NC</code>)</strong> into Python's <code>builtins</code> module at import time rather than exporting it in <code>skidl.__all__</code> (so <code>from skidl import NC</code> raises an <code>ImportError</code>). Or, moreover, if you write <code>builtins.NC += j_out["TN"]</code> inside a function, Python's scoping rules treat <code>builtins.NC</code> as a reassigned attribute! Always put the pin on the left: <code>j_out["TN"] += builtins.NC</code>.
         </p>
       </div>
 
       <h2>Step 4. Complete Stage 3 Script &amp; Terminal Verification</h2>
       <p>
-        Putting our Stage 2 power supply together with our new <code>buffered_channel_1to3</code> subcircuit gives us the **complete, standalone 255-line Stage 3 Python script** (saved at <code>tutorial/apps/0003-single-buffered-channel/single_channel.py</code>):
+        Putting our Stage 2 power supply together with our new <code>buffered_channel_1to3</code> subcircuit gives us the <strong>complete, standalone 255-line Stage 3 Python script</strong> (saved at <code>tutorial/apps/0003-single-buffered-channel/single_channel.py</code>):
       </p>
 
       <figure class="code-figure">
@@ -570,7 +570,7 @@ INFO: 0 errors found while generating XML.
       <section class="exercise-box" aria-labelledby="ex-0003-title">
         <h3 id="ex-0003-title">Retrieval Practice: Wire the Input Protection, Follower &amp; Output Jack</h3>
         <p>
-          Fill in the four blanks below to wire the input jack's switched normal contact (`"TN"`), place the `1K` input resistor in series using `&amp;`, close Stage A's unity-gain feedback loop across pins `1` and `2`, and mark the output jack's unused `"TN"` pin as no-connect via `builtins`:
+          Fill in the four blanks below to wire the input jack's switched normal contact (<code>"TN"</code>), place the <code>1K</code> input resistor in series using <code>&amp;</code>, close Stage A's unity-gain feedback loop across pins <code>1</code> and <code>2</code>, and mark the output jack's unused <code>"TN"</code> pin as no-connect via <code>builtins</code>:
         </p>
         <div class="code-figure">
           <div class="code-header">
@@ -657,7 +657,7 @@ j_out["TN"] += builtins.<input type="text" class="code-blank" aria-label="No-con
         <div class="callout-title">Primary Sources &amp; Follow-Up Questions</div>
         <p style="margin:0;">
           <strong>Primary Sources</strong>: <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a> · <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a>.<br>
-          <strong>Ask the Agent</strong>: Have a question about why <code>470R</code> was chosen for the output series resistors or how `PESD12VL1BA` clamps ESD spikes? Ask in chat, or continue to <strong>Lesson 0004</strong> to finish growing `buffered_multiple.py` with 3-channel cascaded normalling and JLCPCB BOM generation!
+          <strong>Ask the Agent</strong>: Have a question about why <code>470R</code> was chosen for the output series resistors or how <code>PESD12VL1BA</code> clamps ESD spikes? Ask in chat, or continue to <strong>Lesson 0004</strong> to finish growing <code>buffered_multiple.py</code> with 3-channel cascaded normalling and JLCPCB BOM generation!
         </p>
       </div>
 

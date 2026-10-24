@@ -37,7 +37,7 @@
       <div class="lesson-kicker">Lesson 0002 · Stage 2 (68 → 155 Lines)</div>
       <h1>Growing the Script: Adding <code>eurorack_power(vcc, vee, gnd)</code></h1>
       <p class="lead">
-        Take our Stage 1 foundation (pre-import header + footprint and LCSC constants) and grow it into a working, ERC-verified Eurorack power supply script with a 10-pin Doepfer IDC header, <code>1N5819WS</code> Schottky reverse-polarity protection, and <code>10uF</code> bulk electrolytic capacitors.
+        Think of Eurorack as expensive Lego with patch cables, blinking LEDs, and an unkeyed 10-pin power ribbon cable that is dangerously easy to plug in backwards. Let's take our Stage 1 foundation and grow it into a working, ERC-verified Eurorack power supply script with a 10-pin Doepfer IDC header, <code>1N5819WS</code> Schottky diodes that prevent letting the magic smoke escape, and <code>10uF</code> bulk electrolytic capacitors.
       </p>
 
       <div class="meta-bar">
@@ -48,14 +48,14 @@
 
       <h2>How <code>@subcircuit</code> Maps a Python Function to KiCad Hierarchy</h2>
       <p>
-        In <a href="0001-programmatic-component-discovery.html">Lesson 0001</a>, we grew our script to include the pre-import environment setup and our verified <code>FP_*</code> and <code>LCSC_*</code> constants. Now we will add our first hierarchical circuit block: <code>@subcircuit def eurorack_power(vcc, vee, gnd):</code>.
+        In <a href="0001-programmatic-component-discovery.html">Lesson 0001</a>, we grew our script to include the pre-import environment setup and our verified <code>FP_*</code> and <code>LCSC_*</code> constants. Now, we will add our first hierarchical circuit block: <code>@subcircuit def eurorack_power(vcc, vee, gnd):</code>.
       </p>
       <p>
-        Decorating a function with SKiDL's <strong>Subcircuit Decorator (<code>@subcircuit</code>)</strong> does two important things:
+        Decorating a function with SKiDL's <strong>Subcircuit Decorator (<code>@subcircuit</code>)</strong> does two really neat things for us:
       </p>
       <ol>
         <li>
-          <strong>Interface Nets vs. Private Local Nets</strong>: The protected module rails (<code>vcc</code>, <code>vee</code>, <code>gnd</code>) are passed in as function arguments so downstream op-amp channels can attach to them later, while the raw header nets (<code>vcc_raw = Net("+12V_RAW")</code> and <code>vee_raw = Net("-12V_RAW")</code>) remain private inside <code>eurorack_power</code>.
+          <strong>Interface Nets vs. Private Local Nets</strong>: The protected module rails (<code>vcc</code>, <code>vee</code>, <code>gnd</code>) are passed in as function arguments so downstream op-amp channels can attach to them later, while the raw header nets (<code>vcc_raw = Net("+12V_RAW")</code> and <code>vee_raw = Net("-12V_RAW")</code>) stay private inside <code>eurorack_power</code>.
         </li>
         <li>
           <strong>Deterministic Hierarchical Path Tags</strong>: When the top-level circuit calls <code>eurorack_power(vcc, vee, gnd, tag="pwr")</code> and each internal part defines a <code>tag</code> (such as <code>tag="j_pwr"</code>, <code>tag="d_prot"</code>, <code>tag="c_bulk"</code>), SKiDL hashes the hierarchical path (<code>/pwr/c_bulk</code>) into a deterministic KiCad <code>tstamp</code> UUID. Re-running your Python script never scrambles component associations in KiCad's PCB editor!
@@ -66,7 +66,7 @@
         <pre class="mermaid">flowchart LR
   subgraph HDR["J1: Conn_02x05_Odd_Even (10-Pin IDC)"]
     P910["Pins 9, 10<br/>+12V Header"]
-    P38["Pins 3..8<br/>GND Center"]
+    P38["Pins 3..8<br/>GND Centre"]
     P12["Pins 1, 2<br/>-12V (Red Stripe)"]
   end
 
@@ -86,11 +86,11 @@
 
       <h2>Step 1. Add the 10-Pin Eurorack IDC Header &amp; Multi-Pin Slices</h2>
       <p>
-        Instead of writing ten separate <code>+=</code> statements for the 10-pin (`2×5`) Eurorack power header, SKiDL lets you index multiple pins in a single tuple subscript:
+        Instead of writing ten separate <code>+=</code> statements for the 10-pin (<code>2×5</code>) Eurorack power header, SKiDL lets you index multiple pins in a single tuple subscript:
       </p>
       <ul>
         <li><code>vee_raw += j_pwr[1, 2]</code> wires pins 1 and 2 (the <code>-12V</code> red-stripe end) to <code>-12V_RAW</code>.</li>
-        <li><code>gnd += j_pwr[3, 4, 5, 6, 7, 8]</code> wires all six center ground pins to <code>GND</code> in one statement.</li>
+        <li><code>gnd += j_pwr[3, 4, 5, 6, 7, 8]</code> wires all six centre ground pins to <code>GND</code> in one statement.</li>
         <li><code>vcc_raw += j_pwr[9, 10]</code> wires pins 9 and 10 to <code>+12V_RAW</code>.</li>
       </ul>
 
@@ -126,9 +126,12 @@ def eurorack_power(vcc, vee, gnd):
     vcc_raw += j_pwr[9, 10]</code></pre>
       </figure>
 
-      <h2>Step 2. Add Bipolar Schottky Diode &amp; Bulk Capacitor Polarity</h2>
+      <h2>Step 2. Keeping the Magic Smoke Inside (Schottky Diodes &amp; Bulk Capacitor Polarity)</h2>
       <p>
-        Next, inside <code>eurorack_power()</code>, we add two <code>1N5819WS</code> Schottky diodes (<code>d_pos</code>, <code>d_neg</code>) and two <code>10uF</code> radial electrolytic bulk capacitors (<code>c_bulk_pos</code>, <code>c_bulk_neg</code>) cloned from templates. Expressing <code>-12V</code> diode and electrolytic capacitor orientation in code requires care with pin names (<code>"A"</code>, <code>"K"</code>) and numbers (<code>1</code>, <code>2</code>):
+        Next, inside <code>eurorack_power()</code>, we add two <code>1N5819WS</code> Schottky diodes (<code>d_pos</code>, <code>d_neg</code>) and two <code>10uF</code> radial electrolytic bulk capacitors (<code>c_bulk_pos</code>, <code>c_bulk_neg</code>) cloned from templates.
+      </p>
+      <p>
+        Now, wiring the <code>+12V</code> rail is straightforward, but the <code>-12V</code> rail is where first-time hardware designers regularly get caught out. Turns out, both pins on KiCad's <code>Device:C_Polarized</code> symbol are marked <code>PASSIVE</code>, so <code>ERC()</code> won't save you if you wire an electrolytic capacitor backwards! Expressing <code>-12V</code> diode and electrolytic capacitor orientation in code requires paying close attention to which net sits at a higher electric potential:
       </p>
 
       <div class="table-wrap scroller">
@@ -266,7 +269,7 @@ if __name__ == "__main__":
 
       <h2>Step 4. Complete Stage 2 Script &amp; Terminal Verification</h2>
       <p>
-        Here is the **complete, standalone 155-line Stage 2 Python script** combining our pre-import header, constants, <code>eurorack_power</code> subcircuit, and verification runner (saved at <code>tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py</code>):
+        So, putting it all together gives us the <strong>complete, standalone 155-line Stage 2 Python script</strong> combining our pre-import header, constants, <code>eurorack_power</code> subcircuit, and verification runner (saved at <code>tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py</code>):
       </p>
 
       <figure class="code-figure">
@@ -465,7 +468,7 @@ INFO: 0 errors found while generating XML.
       <section class="exercise-box" aria-labelledby="ex-0002-title">
         <h3 id="ex-0002-title">Retrieval Practice: Complete the <code>eurorack_power</code> Subcircuit</h3>
         <p>
-          Fill in the four blanks below to decorate the subcircuit function, instantiate two Schottky diodes from the <code>d_t</code> template, wire the <code>-12V</code> diode's Cathode (`"K"`) to <code>vee_raw</code>, and connect the <code>-12V</code> bulk capacitor's positive anode (pin `1`) to <code>gnd</code>:
+          Fill in the four blanks below to decorate the subcircuit function, instantiate two Schottky diodes from the <code>d_t</code> template, wire the <code>-12V</code> diode's Cathode (<code>"K"</code>) to <code>vee_raw</code>, and connect the <code>-12V</code> bulk capacitor's positive anode (pin <code>1</code>) to <code>gnd</code>:
         </p>
         <div class="code-figure">
           <div class="code-header">
@@ -526,13 +529,13 @@ def eurorack_power(vcc, vee, gnd):
             2. Why does the <code>-12V</code> bulk electrolytic capacitor (<code>c_bulk_neg</code>) connect its positive pin (<code>c_bulk_neg[1]</code>) to <code>gnd</code> (<code>0V</code>) and its negative pin (<code>c_bulk_neg[2]</code>) to <code>vee</code> (<code>-12V</code>)?
           </p>
           <div class="quiz-options">
-            <button type="button" class="quiz-option" data-correct="false" data-explain="Reverse-biasing an aluminum electrolytic capacitor damages its dielectric oxide layer and can cause venting.">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Reverse-biasing an aluminium electrolytic capacitor damages its dielectric oxide layer and can cause venting.">
               <span>A.</span>
               <span>Electrolytic capacitors require reverse voltage bias whenever filtering high frequency switching supply rails.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="false" data-explain="On KiCad's Device:C_Polarized symbol, pin 1 is the positive (+) anode and pin 2 is the negative (-) cathode.">
               <span>B.</span>
-              <span>KiCad assigns pin number one as the negative cathode on polarized capacitor symbols.</span>
+              <span>KiCad assigns pin number one as the negative cathode on polarised capacitor symbols.</span>
             </button>
             <button type="button" class="quiz-option" data-correct="true" data-explain="Because 0V (GND) is 12V more positive than -12V, the capacitor's positive terminal (pin 1) must sit at GND and its negative terminal (pin 2) at -12V.">
               <span>C.</span>
@@ -551,7 +554,7 @@ def eurorack_power(vcc, vee, gnd):
         <div class="callout-title">Primary Sources &amp; Follow-Up Questions</div>
         <p style="margin:0;">
           <strong>Primary Sources</strong>: <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a> · <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a>.<br>
-          <strong>Ask the Agent</strong>: Curious when to choose <code>1N5819WS</code> (`SOD-323`) vs. <code>B5819W</code> (`SOD-123`) or series PTC fuses on higher-current digital modules? Ask in chat anytime, or proceed to <strong>Lesson 0003</strong> where we grow this script by adding <code>buffered_channel_1to3()</code>!
+          <strong>Ask the Agent</strong>: Curious when to choose <code>1N5819WS</code> (<code>SOD-323</code>) vs. <code>B5819W</code> (<code>SOD-123</code>) or series PTC fuses on higher-current digital modules? Ask in chat anytime, or proceed to <strong>Lesson 0003</strong> where we grow this script by adding <code>buffered_channel_1to3()</code>!
         </p>
       </div>
 

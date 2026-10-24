@@ -37,7 +37,7 @@
       <div class="lesson-kicker">Interactive Hardware-as-Code Course</div>
       <h1>Building the Eurorack Buffered Multiple in Python with SKiDL</h1>
       <p class="lead">
-        Start from an empty Python file and progressively grow a complete, production-ready 3-channel Eurorack Buffered Multiple (<code>buffered_multiple.py</code>)—with every line of Python code, terminal command, and verification output shown directly inside each lesson.
+        I have been writing software for decades, where git diffs, linters, and automated tests keep us honest. Point-and-click schematic capture? Not so much. In this course, we start from an empty Python file and progressively grow a complete, production-ready 3-channel Eurorack Buffered Multiple (<code>buffered_multiple.py</code>)—with every line of Python code, terminal command, and verification output right here on the page.
       </p>
 
       <figure class="diagram-card">
@@ -126,7 +126,7 @@
             </div>
             <h3><a href="lessons/0003-single-buffered-channel.html">Growing the Script: Adding <code>buffered_channel_1to3()</code></a></h3>
             <p>
-              Add the 1-to-3 op-amp channel subcircuit (`TL074H`, `PESD12VL1BA` TVS diode, `U1A` input buffer, and 3 loop-generated `470R` output followers with `builtins.NC`).
+              Add the 1-to-3 op-amp channel subcircuit (<code>TL074H</code>, <code>PESD12VL1BA</code> TVS diode, <code>U1A</code> input buffer, and 3 loop-generated <code>470R</code> output followers with <code>builtins.NC</code>).
             </p>
             <ul class="lesson-meta-list">
               <li><strong>Code Grown</strong>: <code>155 → 255 lines</code> (Full runnable <code>single_channel.py</code> inline)</li>
@@ -148,7 +148,7 @@
             </div>
             <h3><a href="lessons/0004-cascaded-normalling-and-bom-export.html">Completing <code>buffered_multiple.py</code>: Cascaded Normalling &amp; JLCPCB BOM</a></h3>
             <p>
-              Add <code>generate_jlcpcb_bom()</code>, assign KiCad <code>Power</code> and <code>Signal</code> <code>NetClass</code> rules, and cascade Channels 1–3 (`1:3 → 1:6 → 1:9`).
+              Add <code>generate_jlcpcb_bom()</code>, assign KiCad <code>Power</code> and <code>Signal</code> <code>NetClass</code> rules, and cascade Channels 1–3 (<code>1:3 → 1:6 → 1:9</code>).
             </p>
             <ul class="lesson-meta-list">
               <li><strong>Code Grown</strong>: <code>255 → 334 lines</code> (Complete <code>buffered_multiple.py</code> inline)</li>

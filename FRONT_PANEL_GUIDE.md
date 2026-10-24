@@ -6,9 +6,9 @@ This guide plans out the design and fabrication of a **4HP (3U) Eurorack Front P
 
 ## 1. Mechanical & Alignment Specifications
 
-- **Main PCB (`BufferedMult.kicad_pcb`)**: `20.0 × 108.0 mm` (4HP), with `Edge.Cuts` spanning `(20.0, 20.0)` to `(40.0, 128.0)`.
+- **Main PCB (`BufferedMult.kicad_pcb`)**: `20.0 × 109.0 mm` (4HP), with `Edge.Cuts` spanning `(20.0, 19.0)` to `(40.0, 128.0)`.
 - **Front Panel (`BufferedMult_Panel.kicad_pcb`)**: **`20.0 × 128.5 mm`** (Doepfer A-100 3U × 4HP standard), `1.6 mm` FR-4 (or `2.0 mm` aluminum).
-- **Vertical PCB-to-Panel Centering**: Centering the `108.0 mm` main PCB behind the `128.5 mm` front panel gives **`10.25 mm`** of clearance at both the top and bottom edges (`(128.5 - 108.0) / 2 = 10.25 mm`), clearing standard `~7.5 mm` Eurorack rail lips with `2.75 mm` to spare.
+- **Vertical PCB-to-Panel Centering**: Centering the `109.0 mm` main PCB behind the `128.5 mm` front panel gives **`9.75 mm`** of clearance at both the top and bottom edges (`(128.5 - 109.0) / 2 = 9.75 mm`), clearing standard `~7.5 mm` Eurorack rail lips with `2.25 mm` to spare.
 - **Board-to-Panel Standoff Height**: The 12× `WQP-PJ398SM` (Thonkiconn) jacks establish a **`10.5 mm`** spacing between the front surface of `BufferedMult.kicad_pcb` (`F.Cu`) and the rear surface of the front panel (`B.Cu`), which clears the `7.0 mm` tall radial electrolytic bulk capacitors (`C1`, `C2` on `F.Cu`) by `3.5 mm`.
 - **Thonkiconn Bushing Offset (`+6.48 mm` in Y)**:
   - In KiCad's `Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles` footprint (all placed at `rotation = 0` on `F.Cu`), the footprint origin `(0, 0)` is **Pad `S` (Sleeve)**.
@@ -20,16 +20,16 @@ flowchart TD
     subgraph Panel["4HP Front Panel (20.0 × 128.5 mm)"]
         M_TOP["Top M3 Mounting Slot<br/>X = 7.5 mm, Y = 3.0 mm"]
         subgraph CH1["Channel 1 (1-to-3)"]
-            R1["Row 1 (Y = 23.73 mm)<br/>Left: J2 (IN 1) @ X = 5.0 mm<br/>Right: J3 (OUT 1A) @ X = 15.0 mm"]
-            R2["Row 2 (Y = 37.23 mm)<br/>Left: J4 (OUT 1B) @ X = 5.0 mm<br/>Right: J5 (OUT 1C) @ X = 15.0 mm"]
+            R1["Row 1 (Y = 18.63 mm)<br/>Left: J2 (IN 1) @ X = 5.0 mm<br/>Right: J3 (OUT 1A) @ X = 15.0 mm"]
+            R2["Row 2 (Y = 33.03 mm)<br/>Left: J4 (OUT 1B) @ X = 5.0 mm<br/>Right: J5 (OUT 1C) @ X = 15.0 mm"]
         end
         subgraph CH2["Channel 2 (Normalled 1-to-6)"]
-            R3["Row 3 (Y = 55.73 mm)<br/>Left: J6 (IN 2) @ X = 5.0 mm<br/>Right: J7 (OUT 2A) @ X = 15.0 mm"]
-            R4["Row 4 (Y = 69.23 mm)<br/>Left: J8 (OUT 2B) @ X = 5.0 mm<br/>Right: J9 (OUT 2C) @ X = 15.0 mm"]
+            R3["Row 3 (Y = 47.43 mm)<br/>Left: J6 (IN 2) @ X = 5.0 mm<br/>Right: J7 (OUT 2A) @ X = 15.0 mm"]
+            R4["Row 4 (Y = 61.83 mm)<br/>Left: J8 (OUT 2B) @ X = 5.0 mm<br/>Right: J9 (OUT 2C) @ X = 15.0 mm"]
         end
         subgraph CH3["Channel 3 (Normalled 1-to-9)"]
-            R5["Row 5 (Y = 87.73 mm)<br/>Left: J10 (IN 3) @ X = 5.0 mm<br/>Right: J11 (OUT 3A) @ X = 15.0 mm"]
-            R6["Row 6 (Y = 101.23 mm)<br/>Left: J12 (OUT 3B) @ X = 5.0 mm<br/>Right: J13 (OUT 3C) @ X = 15.0 mm"]
+            R5["Row 5 (Y = 76.23 mm)<br/>Left: J10 (IN 3) @ X = 5.0 mm<br/>Right: J11 (OUT 3A) @ X = 15.0 mm"]
+            R6["Row 6 (Y = 90.63 mm)<br/>Left: J12 (OUT 3B) @ X = 5.0 mm<br/>Right: J13 (OUT 3C) @ X = 15.0 mm"]
         end
         M_BOT["Bottom M3 Mounting Slot<br/>X = 7.5 mm, Y = 125.5 mm"]
     end
@@ -37,27 +37,27 @@ flowchart TD
 
 ### Coordinate Table (3-Channel / 12-Jack Layout)
 
-The table below provides recommended 6-row × 2-column coordinates (`13.5 mm` intra-channel row pitch, `18.5 mm` inter-channel group pitch) in both:
-1. **Main PCB Coordinate Space** — where the main PCB spans `X = 20.0..40.0 mm`, `Y = 20.0..128.0 mm`, and the centered front panel spans `X = 20.0..40.0 mm`, `Y = 9.75..138.25 mm`.
-2. **Panel-Local Coordinate Space** — where the top-left corner of the front panel is `(0.0, 0.0)` and the bottom-right corner is `(20.0, 128.5)` (`X_panel = X_pcb - 20.0`, `Y_panel = Y_pcb - 9.75`).
+The table below provides the 6-row × 2-column coordinates (`14.40 mm` uniform vertical row pitch) in both:
+1. **Main PCB Coordinate Space** — where the main PCB spans `X = 20.0..40.0 mm`, `Y = 19.0..128.0 mm`, and the centered front panel spans `X = 20.0..40.0 mm`, `Y = 9.25..137.75 mm`.
+2. **Panel-Local Coordinate Space** — where the top-left corner of the front panel is `(0.0, 0.0)` and the bottom-right corner is `(20.0, 128.5)` (`X_panel = X_pcb - 20.0`, `Y_panel = Y_pcb - 9.25`).
 
 | Feature | Ref / Function | Main PCB Footprint `(X, Y)` | Main PCB Bushing `(X, Y)` | **Panel-Local `(X, Y)`** *(Top-Left = `0, 0`)* | Hole / Cutout Size |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Panel Outline** | 4HP × 3U Doepfer Standard | `X: 20.0..40.0`<br>`Y: 9.75..138.25` | — | **`0.0, 0.0` → `20.0, 128.5 mm`** | `0.5 mm` corner fillets (optional) |
-| **Top Rack Slot** | M3 Rail Screw | `(27.50, 12.75)` | — | **`(7.50, 3.00 mm)`** | `3.2 × 5.5 mm` NPTH oval slot (or `3.2 mm` hole) |
-| **Bottom Rack Slot** | M3 Rail Screw | `(27.50, 135.25)` | — | **`(7.50, 125.50 mm)`** | `3.2 × 5.5 mm` NPTH oval slot (or `3.2 mm` hole) |
-| **Row 1 — Left** | **`J2` (`IN 1`)** | `(25.00, 27.00)` | `(25.00, 33.48)` | **`(5.00, 23.73 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 1 — Right** | **`J3` (`OUT 1A`)** | `(35.00, 27.00)` | `(35.00, 33.48)` | **`(15.00, 23.73 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 2 — Left** | **`J4` (`OUT 1B`)** | `(25.00, 40.50)` | `(25.00, 46.98)` | **`(5.00, 37.23 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 2 — Right** | **`J5` (`OUT 1C`)** | `(35.00, 40.50)` | `(35.00, 46.98)` | **`(15.00, 37.23 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 3 — Left** | **`J6` (`IN 2`)** | `(25.00, 59.00)` | `(25.00, 65.48)` | **`(5.00, 55.73 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 3 — Right** | **`J7` (`OUT 2A`)** | `(35.00, 59.00)` | `(35.00, 65.48)` | **`(15.00, 55.73 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 4 — Left** | **`J8` (`OUT 2B`)** | `(25.00, 72.50)` | `(25.00, 78.98)` | **`(5.00, 69.23 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 4 — Right** | **`J9` (`OUT 2C`)** | `(35.00, 72.50)` | `(35.00, 78.98)` | **`(15.00, 69.23 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 5 — Left** | **`J10` (`IN 3`)** | `(25.00, 91.00)` | `(25.00, 97.48)` | **`(5.00, 87.73 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 5 — Right** | **`J11` (`OUT 3A`)** | `(35.00, 91.00)` | `(35.00, 97.48)` | **`(15.00, 87.73 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 6 — Left** | **`J12` (`OUT 3B`)** | `(25.00, 104.50)` | `(25.00, 110.98)` | **`(5.00, 101.23 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
-| **Row 6 — Right** | **`J13` (`OUT 3C`)** | `(35.00, 104.50)` | `(35.00, 110.98)` | **`(15.00, 101.23 mm)`** | `6.2 mm` – `6.3 mm` NPTH hole |
+| **Panel Outline** | 4HP × 3U Doepfer Standard | `X: 20.0..40.0`<br>`Y: 9.25..137.75` | — | **`0.0, 0.0` → `20.0, 128.5 mm`** | `0.5 mm` corner fillets (optional) |
+| **Top Rack Slot** | M3 Rail Screw | `(27.50, 12.25)` | — | **`(7.50, 3.00 mm)`** | `3.2 × 5.5 mm` NPTH oval slot (or `3.2 mm` hole) |
+| **Bottom Rack Slot** | M3 Rail Screw | `(27.50, 134.75)` | — | **`(7.50, 125.50 mm)`** | `3.2 × 5.5 mm` NPTH oval slot (or `3.2 mm` hole) |
+| **Row 1 — Left** | **`J2` (`IN 1`)** | `(25.00, 21.40)` | `(25.00, 27.88)` | **`(5.00, 18.63 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 1 — Right** | **`J3` (`OUT 1A`)** | `(35.00, 21.40)` | `(35.00, 27.88)` | **`(15.00, 18.63 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 2 — Left** | **`J4` (`OUT 1B`)** | `(25.00, 35.80)` | `(25.00, 42.28)` | **`(5.00, 33.03 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 2 — Right** | **`J5` (`OUT 1C`)** | `(35.00, 35.80)` | `(35.00, 42.28)` | **`(15.00, 33.03 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 3 — Left** | **`J6` (`IN 2`)** | `(25.00, 50.20)` | `(25.00, 56.68)` | **`(5.00, 47.43 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 3 — Right** | **`J7` (`OUT 2A`)** | `(35.00, 50.20)` | `(35.00, 56.68)` | **`(15.00, 47.43 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 4 — Left** | **`J8` (`OUT 2B`)** | `(25.00, 64.60)` | `(25.00, 71.08)` | **`(5.00, 61.83 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 4 — Right** | **`J9` (`OUT 2C`)** | `(35.00, 64.60)` | `(35.00, 71.08)` | **`(15.00, 61.83 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 5 — Left** | **`J10` (`IN 3`)** | `(25.00, 79.00)` | `(25.00, 85.48)` | **`(5.00, 76.23 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 5 — Right** | **`J11` (`OUT 3A`)** | `(35.00, 79.00)` | `(35.00, 85.48)` | **`(15.00, 76.23 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 6 — Left** | **`J12` (`OUT 3B`)** | `(25.00, 93.40)` | `(25.00, 99.88)` | **`(5.00, 90.63 mm)`** | `6.2 mm` PTH grounded hole |
+| **Row 6 — Right** | **`J13` (`OUT 3C`)** | `(35.00, 93.40)` | `(35.00, 99.88)` | **`(15.00, 90.63 mm)`** | `6.2 mm` PTH grounded hole |
 
 ---
 

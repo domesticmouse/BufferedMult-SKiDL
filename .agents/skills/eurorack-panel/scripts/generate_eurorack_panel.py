@@ -425,10 +425,20 @@ def build_panel_sexpr(
     # Generate silkscreen labels and input frames for each jack
     jack_graphics: list[str] = []
     row_label_ys: list[float] = []
+    has_wide_intergroup_gap = any(
+        (rows[i + 1][0]["bushing_y"] - rows[i][0]["bushing_y"]) > 20.0
+        for i in range(len(rows) - 1)
+    )
     for row_idx, row in enumerate(rows):
         row_y = row[0]["bushing_y"]
-        # Alternate labels above for odd rows (0, 2) and below for even rows (1, 3)
-        lbl_y = round(row_y - 7.28, 2) if row_idx % 2 == 0 else round(row_y + 7.32, 2)
+        if has_wide_intergroup_gap:
+            # Alternate labels above for odd rows (0, 2) and below for even rows (1, 3)
+            lbl_y = (
+                round(row_y - 7.28, 2) if row_idx % 2 == 0 else round(row_y + 7.32, 2)
+            )
+        else:
+            # Uniform row grid (e.g. 6 rows @ 14.4mm): place labels at the inter-row midpoint below each row
+            lbl_y = round(row_y + 7.2, 2)
         row_label_ys.append(lbl_y)
 
         for j in row:
@@ -541,7 +551,16 @@ def build_panel_sexpr(
 \t)"""
 
     jack_graphics_str = "\n".join(jack_graphics)
-    mid_panel_y = round((panel_y0 + panel_y1) / 2.0, 2)
+    rear_title_y = (
+        round(panel_y1 - 26.0, 2)
+        if not has_wide_intergroup_gap
+        else round(panel_y0 + 16.0, 2)
+    )
+    rear_jlc_y = (
+        round(panel_y1 - 22.0, 2)
+        if not has_wide_intergroup_gap
+        else round((panel_y0 + panel_y1) / 2.0 - 1.25, 2)
+    )
 
     return f"""(kicad_pcb
 \t(version 20260206)
@@ -704,7 +723,7 @@ def build_panel_sexpr(
 \t\t)
 \t)
 \t(gr_text "JLCJLCJLCJLC"
-\t\t(at {center_x:g} {mid_panel_y - 1.25:g} 0)
+\t\t(at {center_x:g} {rear_jlc_y:g} 0)
 \t\t(layer "B.SilkS")
 \t\t(uuid "{det_uuid(ns, "jlc_order_placeholder")}")
 \t\t(effects
@@ -716,7 +735,7 @@ def build_panel_sexpr(
 \t\t)
 \t)
 \t(gr_text "{title} {hp}HP"
-\t\t(at {center_x:g} {panel_y0 + 16.0:g} 0)
+\t\t(at {center_x:g} {rear_title_y:g} 0)
 \t\t(layer "B.SilkS")
 \t\t(uuid "{det_uuid(ns, "rear_panel_title")}")
 \t\t(effects

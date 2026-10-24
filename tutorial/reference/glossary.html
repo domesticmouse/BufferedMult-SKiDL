@@ -23,6 +23,9 @@
         <a href="../lessons/0002-eurorack-power-subcircuit.html">0002</a>
         <a href="../lessons/0003-single-buffered-channel.html">0003</a>
         <a href="../lessons/0004-cascaded-normalling-and-bom-export.html">0004</a>
+        <a href="../lessons/0005-kicad-pcb-layout-and-assembly.html">0005</a>
+        <a href="../lessons/0006-eurorack-front-panel-generator.html">0006</a>
+        <a href="../lessons/0007-prefab-design-review-and-drc.html">0007</a>
         <span class="nav-sep" aria-hidden="true">|</span>
         <a href="skidl-cheatsheet.html">SKiDL Ref</a>
         <a href="kicad-jlcpcb-lookup.html">Lookup Ref</a>
@@ -109,6 +112,24 @@
         <dd>
           The internal leaf-spring contact on a switched 3.5mm jack (<code>WQP-PJ398SM</code> / <code>AudioJack2_SwitchT</code>) that conducts to the Tip (<code>T</code>) when unpatched and mechanically disconnects when a plug is inserted.<br>
           <em>Avoid</em>: Normal pin, shunt pin, break contact.
+        </dd>
+
+        <dt><strong>Deterministic Tag Timestamp (<code>tag</code> / <code>tstamps</code>)</strong></dt>
+        <dd>
+          The stable UUID exported in a KiCad <code>.net</code> file by hashing a SKiDL <code>@subcircuit</code> and <code>Part</code> <code>tag=</code> path (such as <code>/ch1/u_ch1</code>), allowing KiCad's <code>pcbnew</code> netlist importer to update footprints in-place across Python regenerations.<br>
+          <em>Avoid</em>: Random component ID, transient netlist handle.
+        </dd>
+
+        <dt><strong>Bushing Offset (<code>+6.48 mm</code>)</strong></dt>
+        <dd>
+          The mechanical displacement in KiCad's <code>WQP-PJ398SM</code> (Thonkiconn) footprint between its <code>(0, 0)</code> origin at Pad <code>S</code> (Sleeve) and the threaded M6 bushing shaft center at <code>(0, +6.48 mm)</code> (for vertical <code>0°</code> placement).<br>
+          <em>Avoid</em>: Footprint center, pad origin.
+        </dd>
+
+        <dt><strong>Design Rules Check (<code>DRC</code>)</strong></dt>
+        <dd>
+          KiCad's physical PCB layout verification (<code>kicad-cli pcb drc --refill-zones</code>) that checks copper-to-copper clearances, copper-to-edge margins, trace widths, and unrouted or isolated net islands after netlist import.<br>
+          <em>Avoid</em>: Schematic ERC, syntax lint.
         </dd>
       </dl>
     </article>

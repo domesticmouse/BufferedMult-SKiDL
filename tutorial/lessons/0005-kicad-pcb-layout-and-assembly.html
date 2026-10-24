@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Lesson 0005: From .net Netlist to 4HP KiCad 10 PCB Layout &amp; Single-Sided SMT Assembly | Eurorack SKiDL Tutorial</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/course.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#content" class="skip-link visually-hidden">Skip to main content</a>
+    <div class="header-inner">
+      <a class="brand-title" href="../index.html">
+        <span>Buffered Multiple Course</span>
+        <span class="brand-badge">KiCad 10 + SKiDL</span>
+      </a>
+      <nav class="course-nav" aria-label="Course">
+        <a href="../index.html">Index</a>
+        <a href="0000-environment-and-kicad-bootstrap.html">0000</a>
+        <a href="0001-programmatic-component-discovery.html">0001</a>
+        <a href="0002-eurorack-power-subcircuit.html">0002</a>
+        <a href="0003-single-buffered-channel.html">0003</a>
+        <a href="0004-cascaded-normalling-and-bom-export.html">0004</a>
+        <a href="0005-kicad-pcb-layout-and-assembly.html" aria-current="page">0005</a>
+        <a href="0006-eurorack-front-panel-generator.html">0006</a>
+        <a href="0007-prefab-design-review-and-drc.html">0007</a>
+        <span class="nav-sep" aria-hidden="true">|</span>
+        <a href="../reference/skidl-cheatsheet.html">SKiDL Ref</a>
+        <a href="../reference/kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="../reference/eurorack-power-and-normalling.html">Eurorack Ref</a>
+        <a href="../reference/glossary.html">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-main" tabindex="-1">
+    <article>
+      <div class="lesson-kicker">Lesson 0005 · Stage 5 (Post-Netlist Hardware-as-Code)</div>
+      <h1>From <code>.net</code> Netlist to 4HP KiCad 10 PCB Layout &amp; Single-Sided SMT Assembly</h1>
+      <p class="lead">
+        See how our exported <code>buffered_multiple.net</code> file bridges Python into KiCad 10's PCB Editor (<code>pcbnew</code>) without a <code>.kicad_sch</code> schematic—using deterministic SKiDL <code>tag</code> timestamps, a single-sided <code>B.Cu</code> SMT vs. <code>F.Cu</code> THT assembly split, and a programmatic 4HP (<code>20.0 × 108.0 mm</code>) jack placement planner.
+      </p>
+
+      <div class="meta-bar">
+        <span class="badge badge-accent">Runnable App: inspect_netlist_and_layout.py (357 Lines)</span>
+        <span class="badge badge-success">✓ ERC: 0 Errors, 0 Warnings</span>
+        <span class="badge badge-success">✓ Ruff: Clean</span>
+      </div>
+
+      <h2>Step 1. How SKiDL Replaces <code>.kicad_sch</code> with Deterministic <code>tstamps</code></h2>
+      <p>
+        In a traditional KiCad workflow, you draw a visual schematic (<code>.kicad_sch</code>) and click <strong>Update PCB from Schematic</strong>. When you design in Python with SKiDL (<a href="0004-cascaded-normalling-and-bom-export.html">Lesson 0004</a>), there is no <code>.kicad_sch</code> file—instead, you open KiCad 10's <strong>PCB Editor (<code>pcbnew</code>)</strong> and select <strong><code>File → Import → Netlist...</code></strong> to load <code>buffered_multiple.net</code> directly.
+      </p>
+      <p>
+        That raises a critical software-engineering question: <em>what happens when you tweak your Python script and re-import <code>buffered_multiple.net</code> into an already-routed PCB?</em>
+      </p>
+      <p>
+        If a component's unique identifier changes between runs, KiCad rips up its existing footprint and drops a fresh unplaced copy at the cursor. That is why every subcircuit call and part instantiation in our script passes an explicit <code>tag=</code> string (<code>eurorack_power(..., tag="pwr")</code>, <code>buffered_channel_1to3(..., tag="ch1")</code>, <code>tag=f"u_ch{ch_num}"</code>, <code>tag=f"j_in_ch{ch_num}"</code>). SKiDL hashes the hierarchical path (<code>/ch1/u_ch1</code>) into a deterministic UUID inside the exported <code>.net</code> file:
+      </p>
+
+      <figure class="diagram-card">
+        <pre class="mermaid">flowchart LR
+  TAG["Python SKiDL Tags<br/>tag='ch1' + tag='u_ch1'"] --> UUID["Deterministic KiCad tstamps<br/>sheet=/ch1/ · c569285a-52fc-..."]
+  UUID --> PCB["KiCad 10 pcbnew Import<br/>Match by Timestamp / Unique ID"]
+  PCB --> PLACE["In-Place PCB Update<br/>Preserves Placed U1..U3 &amp; Traces"]</pre>
+        <figcaption>How hierarchical SKiDL <code>tag</code> strings map to stable KiCad 10 <code>(tstamps ...)</code> across iterative Python edits.</figcaption>
+      </figure>
+
+      <h2>Step 2. The 4HP (<code>20.0 × 108.0 mm</code>) Layer &amp; Assembly Partition</h2>
+      <p>
+        A 12-jack Triple 1-to-3 Buffered Multiple arranged in 6 rows × 2 columns fits comfortably on a single-board <strong>4HP</strong> (<code>20.0 mm</code> wide × <code>108.0 mm</code> tall) PCB. To keep JLCPCB assembly fast and economical, we partition the 44 circuit components across the front (<code>F.Cu</code>) and back (<code>B.Cu</code>) copper layers by assembly method:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>4HP PCB Layer &amp; Assembly Partition (44 Total Components = 29 SMT + 15 THT)</caption>
+          <thead>
+            <tr>
+              <th>Board Side</th>
+              <th>Assembly Method</th>
+              <th>Count</th>
+              <th>Components &amp; Mechanical Clearance Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Back (<code>B.Cu</code>)</strong></td>
+              <td><strong>JLCPCB Single-Sided SMT</strong></td>
+              <td><strong>29 SMD</strong></td>
+              <td>
+                <code>U1</code>–<code>U3</code> (<code>TL074H</code> in <code>SOIC-14</code>), <code>D1</code>–<code>D2</code> (<code>1N5819WS</code>), <code>D3</code>–<code>D5</code> (<code>PESD12VL1BA</code>), <code>C3</code>–<code>C8</code> (<code>100nF</code>), and <code>R1</code>–<code>R15</code> (<code>100K</code>, <code>1K</code>, <code>470R</code>). Keeping every SMD footprint on <code>B.Cu</code> means JLCPCB runs a single solder-paste stencil and reflow pass.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Front (<code>F.Cu</code>)</strong></td>
+              <td><strong>Bench Hand-Soldered THT</strong></td>
+              <td><strong>14 THT</strong></td>
+              <td>
+                12× <code>WQP-PJ398SM</code> (Thonkiconn) switched 3.5mm jacks (<code>J2</code>–<code>J13</code>) plus the two <code>10uF</code> radial electrolytic bulk capacitors (<code>C1</code>, <code>C2</code>, Panasonic <code>ECEA1EKS100</code>). Because Thonkiconn jacks create a <code>10.5 mm</code> board-to-panel standoff and <code>ECEA1EKS100</code> cans are only <code>7.0 mm</code> tall, mounting <code>C1</code> and <code>C2</code> on <code>F.Cu</code> hides them cleanly in the inter-board gap with <code>3.5 mm</code> of headroom!
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Back (<code>B.Cu</code>)</strong></td>
+              <td><strong>Bench Hand-Soldered THT</strong></td>
+              <td><strong>1 THT</strong></td>
+              <td>
+                1× 10-pin (<code>2×5</code>) shrouded Eurorack IDC power header (<code>J1</code>), facing into the Eurorack case for the ribbon cable.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">Why <code>C2</code>'s Square Pad (<code>+</code>) Connects to <code>GND</code> on <code>F.Cu</code></div>
+        <p style="margin:0;">
+          When placing the two radial bulk capacitors (<code>C1</code> and <code>C2</code>) on <code>F.Cu</code>, remember the bipolar rail potential rule from <a href="0002-eurorack-power-subcircuit.html">Lesson 0002</a>: on the <code>+12V</code> rail, <code>C1</code> Pin <code>1</code> (<code>+</code>, square pad) connects to <code>+12V</code> and Pin <code>2</code> (<code>-</code>) connects to <code>GND</code>. On the <code>-12V</code> rail, <code>GND</code> (<code>0V</code>) is 12 volts <em>more positive</em> than <code>-12V</code>, so <code>C2</code> Pin <code>1</code> (<code>+</code>, square pad) connects to <code>GND</code> and Pin <code>2</code> (<code>-</code>) connects to <code>-12V</code>!
+        </p>
+      </div>
+
+      <h2>Step 3. Parse the Exported <code>.net</code> File &amp; Generate the 4HP Placement Grid in Python</h2>
+      <p>
+        Let's add two functions to our circuit script—<code>parse_netlist_metadata()</code> and <code>compute_4hp_jack_grid()</code>—so we can inspect the S-expression <code>.net</code> file that SKiDL exports and generate a CSV placement coordinate table for all 12 front-panel jacks (<code>J2</code>–<code>J13</code>) on a <code>20.0 × 108.0 mm</code> board spanning <code>X = 20.0..40.0 mm</code>, <code>Y = 20.0..128.0 mm</code> in KiCad's canvas:
+      </p>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>New Code Added · parse_netlist_metadata() &amp; compute_4hp_jack_grid()</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">def parse_netlist_metadata(net_path: Path) -> dict:
+    """Parse component tstamps, sheetpaths, and net classes from a KiCad `.net` file."""
+    text = net_path.read_text(encoding="utf-8")
+    comp_pattern = re.compile(
+        r'\(comp\s+\(ref\s+"([^"]+)"\)\s+\(value\s+"([^"]+)"\)'
+        r'.*?\(footprint\s+"([^"]+)"\)'
+        r'.*?\(name\s+"SKiDL Tag"\)\s+"([^"]+)"'
+        r'.*?\(sheetpath\s+\(names\s+"([^"]+)"\)\s+\(tstamps\s+"([^"]+)"\)\)'
+        r'\s+\(component_classes\)\s+\(tstamps\s+"([^"]+)"\)',
+        re.DOTALL,
+    )
+    components = [
+        {
+            "ref": m.group(1),
+            "value": m.group(2),
+            "footprint": m.group(3),
+            "skidl_tag": m.group(4),
+            "sheet": m.group(5),
+            "sheet_tstamp": m.group(6),
+            "comp_tstamp": m.group(7),
+        }
+        for m in comp_pattern.finditer(text)
+    ]
+    net_pattern = re.compile(
+        r'\(net\s+\(code\s+\d+\)\s+\(name\s+"([^"]+)"\)\s+\(class\s+"([^"]+)"\)'
+    )
+    nets = [
+        {"name": m.group(1), "netclass": m.group(2)} for m in net_pattern.finditer(text)
+    ]
+    return {"components": components, "nets": nets}</code></pre>
+      </figure>
+
+      <h2>Step 4. Complete Runnable Script (<code>inspect_netlist_and_layout.py</code>)</h2>
+      <p>
+        Here is the complete, standalone 357-line script in <code>tutorial/apps/0005-kicad-pcb-layout-and-assembly/inspect_netlist_and_layout.py</code>. It builds the 3-channel circuit, runs <code>ERC()</code>, exports <code>buffered_multiple.net</code>, parses the deterministic <code>tstamps</code> and <code>NetClass</code> rules out of the generated S-expression file, and writes the 2×6 jack placement plan to <code>layout_placement_plan.csv</code>:
+      </p>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>tutorial/apps/0005-kicad-pcb-layout-and-assembly/inspect_netlist_and_layout.py (Complete 357-Line Script)</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">#!/usr/bin/env python3
+"""
+Lesson 0005: From .net Netlist to 4HP KiCad 10 PCB Layout &amp; Single-Sided SMT Assembly.
+
+Builds the 3-channel Eurorack Buffered Multiple netlist, parses the exported KiCad 10
+S-expression `.net` file to inspect deterministic hierarchical `tstamps` and `NetClass`
+routing rules, and prints the 4HP (`20.0 x 108.0 mm`) F.Cu THT vs. B.Cu SMT placement plan.
+"""
+
+import builtins
+import csv
+import os
+import re
+from pathlib import Path
+
+# Keep generated .erc, .log, .net, .csv, and _sklib.py files inside this lesson's app directory
+os.chdir(Path(__file__).resolve().parent)
+
+# Configure writable cache directories and KiCad 10 library paths BEFORE importing skidl
+os.environ.setdefault("XDG_DATA_HOME", "/tmp/xdg_data")
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/mpl_config")
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols"):
+    os.environ.setdefault(
+        "KICAD10_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+    os.environ.setdefault(
+        "KICAD_SYMBOL_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols",
+    )
+if os.path.isdir("/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints"):
+    os.environ.setdefault(
+        "KICAD10_FOOTPRINT_DIR",
+        "/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints",
+    )
+
+from skidl import (
+    ERC,
+    POWER,
+    TEMPLATE,
+    Net,
+    NetClass,
+    Part,
+    generate_netlist,
+    subcircuit,
+)
+
+# Footprints (SMD passives &amp; ICs, through-hole Eurorack jacks, power header &amp; bulk caps)
+FP_OPAMP_SOIC14 = "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm"
+FP_R_0603 = "Resistor_SMD:R_0603_1608Metric"
+FP_C_0603 = "Capacitor_SMD:C_0603_1608Metric"
+FP_C_ELEC = "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm"
+FP_DIODE_SOD323 = "Diode_SMD:D_SOD-323"
+FP_JACK_EURORACK = (
+    "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles"
+)
+FP_PWR_HEADER_10P = "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
+
+# Verified JLCPCB / LCSC Catalog Part Numbers (SMT assembly only)
+LCSC_C_100NF_0603 = "C14663"
+LCSC_R_100K_0603 = "C25803"
+LCSC_R_1K_0603 = "C21190"
+LCSC_R_470R_0603 = "C23179"
+LCSC_D_1N5819WS_SOD323 = "C191023"
+LCSC_D_TVS_PESD12VL1BA_SOD323 = "C38558"
+LCSC_U_TL074H_SOIC14 = "C2878713"
+
+
+@subcircuit
+def eurorack_power(vcc, vee, gnd):
+    """10-pin Eurorack power input with Schottky reverse-polarity protection."""
+    j_pwr = Part(
+        "Connector_Generic",
+        "Conn_02x05_Odd_Even",
+        value="EURORACK_PWR_10PIN",
+        footprint=FP_PWR_HEADER_10P,
+        tag="j_pwr",
+    )
+    j_pwr.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
+
+    vcc_raw = Net("+12V_RAW")
+    vee_raw = Net("-12V_RAW")
+
+    vee_raw += j_pwr[1, 2]
+    gnd += j_pwr[3, 4, 5, 6, 7, 8]
+    vcc_raw += j_pwr[9, 10]
+
+    d_t = Part(
+        "Device",
+        "D_Schottky",
+        dest=TEMPLATE,
+        value="1N5819WS",
+        footprint=FP_DIODE_SOD323,
+    )
+    d_t.fields["LCSC"] = LCSC_D_1N5819WS_SOD323
+    d_t.fields["MPN"] = "1N5819WS"
+    d_t.fields["JLCPCB_Class"] = "Basic"
+    d_pos, d_neg = d_t(2, tag="d_prot")
+
+    vcc_raw += d_pos["A"]
+    vcc += d_pos["K"]
+    vee_raw += d_neg["K"]
+    vee += d_neg["A"]
+
+    c_bulk_t = Part(
+        "Device",
+        "C_Polarized",
+        dest=TEMPLATE,
+        value="10uF",
+        footprint=FP_C_ELEC,
+    )
+    c_bulk_t.fields["MPN"] = "ECEA1EKS100"
+    c_bulk_t.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
+    c_bulk_pos, c_bulk_neg = c_bulk_t(2, tag="c_bulk")
+
+    vcc += c_bulk_pos[1]
+    gnd += c_bulk_pos[2]
+    gnd += c_bulk_neg[1]
+    vee += c_bulk_neg[2]
+
+
+@subcircuit
+def buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1):
+    """Single 1-to-3 buffered multiple channel built around one quad TL074H op-amp."""
+    r_t = Part("Device", "R", dest=TEMPLATE, footprint=FP_R_0603)
+    c_t = Part("Device", "C", dest=TEMPLATE, footprint=FP_C_0603)
+    c_t.fields["LCSC"] = LCSC_C_100NF_0603
+    c_t.fields["MPN"] = "CC0603KRX7R9BB104"
+    c_t.fields["JLCPCB_Class"] = "Basic"
+
+    jack_t = Part(
+        "Connector_Audio",
+        "AudioJack2_SwitchT",
+        dest=TEMPLATE,
+        footprint=FP_JACK_EURORACK,
+    )
+    jack_t.fields["MPN"] = "WQP-PJ398SM"
+    jack_t.fields["JLCPCB_Class"] = "Manual THT (DNP for SMT)"
+
+    u = Part(
+        "Amplifier_Operational",
+        "TL074",
+        value="TL074H",
+        footprint=FP_OPAMP_SOIC14,
+        tag=f"u_ch{ch_num}",
+    )
+    u.fields["LCSC"] = LCSC_U_TL074H_SOIC14
+    u.fields["MPN"] = "TL074HIDR"
+    u.fields["JLCPCB_Class"] = "Extended"
+
+    vcc += u["V+"]
+    vee += u["V-"]
+
+    c_dec_pos, c_dec_neg = c_t(2, value="100nF", tag=f"c_dec_ch{ch_num}")
+    vcc &amp; c_dec_pos &amp; gnd
+    gnd &amp; c_dec_neg &amp; vee
+
+    j_in = jack_t(value=f"IN_{ch_num}", tag=f"j_in_ch{ch_num}")
+    in_jack = Net(f"CH{ch_num}_JACK_IN")
+    in_sig = Net(f"CH{ch_num}_IN")
+
+    gnd += j_in["S"]
+    norm_in += j_in["TN"]
+    in_jack += j_in["T"]
+
+    d_tvs = Part(
+        "Device",
+        "D_TVS",
+        value="PESD12VL1BA",
+        footprint=FP_DIODE_SOD323,
+        tag=f"d_tvs_ch{ch_num}",
+    )
+    d_tvs.fields["LCSC"] = LCSC_D_TVS_PESD12VL1BA_SOD323
+    d_tvs.fields["MPN"] = "PESD12VL1BA,115"
+    d_tvs.fields["JLCPCB_Class"] = "Extended"
+    in_jack &amp; d_tvs &amp; gnd
+
+    r_pd = r_t(value="100K", tag=f"r_pd_ch{ch_num}")
+    r_pd.fields["LCSC"] = LCSC_R_100K_0603
+    r_pd.fields["MPN"] = "0603WAF1003T5E"
+    r_pd.fields["JLCPCB_Class"] = "Basic"
+    in_jack &amp; r_pd &amp; gnd
+
+    r_in = r_t(value="1K", tag=f"r_in_ch{ch_num}")
+    r_in.fields["LCSC"] = LCSC_R_1K_0603
+    r_in.fields["MPN"] = "0603WAF1001T5E"
+    r_in.fields["JLCPCB_Class"] = "Basic"
+    in_jack &amp; r_in &amp; in_sig
+
+    in_sig += u.p[3]
+    buffered_tap_out += u.p[1], u.p[2]
+
+    output_stages = [
+        ("A", 5, 6, 7),
+        ("B", 10, 9, 8),
+        ("C", 12, 13, 14),
+    ]
+
+    for suffix, pin_pos, pin_neg, pin_out in output_stages:
+        op_out = Net(f"CH{ch_num}_OP_{suffix}")
+        jack_tip = Net(f"CH{ch_num}_OUT_{suffix}")
+
+        buffered_tap_out += u.p[pin_pos]
+        op_out += u.p[pin_out], u.p[pin_neg]
+
+        r_out = r_t(value="470R", tag=f"r_out_ch{ch_num}_{suffix}")
+        r_out.fields["LCSC"] = LCSC_R_470R_0603
+        r_out.fields["MPN"] = "0603WAF4700T5E"
+        r_out.fields["JLCPCB_Class"] = "Basic"
+        op_out &amp; r_out &amp; jack_tip
+
+        j_out = jack_t(value=f"OUT_{ch_num}{suffix}", tag=f"j_out_ch{ch_num}_{suffix}")
+        jack_tip += j_out["T"]
+        gnd += j_out["S"]
+        j_out["TN"] += builtins.NC
+
+
+def parse_netlist_metadata(net_path: Path) -> dict:
+    """Parse component tstamps, sheetpaths, and net classes from a KiCad `.net` file."""
+    text = net_path.read_text(encoding="utf-8")
+    comp_pattern = re.compile(
+        r'\(comp\s+\(ref\s+"([^"]+)"\)\s+\(value\s+"([^"]+)"\)'
+        r'.*?\(footprint\s+"([^"]+)"\)'
+        r'.*?\(name\s+"SKiDL Tag"\)\s+"([^"]+)"'
+        r'.*?\(sheetpath\s+\(names\s+"([^"]+)"\)\s+\(tstamps\s+"([^"]+)"\)\)'
+        r'\s+\(component_classes\)\s+\(tstamps\s+"([^"]+)"\)',
+        re.DOTALL,
+    )
+    components = [
+        {
+            "ref": m.group(1),
+            "value": m.group(2),
+            "footprint": m.group(3),
+            "skidl_tag": m.group(4),
+            "sheet": m.group(5),
+            "sheet_tstamp": m.group(6),
+            "comp_tstamp": m.group(7),
+        }
+        for m in comp_pattern.finditer(text)
+    ]
+    net_pattern = re.compile(
+        r'\(net\s+\(code\s+\d+\)\s+\(name\s+"([^"]+)"\)\s+\(class\s+"([^"]+)"\)'
+    )
+    nets = [
+        {"name": m.group(1), "netclass": m.group(2)} for m in net_pattern.finditer(text)
+    ]
+    return {"components": components, "nets": nets}
+
+
+def compute_4hp_jack_grid() -> list[dict]:
+    """Return the 6-row x 2-column 4HP F.Cu jack placement grid (X=25/35mm)."""
+    row_ys = [27.00, 40.50, 59.00, 72.50, 91.00, 104.50]
+    labels = [
+        ("J2", "IN_1", 1, "Left"),
+        ("J3", "OUT_1A", 1, "Right"),
+        ("J4", "OUT_1B", 2, "Left"),
+        ("J5", "OUT_1C", 2, "Right"),
+        ("J6", "IN_2", 3, "Left"),
+        ("J7", "OUT_2A", 3, "Right"),
+        ("J8", "OUT_2B", 4, "Left"),
+        ("J9", "OUT_2C", 4, "Right"),
+        ("J10", "IN_3", 5, "Left"),
+        ("J11", "OUT_3A", 5, "Right"),
+        ("J12", "OUT_3B", 6, "Left"),
+        ("J13", "OUT_3C", 6, "Right"),
+    ]
+    placements = []
+    for ref, val, row_idx, col_side in labels:
+        x_mm = 25.00 if col_side == "Left" else 35.00
+        y_mm = row_ys[row_idx - 1]
+        placements.append(
+            {
+                "ref": ref,
+                "value": val,
+                "row": row_idx,
+                "col": col_side,
+                "x_mm": x_mm,
+                "y_mm": y_mm,
+                "layer": "F.Cu",
+            }
+        )
+    return placements
+
+
+def main():
+    vcc = Net("+12V")
+    vee = Net("-12V")
+    gnd = Net("GND")
+    for rail in (vcc, vee, gnd):
+        rail.drive = POWER
+
+    pwr_class = NetClass("Power", priority=1, trace_width=0.5, clearance=0.25)
+    sig_class = NetClass("Signal", priority=2, trace_width=0.25, clearance=0.2)
+    for rail in (vcc, vee, gnd):
+        rail.netclasses = pwr_class
+
+    ch1_buf = Net("CH1_BUF")
+    ch2_buf = Net("CH2_BUF")
+    ch3_buf = Net("CH3_BUF")
+    for buf_net in (ch1_buf, ch2_buf, ch3_buf):
+        buf_net.netclasses = sig_class
+
+    eurorack_power(vcc, vee, gnd, tag="pwr")
+    buffered_channel_1to3(vcc, vee, gnd, gnd, ch1_buf, ch_num=1, tag="ch1")
+    buffered_channel_1to3(vcc, vee, gnd, ch1_buf, ch2_buf, ch_num=2, tag="ch2")
+    buffered_channel_1to3(vcc, vee, gnd, ch2_buf, ch3_buf, ch_num=3, tag="ch3")
+
+    ERC()
+
+    net_file = Path("buffered_multiple.net")
+    csv_file = Path("layout_placement_plan.csv")
+    generate_netlist(file_=str(net_file))
+
+    meta = parse_netlist_metadata(net_file)
+    parts = builtins.default_circuit.parts
+    smt_parts = [p for p in parts if "THT" not in p.fields.get("JLCPCB_Class", "")]
+    tht_front = [
+        p for p in parts if "THT" in p.fields.get("JLCPCB_Class", "") and p.ref != "J1"
+    ]
+    tht_back = [p for p in parts if p.ref == "J1"]
+
+    print("=== Lesson 0005: Netlist &amp; 4HP PCB Assembly Partition ===")
+    print(f"  Exported Netlist     : {net_file.name} ({len(meta['nets'])} nets)")
+    print(f"  Total Circuit Parts  : {len(parts)}")
+    print(f"  B.Cu SMT (JLCPCB)    : {len(smt_parts)} parts (all SMD on back layer)")
+    print(
+        f"  F.Cu THT (Bench)     : {len(tht_front)} parts (J2-J13 jacks + C1, C2 bulk)"
+    )
+    print(f"  B.Cu THT (Bench)     : {len(tht_back)} part  (J1 10-pin power header)")
+
+    print("\n=== Deterministic Hierarchical tstamps (from SKiDL tag=...) ===")
+    sample_refs = {"J1", "D1", "U1", "J2", "U2", "J6", "U3", "J10"}
+    for comp in meta["components"]:
+        if comp["ref"] in sample_refs:
+            print(
+                f"  {comp['ref']:&lt;4} ({comp['value']:&lt;18}) | sheet={comp['sheet']:&lt;6} "
+                f"| tag={comp['skidl_tag']:&lt;10} | tstamps={comp['comp_tstamp']}"
+            )
+
+    grid = compute_4hp_jack_grid()
+    with open(csv_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(
+            f, fieldnames=["ref", "value", "row", "col", "x_mm", "y_mm", "layer"]
+        )
+        writer.writeheader()
+        writer.writerows(grid)
+
+    print("\n=== 4HP (20.0 x 108.0 mm) 2x6 Jack Placement Grid (F.Cu) ===")
+    for item in grid:
+        print(
+            f"  Row {item['row']} {item['col']:&lt;5} | {item['ref']:&lt;4} ({item['value']:&lt;6}) "
+            f"@ X={item['x_mm']:5.2f} mm, Y={item['y_mm']:6.2f} mm [{item['layer']}]"
+        )
+
+
+if __name__ == "__main__":
+    main()</code></pre>
+      </figure>
+
+      <h3>Run &amp; Verify in Your Terminal</h3>
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Terminal · Execute inspect_netlist_and_layout.py and lint with ruff</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-bash">.venv/bin/python tutorial/apps/0005-kicad-pcb-layout-and-assembly/inspect_netlist_and_layout.py
+ruff check --fix tutorial/apps/0005-kicad-pcb-layout-and-assembly/*.py
+ruff format tutorial/apps/0005-kicad-pcb-layout-and-assembly/*.py</code></pre>
+      </figure>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Verified Output · inspect_netlist_and_layout.py</span>
+        </div>
+        <pre><code class="language-bash">ERC INFO: No errors or warnings found while running ERC.
+
+=== Lesson 0005: Netlist &amp; 4HP PCB Assembly Partition ===
+  Exported Netlist     : buffered_multiple.net (32 nets)
+  Total Circuit Parts  : 44
+  B.Cu SMT (JLCPCB)    : 29 parts (all SMD on back layer)
+  F.Cu THT (Bench)     : 14 parts (J2-J13 jacks + C1, C2 bulk)
+  B.Cu THT (Bench)     : 1 part  (J1 10-pin power header)
+
+=== Deterministic Hierarchical tstamps (from SKiDL tag=...) ===
+  D1   (1N5819WS          ) | sheet=/pwr/  | tag=d_prot     | tstamps=755b79ea-9aec-515f-90f3-05736192e469
+  J1   (EURORACK_PWR_10PIN) | sheet=/pwr/  | tag=j_pwr      | tstamps=3befb997-e4cd-563a-a2aa-c234de0ee318
+  J10  (IN_3              ) | sheet=/ch3/  | tag=j_in_ch3   | tstamps=d591af85-83c0-55d6-851e-1dc3c89a8504
+  J2   (IN_1              ) | sheet=/ch1/  | tag=j_in_ch1   | tstamps=a35debec-b72b-5399-9e88-09f481d0ad50
+  J6   (IN_2              ) | sheet=/ch2/  | tag=j_in_ch2   | tstamps=3c239617-8d1a-5faf-9b1f-883128d9027a
+  U1   (TL074H            ) | sheet=/ch1/  | tag=u_ch1      | tstamps=c569285a-52fc-5dd4-952c-ec299a909882
+  U2   (TL074H            ) | sheet=/ch2/  | tag=u_ch2      | tstamps=466fa5c4-4c31-5383-8515-d29a76b7d0dd
+  U3   (TL074H            ) | sheet=/ch3/  | tag=u_ch3      | tstamps=89c23ec5-d40f-5b0a-b500-5518e5b8e205
+
+=== 4HP (20.0 x 108.0 mm) 2x6 Jack Placement Grid (F.Cu) ===
+  Row 1 Left  | J2   (IN_1  ) @ X=25.00 mm, Y= 27.00 mm [F.Cu]
+  Row 1 Right | J3   (OUT_1A) @ X=35.00 mm, Y= 27.00 mm [F.Cu]
+  Row 2 Left  | J4   (OUT_1B) @ X=25.00 mm, Y= 40.50 mm [F.Cu]
+  Row 2 Right | J5   (OUT_1C) @ X=35.00 mm, Y= 40.50 mm [F.Cu]
+  Row 3 Left  | J6   (IN_2  ) @ X=25.00 mm, Y= 59.00 mm [F.Cu]
+  Row 3 Right | J7   (OUT_2A) @ X=35.00 mm, Y= 59.00 mm [F.Cu]
+  Row 4 Left  | J8   (OUT_2B) @ X=25.00 mm, Y= 72.50 mm [F.Cu]
+  Row 4 Right | J9   (OUT_2C) @ X=35.00 mm, Y= 72.50 mm [F.Cu]
+  Row 5 Left  | J10  (IN_3  ) @ X=25.00 mm, Y= 91.00 mm [F.Cu]
+  Row 5 Right | J11  (OUT_3A) @ X=35.00 mm, Y= 91.00 mm [F.Cu]
+  Row 6 Left  | J12  (OUT_3B) @ X=25.00 mm, Y=104.50 mm [F.Cu]
+  Row 6 Right | J13  (OUT_3C) @ X=35.00 mm, Y=104.50 mm [F.Cu]</code></pre>
+      </figure>
+
+      <!-- Interactive Code Exercise -->
+      <section class="exercise-box" aria-labelledby="ex-0005-title">
+        <h3 id="ex-0005-title">Retrieval Practice: Deterministic Tags &amp; SMT/THT Layer Partitioning</h3>
+        <p>
+          Fill in the four blanks below to assign the deterministic <code>tag</code> on the power subcircuit call, export <code>buffered_multiple.net</code> via <code>generate_netlist()</code>, filter SMT parts via <code>part.fields</code>, and assign the front copper layer (<code>F.Cu</code>) to the 12 Thonkiconn jacks:
+        </p>
+        <div class="code-figure">
+          <div class="code-header">
+            <span>Interactive Python Exercise (Prism keep-markup)</span>
+          </div>
+          <pre><code class="language-python"># 1. Call eurorack_power with a deterministic hierarchical tag
+eurorack_power(vcc, vee, gnd, <input type="text" class="code-blank" aria-label="Keyword argument for deterministic SKiDL tag" data-answer="tag" data-hint="Keyword argument that sets a deterministic hierarchical identifier: tag" size="5">="pwr")
+
+# 2. Export the KiCad 10 S-expression netlist
+<input type="text" class="code-blank" aria-label="SKiDL function that writes the .net file" data-answer="generate_netlist" data-hint="SKiDL function that exports the KiCad .net file: generate_netlist" size="17">(file_="buffered_multiple.net")
+
+# 3. Partition B.Cu SMT parts from manual THT parts using part.fields
+smt_parts = [
+    p for p in builtins.default_circuit.parts
+    if "THT" not in p.<input type="text" class="code-blank" aria-label="Part metadata dictionary attribute" data-answer="fields" data-hint="Dictionary attribute on a SKiDL Part storing custom metadata: fields" size="8">.get("JLCPCB_Class", "")
+]
+
+# 4. Place the 12 WQP-PJ398SM jacks on the panel-facing front copper layer
+jack_layer = "<input type="text" class="code-blank" aria-label="KiCad front copper layer name" data-answer="F.Cu" data-hint="KiCad front copper layer name: F.Cu" size="6">"</code></pre>
+        </div>
+        <div class="exercise-actions">
+          <button type="button" class="btn btn-primary" data-action="check">Check Answers</button>
+          <button type="button" class="btn" data-action="hint">Show Hint</button>
+          <button type="button" class="btn" data-action="reset">Reset</button>
+        </div>
+        <div class="feedback-msg" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- Retrieval Quiz -->
+      <section class="quiz-section" aria-labelledby="quiz-0005-title">
+        <h2 id="quiz-0005-title" style="margin-top:0;">Knowledge Check</h2>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            1. Why do we pass explicit <code>tag=</code> strings (such as <code>tag="pwr"</code>, <code>tag="ch1"</code>, and <code>tag="u_ch1"</code>) when instantiating subcircuits and parts in SKiDL?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="KiCad does not autoroute from SKiDL tags; routing is controlled by NetClass rules and manual or interactive routing in pcbnew.">
+              <span>A.</span>
+              <span>Explicit tag strings instruct KiCad ten to autoroute every power trace on both layers.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="true" data-explain="SKiDL hashes the hierarchical tag path into deterministic (tstamps ...) UUIDs inside the .net file so re-importing into pcbnew updates nets in-place without scrambling placed footprints.">
+              <span>B.</span>
+              <span>Deterministic tags generate stable hierarchical timestamps so netlist re-imports update footprints without scrambling placements.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="ERC() checks pin electrical types and net drive flags regardless of whether custom tags are provided.">
+              <span>C.</span>
+              <span>SKiDL requires manual string tags before any operational amplifier symbol can pass electrical checks.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Footprints are set explicitly via the footprint= attribute on each Part or Template Part.">
+              <span>D.</span>
+              <span>Assigning tags automatically converts through-hole audio connectors into surface-mount footprints during netlist file export.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            2. Why are all 29 surface-mount components placed on <code>B.Cu</code> while <code>J2</code>–<code>J13</code> and the <code>10uF</code> radial bulk capacitors (<code>C1</code>, <code>C2</code>) mount on <code>F.Cu</code>?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="KiCad allows mixing SMD and THT footprints on either side of the board.">
+              <span>A.</span>
+              <span>KiCad ten prohibits placing surface-mount resistor footprints on the same layer as plated through holes.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Radial capacitor leads are trimmed after soldering; placing C1/C2 on F.Cu utilizes the 10.5mm standoff space behind the front panel.">
+              <span>B.</span>
+              <span>Mounting radial electrolytic capacitors on the back layer shorts their leads against the ribbon cable.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Each TL074H dissipates only ~130 mW (<11°C temperature rise) and does not require a panel heat sink.">
+              <span>C.</span>
+              <span>Surface-mount operational amplifiers overheat unless they face away from the aluminum front panel heat sink.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="true" data-explain="Putting all 29 SMD parts on B.Cu allows single-sided JLCPCB PCBA, while the 7mm-tall ECEA1EKS100 bulk caps sit on F.Cu inside the 10.5mm space created by the Thonkiconn jacks.">
+              <span>D.</span>
+              <span>Single-sided back placement enables economical automated assembly while seven-millimeter bulk capacitors fit underneath the panel.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <div class="callout callout-success">
+        <div class="callout-title">Primary Sources &amp; Follow-Up Questions</div>
+        <p style="margin:0;">
+          <strong>Primary Sources</strong>: <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a> · <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a> · <a href="../reference/glossary.html">Glossary</a>.<br>
+          <strong>Ask the Agent</strong>: Have questions about how KiCad 10 matches <code>tstamps</code> during netlist re-import or how to position decoupling capacitors <code>C3</code>–<code>C8</code> next to <code>U1</code>–<code>U3</code> on <code>B.Cu</code>? Ask anytime—or continue to <strong>Lesson 0006</strong> to generate the mated 4HP Eurorack front panel in Python!
+        </p>
+      </div>
+
+      <nav class="pager" aria-label="Lesson pagination">
+        <a href="0004-cascaded-normalling-and-bom-export.html">
+          <span class="pager-label">← Previous Lesson</span>
+          <span class="pager-title">0004: Completing buffered_multiple.py — Cascaded Normalling &amp; BOM</span>
+        </a>
+        <a href="0006-eurorack-front-panel-generator.html">
+          <span class="pager-label">Next Lesson →</span>
+          <span class="pager-title">0006: Automated 4HP Eurorack Front Panel Generation (+6.48 mm Offset)</span>
+        </a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</span>
+      <span>This is not an official Google product.</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,13 @@
+ref,value,row,col,x_mm,y_mm,layer
+J2,IN_1,1,Left,25.0,27.0,F.Cu
+J3,OUT_1A,1,Right,35.0,27.0,F.Cu
+J4,OUT_1B,2,Left,25.0,40.5,F.Cu
+J5,OUT_1C,2,Right,35.0,40.5,F.Cu
+J6,IN_2,3,Left,25.0,59.0,F.Cu
+J7,OUT_2A,3,Right,35.0,59.0,F.Cu
+J8,OUT_2B,4,Left,25.0,72.5,F.Cu
+J9,OUT_2C,4,Right,35.0,72.5,F.Cu
+J10,IN_3,5,Left,25.0,91.0,F.Cu
+J11,OUT_3A,5,Right,35.0,91.0,F.Cu
+J12,OUT_3B,6,Left,25.0,104.5,F.Cu
+J13,OUT_3C,6,Right,35.0,104.5,F.Cu

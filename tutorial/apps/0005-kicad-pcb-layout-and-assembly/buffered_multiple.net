@@ -1,0 +1,2149 @@
+(export 
+  (version "D")
+  (design
+    (source "inspect_netlist_and_layout.py")
+    (date "10/24/2026 04:49 PM")
+    (tool "SKiDL (3.0.0)")
+    (sheet
+      (number 1)
+      (name "/pwr/")
+      (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "inspect_netlist_and_layout.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 2)
+      (name "/ch2/")
+      (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "inspect_netlist_and_layout.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 3)
+      (name "/ch3/")
+      (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "inspect_netlist_and_layout.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 4)
+      (name "/ch1/")
+      (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "inspect_netlist_and_layout.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 5)
+      (name "/")
+      (tstamps "/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "inspect_netlist_and_layout.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value "")))))
+  (components
+    (comp
+      (ref "C1")
+      (value "10uF")
+      (description "Polarized capacitor")
+      (footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+      (fields
+        (field
+          (name "MPN") "ECEA1EKS100")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Polarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_bulk")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:114"))
+      (libsource
+        (lib "Device")
+        (part "C_Polarized"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "712237fb-9833-590a-97a1-7b567a892764"))
+    (comp
+      (ref "C2")
+      (value "10uF")
+      (description "Polarized capacitor")
+      (footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+      (fields
+        (field
+          (name "MPN") "ECEA1EKS100")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Polarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_bulk")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:114"))
+      (libsource
+        (lib "Device")
+        (part "C_Polarized"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "712237fb-9833-590a-97a1-7b567a892764"))
+    (comp
+      (ref "C3")
+      (value "100nF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C14663")
+        (field
+          (name "MPN") "CC0603KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_dec_ch1")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:154"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "a40e24f7-eb0b-5369-b003-c7b8b5287b2f"))
+    (comp
+      (ref "C4")
+      (value "100nF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C14663")
+        (field
+          (name "MPN") "CC0603KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_dec_ch1")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:154"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "a40e24f7-eb0b-5369-b003-c7b8b5287b2f"))
+    (comp
+      (ref "C5")
+      (value "100nF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C14663")
+        (field
+          (name "MPN") "CC0603KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_dec_ch2")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:154"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "4df542c1-3b00-5be3-b99f-b7b265ccf7c4"))
+    (comp
+      (ref "C6")
+      (value "100nF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C14663")
+        (field
+          (name "MPN") "CC0603KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_dec_ch2")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:154"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "4df542c1-3b00-5be3-b99f-b7b265ccf7c4"))
+    (comp
+      (ref "C7")
+      (value "100nF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C14663")
+        (field
+          (name "MPN") "CC0603KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_dec_ch3")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:154"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "95c918c0-a2ea-59fc-930c-819364c001a6"))
+    (comp
+      (ref "C8")
+      (value "100nF")
+      (description "Unpolarized capacitor")
+      (footprint "Capacitor_SMD:C_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C14663")
+        (field
+          (name "MPN") "CC0603KRX7R9BB104")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Unpolarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_SMD:C_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_dec_ch3")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:154"))
+      (libsource
+        (lib "Device")
+        (part "C"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "95c918c0-a2ea-59fc-930c-819364c001a6"))
+    (comp
+      (ref "D1")
+      (value "1N5819WS")
+      (description "Schottky diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C191023")
+        (field
+          (name "MPN") "1N5819WS")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Schottky diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_prot")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:98"))
+      (libsource
+        (lib "Device")
+        (part "D_Schottky"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "755b79ea-9aec-515f-90f3-05736192e469"))
+    (comp
+      (ref "D2")
+      (value "1N5819WS")
+      (description "Schottky diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C191023")
+        (field
+          (name "MPN") "1N5819WS")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Schottky diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_prot")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:98"))
+      (libsource
+        (lib "Device")
+        (part "D_Schottky"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "755b79ea-9aec-515f-90f3-05736192e469"))
+    (comp
+      (ref "D3")
+      (value "PESD12VL1BA")
+      (description "Bidirectional transient-voltage-suppression diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C38558")
+        (field
+          (name "MPN") "PESD12VL1BA,115")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Description") "Bidirectional transient-voltage-suppression diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_tvs_ch1")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:166"))
+      (libsource
+        (lib "Device")
+        (part "D_TVS"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "c785a6d1-012e-59f5-bbaf-59efe18afe12"))
+    (comp
+      (ref "D4")
+      (value "PESD12VL1BA")
+      (description "Bidirectional transient-voltage-suppression diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C38558")
+        (field
+          (name "MPN") "PESD12VL1BA,115")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Description") "Bidirectional transient-voltage-suppression diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_tvs_ch2")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:166"))
+      (libsource
+        (lib "Device")
+        (part "D_TVS"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "9ce81a3f-8f0e-55fe-a3ae-e30db663fc40"))
+    (comp
+      (ref "D5")
+      (value "PESD12VL1BA")
+      (description "Bidirectional transient-voltage-suppression diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C38558")
+        (field
+          (name "MPN") "PESD12VL1BA,115")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Description") "Bidirectional transient-voltage-suppression diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_tvs_ch3")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:166"))
+      (libsource
+        (lib "Device")
+        (part "D_TVS"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "885e643f-426c-5adf-9758-a0dd91db73a9"))
+    (comp
+      (ref "J1")
+      (value "EURORACK_PWR_10PIN")
+      (description "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+      (footprint "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
+      (fields
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+        (field
+          (name "Footprint") "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_pwr")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:72"))
+      (libsource
+        (lib "Connector_Generic")
+        (part "Conn_02x05_Odd_Even"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "3befb997-e4cd-563a-a2aa-c234de0ee318"))
+    (comp
+      (ref "J10")
+      (value "IN_3")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_in_ch3")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:158"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "d591af85-83c0-55d6-851e-1dc3c89a8504"))
+    (comp
+      (ref "J11")
+      (value "OUT_3A")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch3_A")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "ce078c81-5172-54c2-ae18-9fd910d15d11"))
+    (comp
+      (ref "J12")
+      (value "OUT_3B")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch3_B")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "148fad4d-11a3-52e3-b7b9-c99dc06a2672"))
+    (comp
+      (ref "J13")
+      (value "OUT_3C")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch3_C")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "eacda843-9f4e-5349-ab28-115f0464340d"))
+    (comp
+      (ref "J2")
+      (value "IN_1")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_in_ch1")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:158"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "a35debec-b72b-5399-9e88-09f481d0ad50"))
+    (comp
+      (ref "J3")
+      (value "OUT_1A")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch1_A")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "27d5d6de-dbd2-588f-aba1-142981d85880"))
+    (comp
+      (ref "J4")
+      (value "OUT_1B")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch1_B")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "4c39f07f-e940-5de4-b29e-b9124875dd7b"))
+    (comp
+      (ref "J5")
+      (value "OUT_1C")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch1_C")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "8cea08ed-3618-526b-851b-e490676cee07"))
+    (comp
+      (ref "J6")
+      (value "IN_2")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_in_ch2")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:158"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "3c239617-8d1a-5faf-9b1f-883128d9027a"))
+    (comp
+      (ref "J7")
+      (value "OUT_2A")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch2_A")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "d31d525f-d0a7-5e5d-b980-66cbcb1bccd3"))
+    (comp
+      (ref "J8")
+      (value "OUT_2B")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch2_B")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "e3f125f5-0872-510a-ac1c-e5ec1287a73d"))
+    (comp
+      (ref "J9")
+      (value "OUT_2C")
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (footprint "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+      (fields
+        (field
+          (name "MPN") "WQP-PJ398SM")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+        (field
+          (name "Footprint") "Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_out_ch2_C")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:212"))
+      (libsource
+        (lib "Connector_Audio")
+        (part "AudioJack2_SwitchT"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "73739bb1-dfbc-52d8-ba75-802c714fb6b1"))
+    (comp
+      (ref "R1")
+      (value "100K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C25803")
+        (field
+          (name "MPN") "0603WAF1003T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_pd_ch1")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:178"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "d3c4ab1c-49a2-5cfa-b281-d639d97edf42"))
+    (comp
+      (ref "R10")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch2_C")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "79c18453-2f74-5021-b72f-fdb135a51882"))
+    (comp
+      (ref "R11")
+      (value "100K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C25803")
+        (field
+          (name "MPN") "0603WAF1003T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_pd_ch3")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:178"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "72a67f6f-822f-5326-860a-7ba31862a179"))
+    (comp
+      (ref "R12")
+      (value "1K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C21190")
+        (field
+          (name "MPN") "0603WAF1001T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_in_ch3")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:184"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "4ce4eea1-b4c0-51bd-9b28-9a98327ec0a2"))
+    (comp
+      (ref "R13")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch3_A")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "7ab0cd27-86ad-51c5-9eaa-c56729e23bbf"))
+    (comp
+      (ref "R14")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch3_B")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "f78ebabb-6cb6-5c4c-86fc-88c001a1a1dc"))
+    (comp
+      (ref "R15")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch3_C")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "340ed692-cece-59e0-837e-5001fe92bf5d"))
+    (comp
+      (ref "R2")
+      (value "1K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C21190")
+        (field
+          (name "MPN") "0603WAF1001T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_in_ch1")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:184"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "f417f7fb-2e1b-563f-8b60-6ae2169c805c"))
+    (comp
+      (ref "R3")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch1_A")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "b1c528a9-c75e-5c2d-bdfb-672a3ef79b82"))
+    (comp
+      (ref "R4")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch1_B")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "f3bfe840-3e5b-5a0e-9a73-6a8a26aee09a"))
+    (comp
+      (ref "R5")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch1_C")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "22cf148c-cca4-5499-b7d6-9da8f32689e4"))
+    (comp
+      (ref "R6")
+      (value "100K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C25803")
+        (field
+          (name "MPN") "0603WAF1003T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_pd_ch2")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:178"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "bb9c0d25-ab53-599d-9e00-7c15d2ddd9e2"))
+    (comp
+      (ref "R7")
+      (value "1K")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C21190")
+        (field
+          (name "MPN") "0603WAF1001T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_in_ch2")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:184"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "86da56b3-dbf4-5101-91af-7dd494fd75ec"))
+    (comp
+      (ref "R8")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch2_A")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "e6a93143-3dc7-502b-99f2-cda68d587ba3"))
+    (comp
+      (ref "R9")
+      (value "470R")
+      (description "Resistor")
+      (footprint "Resistor_SMD:R_0603_1608Metric")
+      (fields
+        (field
+          (name "LCSC") "C23179")
+        (field
+          (name "MPN") "0603WAF4700T5E")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Description") "Resistor")
+        (field
+          (name "Footprint") "Resistor_SMD:R_0603_1608Metric")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "r_out_ch2_B")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:206"))
+      (libsource
+        (lib "Device")
+        (part "R"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "cc3a90da-f656-56e9-9977-12eb54a584a5"))
+    (comp
+      (ref "U1")
+      (value "TL074H")
+      (description "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
+      (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
+      (fields
+        (field
+          (name "LCSC") "C2878713")
+        (field
+          (name "MPN") "TL074HIDR")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Description") "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
+        (field
+          (name "Footprint") "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
+        (field
+          (name "Datasheet") "http://www.ti.com/lit/ds/symlink/tl071.pdf")
+        (field
+          (name "SKiDL Tag") "u_ch1")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:140"))
+      (libsource
+        (lib "Amplifier_Operational")
+        (part "TL074"))
+      (sheetpath
+        (names "/ch1/")
+        (tstamps "/5feb7f30-bc06-5e60-a01b-84989ddf5014/"))
+      (component_classes)
+      (tstamps "c569285a-52fc-5dd4-952c-ec299a909882"))
+    (comp
+      (ref "U2")
+      (value "TL074H")
+      (description "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
+      (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
+      (fields
+        (field
+          (name "LCSC") "C2878713")
+        (field
+          (name "MPN") "TL074HIDR")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Description") "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
+        (field
+          (name "Footprint") "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
+        (field
+          (name "Datasheet") "http://www.ti.com/lit/ds/symlink/tl071.pdf")
+        (field
+          (name "SKiDL Tag") "u_ch2")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:140"))
+      (libsource
+        (lib "Amplifier_Operational")
+        (part "TL074"))
+      (sheetpath
+        (names "/ch2/")
+        (tstamps "/a74b474d-cb02-51d4-8d9e-aaf12796e3a4/"))
+      (component_classes)
+      (tstamps "466fa5c4-4c31-5383-8515-d29a76b7d0dd"))
+    (comp
+      (ref "U3")
+      (value "TL074H")
+      (description "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
+      (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
+      (fields
+        (field
+          (name "LCSC") "C2878713")
+        (field
+          (name "MPN") "TL074HIDR")
+        (field
+          (name "JLCPCB_Class") "Extended")
+        (field
+          (name "Description") "Quad Low-Noise JFET-Input Operational Amplifiers, DIP-14/SOIC-14")
+        (field
+          (name "Footprint") "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
+        (field
+          (name "Datasheet") "http://www.ti.com/lit/ds/symlink/tl071.pdf")
+        (field
+          (name "SKiDL Tag") "u_ch3")
+        (field
+          (name "SKiDL Line") "inspect_netlist_and_layout.py:140"))
+      (libsource
+        (lib "Amplifier_Operational")
+        (part "TL074"))
+      (sheetpath
+        (names "/ch3/")
+        (tstamps "/cef8294c-a33e-532c-8610-50968d6db57c/"))
+      (component_classes)
+      (tstamps "89c23ec5-d40f-5b0a-b500-5518e5b8e205")))
+  (nets
+    (net
+      (code 1)
+      (name "+12V")
+      (class "Power,Default")
+      (node
+        (ref "C1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C3")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C5")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C7")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "4")
+        (pintype "POWER-IN"))
+      (node
+        (ref "U2")
+        (pin "4")
+        (pintype "POWER-IN"))
+      (node
+        (ref "U3")
+        (pin "4")
+        (pintype "POWER-IN")))
+    (net
+      (code 2)
+      (name "+12V_RAW")
+      (class "Default")
+      (node
+        (ref "D1")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "10")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "9")
+        (pintype "PASSIVE")))
+    (net
+      (code 3)
+      (name "-12V")
+      (class "Power,Default")
+      (node
+        (ref "C2")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C4")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C6")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C8")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D2")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "11")
+        (pintype "POWER-IN"))
+      (node
+        (ref "U2")
+        (pin "11")
+        (pintype "POWER-IN"))
+      (node
+        (ref "U3")
+        (pin "11")
+        (pintype "POWER-IN")))
+    (net
+      (code 4)
+      (name "-12V_RAW")
+      (class "Default")
+      (node
+        (ref "D2")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 5)
+      (name "CH1_BUF")
+      (class "Signal,Default")
+      (node
+        (ref "J6")
+        (pin "TN")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "1")
+        (pintype "OUTPUT"))
+      (node
+        (ref "U1")
+        (pin "10")
+        (pintype "INPUT"))
+      (node
+        (ref "U1")
+        (pin "12")
+        (pintype "INPUT"))
+      (node
+        (ref "U1")
+        (pin "2")
+        (pintype "INPUT"))
+      (node
+        (ref "U1")
+        (pin "5")
+        (pintype "INPUT")))
+    (net
+      (code 6)
+      (name "CH1_IN")
+      (class "Default")
+      (node
+        (ref "R2")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "3")
+        (pintype "INPUT")))
+    (net
+      (code 7)
+      (name "CH1_JACK_IN")
+      (class "Default")
+      (node
+        (ref "D3")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J2")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R2")
+        (pin "1")
+        (pintype "PASSIVE")))
+    (net
+      (code 8)
+      (name "CH1_OP_A")
+      (class "Default")
+      (node
+        (ref "R3")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "6")
+        (pintype "INPUT"))
+      (node
+        (ref "U1")
+        (pin "7")
+        (pintype "OUTPUT")))
+    (net
+      (code 9)
+      (name "CH1_OP_B")
+      (class "Default")
+      (node
+        (ref "R4")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "8")
+        (pintype "OUTPUT"))
+      (node
+        (ref "U1")
+        (pin "9")
+        (pintype "INPUT")))
+    (net
+      (code 10)
+      (name "CH1_OP_C")
+      (class "Default")
+      (node
+        (ref "R5")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U1")
+        (pin "13")
+        (pintype "INPUT"))
+      (node
+        (ref "U1")
+        (pin "14")
+        (pintype "OUTPUT")))
+    (net
+      (code 11)
+      (name "CH1_OUT_A")
+      (class "Default")
+      (node
+        (ref "J3")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R3")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 12)
+      (name "CH1_OUT_B")
+      (class "Default")
+      (node
+        (ref "J4")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R4")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 13)
+      (name "CH1_OUT_C")
+      (class "Default")
+      (node
+        (ref "J5")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R5")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 14)
+      (name "CH2_BUF")
+      (class "Signal,Default")
+      (node
+        (ref "J10")
+        (pin "TN")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U2")
+        (pin "1")
+        (pintype "OUTPUT"))
+      (node
+        (ref "U2")
+        (pin "10")
+        (pintype "INPUT"))
+      (node
+        (ref "U2")
+        (pin "12")
+        (pintype "INPUT"))
+      (node
+        (ref "U2")
+        (pin "2")
+        (pintype "INPUT"))
+      (node
+        (ref "U2")
+        (pin "5")
+        (pintype "INPUT")))
+    (net
+      (code 15)
+      (name "CH2_IN")
+      (class "Default")
+      (node
+        (ref "R7")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U2")
+        (pin "3")
+        (pintype "INPUT")))
+    (net
+      (code 16)
+      (name "CH2_JACK_IN")
+      (class "Default")
+      (node
+        (ref "D4")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J6")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R6")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R7")
+        (pin "1")
+        (pintype "PASSIVE")))
+    (net
+      (code 17)
+      (name "CH2_OP_A")
+      (class "Default")
+      (node
+        (ref "R8")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U2")
+        (pin "6")
+        (pintype "INPUT"))
+      (node
+        (ref "U2")
+        (pin "7")
+        (pintype "OUTPUT")))
+    (net
+      (code 18)
+      (name "CH2_OP_B")
+      (class "Default")
+      (node
+        (ref "R9")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U2")
+        (pin "8")
+        (pintype "OUTPUT"))
+      (node
+        (ref "U2")
+        (pin "9")
+        (pintype "INPUT")))
+    (net
+      (code 19)
+      (name "CH2_OP_C")
+      (class "Default")
+      (node
+        (ref "R10")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U2")
+        (pin "13")
+        (pintype "INPUT"))
+      (node
+        (ref "U2")
+        (pin "14")
+        (pintype "OUTPUT")))
+    (net
+      (code 20)
+      (name "CH2_OUT_A")
+      (class "Default")
+      (node
+        (ref "J7")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R8")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 21)
+      (name "CH2_OUT_B")
+      (class "Default")
+      (node
+        (ref "J8")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R9")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 22)
+      (name "CH2_OUT_C")
+      (class "Default")
+      (node
+        (ref "J9")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R10")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 23)
+      (name "CH3_BUF")
+      (class "Signal,Default")
+      (node
+        (ref "U3")
+        (pin "1")
+        (pintype "OUTPUT"))
+      (node
+        (ref "U3")
+        (pin "10")
+        (pintype "INPUT"))
+      (node
+        (ref "U3")
+        (pin "12")
+        (pintype "INPUT"))
+      (node
+        (ref "U3")
+        (pin "2")
+        (pintype "INPUT"))
+      (node
+        (ref "U3")
+        (pin "5")
+        (pintype "INPUT")))
+    (net
+      (code 24)
+      (name "CH3_IN")
+      (class "Default")
+      (node
+        (ref "R12")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U3")
+        (pin "3")
+        (pintype "INPUT")))
+    (net
+      (code 25)
+      (name "CH3_JACK_IN")
+      (class "Default")
+      (node
+        (ref "D5")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J10")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R11")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R12")
+        (pin "1")
+        (pintype "PASSIVE")))
+    (net
+      (code 26)
+      (name "CH3_OP_A")
+      (class "Default")
+      (node
+        (ref "R13")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U3")
+        (pin "6")
+        (pintype "INPUT"))
+      (node
+        (ref "U3")
+        (pin "7")
+        (pintype "OUTPUT")))
+    (net
+      (code 27)
+      (name "CH3_OP_B")
+      (class "Default")
+      (node
+        (ref "R14")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U3")
+        (pin "8")
+        (pintype "OUTPUT"))
+      (node
+        (ref "U3")
+        (pin "9")
+        (pintype "INPUT")))
+    (net
+      (code 28)
+      (name "CH3_OP_C")
+      (class "Default")
+      (node
+        (ref "R15")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "U3")
+        (pin "13")
+        (pintype "INPUT"))
+      (node
+        (ref "U3")
+        (pin "14")
+        (pintype "OUTPUT")))
+    (net
+      (code 29)
+      (name "CH3_OUT_A")
+      (class "Default")
+      (node
+        (ref "J11")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R13")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 30)
+      (name "CH3_OUT_B")
+      (class "Default")
+      (node
+        (ref "J12")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R14")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 31)
+      (name "CH3_OUT_C")
+      (class "Default")
+      (node
+        (ref "J13")
+        (pin "T")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R15")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 32)
+      (name "GND")
+      (class "Power,Default")
+      (node
+        (ref "C1")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C2")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C3")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C4")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C5")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C6")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C7")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C8")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D3")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D4")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D5")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "3")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "4")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "5")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "6")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "7")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "8")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J10")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J11")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J12")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J13")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J2")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J2")
+        (pin "TN")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J3")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J4")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J5")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J6")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J7")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J8")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J9")
+        (pin "S")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R1")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R11")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "R6")
+        (pin "2")
+        (pintype "PASSIVE")))))

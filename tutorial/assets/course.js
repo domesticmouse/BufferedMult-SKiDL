@@ -355,12 +355,73 @@
     updateSim();
   }
 
+  function initPanelCalculator() {
+    const calc = document.getElementById("panel-bushing-calc");
+    if (!calc) return;
+
+    const selJack = calc.querySelector("#calc-jack-select");
+    const rotSelect = calc.querySelector("#calc-rot-select");
+    const outFp = calc.querySelector("#calc-out-fp");
+    const outDelta = calc.querySelector("#calc-out-delta");
+    const outBush = calc.querySelector("#calc-out-bush");
+    const outPanel = calc.querySelector("#calc-out-panel");
+    const outNut = calc.querySelector("#calc-out-nut");
+
+    function updateCalc() {
+      const raw = selJack ? selJack.value : "J2|IN 1|25.00|27.00";
+      const [ref, label, xStr, yStr] = raw.split("|");
+      const fpX = Number(xStr || 25.0);
+      const fpY = Number(yStr || 27.0);
+      const rotDeg = Number(rotSelect ? rotSelect.value : 0);
+
+      const rad = (rotDeg * Math.PI) / 180;
+      const cx = 0.0;
+      const cy = 6.48;
+      const dx = cx * Math.cos(rad) + cy * Math.sin(rad);
+      const dy = -cx * Math.sin(rad) + cy * Math.cos(rad);
+
+      const bushX = fpX + dx;
+      const bushY = fpY + dy;
+      const panelX = bushX - 20.0;
+      const panelY = bushY - 9.75;
+
+      if (outFp) {
+        outFp.textContent = `${ref} (${label}) @ (${fpX.toFixed(2)}, ${fpY.toFixed(2)} mm)`;
+      }
+      if (outDelta) {
+        outDelta.textContent = `(${dx >= 0 ? "+" : ""}${dx.toFixed(2)}, ${
+          dy >= 0 ? "+" : ""
+        }${dy.toFixed(2)} mm) [rot=${rotDeg}°]`;
+      }
+      if (outBush) {
+        outBush.textContent = `(${bushX.toFixed(2)}, ${bushY.toFixed(2)} mm)`;
+      }
+      if (outPanel) {
+        outPanel.textContent = `(${panelX.toFixed(2)}, ${panelY.toFixed(2)} mm)`;
+      }
+      if (outNut) {
+        outNut.textContent = `Y = ${(panelY - 6.23).toFixed(2)} mm (above) or Y = ${(
+          panelY + 6.23
+        ).toFixed(2)} mm (below)`;
+      }
+    }
+
+    [selJack, rotSelect].forEach((el) => {
+      if (el) {
+        el.addEventListener("change", updateCalc);
+        el.addEventListener("input", updateCalc);
+      }
+    });
+    updateCalc();
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     enhanceCodeBlocks();
     initCodeExercises();
     initQuizzes();
     initComponentExplorer();
     initNormallingSimulator();
+    initPanelCalculator();
     initSyntaxAndDiagrams();
   });
 })();

@@ -23,6 +23,9 @@
         <a href="lessons/0002-eurorack-power-subcircuit.html">0002</a>
         <a href="lessons/0003-single-buffered-channel.html">0003</a>
         <a href="lessons/0004-cascaded-normalling-and-bom-export.html">0004</a>
+        <a href="lessons/0005-kicad-pcb-layout-and-assembly.html">0005</a>
+        <a href="lessons/0006-eurorack-front-panel-generator.html">0006</a>
+        <a href="lessons/0007-prefab-design-review-and-drc.html">0007</a>
         <span class="nav-sep" aria-hidden="true">|</span>
         <a href="reference/skidl-cheatsheet.html">SKiDL Ref</a>
         <a href="reference/kicad-jlcpcb-lookup.html">Lookup Ref</a>
@@ -37,7 +40,7 @@
       <div class="lesson-kicker">Interactive Hardware-as-Code Course</div>
       <h1>Building the Eurorack Buffered Multiple in Python with SKiDL</h1>
       <p class="lead">
-        Start from an empty Python file and progressively grow a complete, production-ready 3-channel Eurorack Buffered Multiple (<code>buffered_multiple.py</code>)—treating circuit design like software engineering, with every line of Python code, linter check, and verification output shown right on the page.
+        Start from an empty Python file and progressively grow a complete, production-ready 3-channel Eurorack Buffered Multiple (<code>buffered_multiple.py</code>), 4HP PCB layout plan, mated 3U front panel generator, and automated pre-fabrication design audit—with every line of Python code, linter check, and verification output shown right on the page.
       </p>
 
       <figure class="diagram-card">
@@ -45,11 +48,14 @@
   L0["0000: Empty File →<br/>Pre-Import Header &amp; ERC"] --> L1["0001: Part Discovery →<br/>+ FP_* &amp; LCSC_* Constants"]
   L1 --> L2["0002: Grow Script →<br/>+ eurorack_power()"]
   L2 --> L3["0003: Grow Script →<br/>+ buffered_channel_1to3()"]
-  L3 --> L4["0004: Final Script →<br/>+ 1:3/1:6/1:9 &amp; JLCPCB BOM"]</pre>
-        <figcaption>How the Python circuit script grows from 0 lines in Lesson 0000 to the complete 334-line fabrication generator in Lesson 0004.</figcaption>
+  L3 --> L4["0004: Complete Circuit →<br/>1:3/1:6/1:9 &amp; JLCPCB BOM"]
+  L4 --> L5["0005: 4HP PCB Layout →<br/>tstamps &amp; B.Cu/F.Cu Split"]
+  L5 --> L6["0006: 4HP Front Panel →<br/>+6.48 mm Bushing Offset"]
+  L6 --> L7["0007: Pre-Fab Audit →<br/>5/5 Automated Checks"]</pre>
+        <figcaption>How the course progresses from a 0-line script in Lesson 0000 to a complete 3-channel netlist, 4HP PCB &amp; front panel generator, and automated pre-fab design audit in Lesson 0007.</figcaption>
       </figure>
 
-      <h2>Course Lessons (Start from Nothing &amp; Grow the Code)</h2>
+      <h2>Course Lessons (Start from Nothing &amp; Grow to Production Hardware)</h2>
       <div class="lesson-grid">
         <!-- Lesson 0000 -->
         <div class="lesson-card">
@@ -143,7 +149,7 @@
         <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge badge-accent">Lesson 0004 · Stage 4 (Complete)</span>
+              <span class="badge badge-accent">Lesson 0004 · Stage 4</span>
               <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
             <h3><a href="lessons/0004-cascaded-normalling-and-bom-export.html">Completing <code>buffered_multiple.py</code>: Cascaded Normalling &amp; JLCPCB BOM</a></h3>
@@ -158,6 +164,72 @@
           <div class="card-footer">
             <span>./apps/0004-cascaded-normalling-and-bom-export</span>
             <a href="lessons/0004-cascaded-normalling-and-bom-export.html">Start →</a>
+          </div>
+        </div>
+
+        <!-- Lesson 0005 -->
+        <div class="lesson-card">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge badge-accent">Lesson 0005 · Stage 5</span>
+              <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
+            </div>
+            <h3><a href="lessons/0005-kicad-pcb-layout-and-assembly.html">From <code>.net</code> Netlist to 4HP KiCad 10 PCB Layout &amp; Single-Sided SMT Assembly</a></h3>
+            <p>
+              Parse deterministic SKiDL <code>tstamps</code> in <code>buffered_multiple.net</code>, partition the 29 <code>B.Cu</code> SMD parts from the 15 <code>F.Cu</code>/<code>B.Cu</code> THT parts, and generate the 4HP (<code>20 × 108 mm</code>) 2×6 jack placement grid.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>Code Grown</strong>: <code>inspect_netlist_and_layout.py</code> (357 lines inline + placement CSV)</li>
+              <li><strong>Tooling Skill</strong>: S-expression <code>.net</code> parsing, hierarchical <code>tag</code> UUIDs, <code>B.Cu</code> vs. <code>F.Cu</code> split</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>./apps/0005-kicad-pcb-layout-and-assembly</span>
+            <a href="lessons/0005-kicad-pcb-layout-and-assembly.html">Start →</a>
+          </div>
+        </div>
+
+        <!-- Lesson 0006 -->
+        <div class="lesson-card">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge badge-accent">Lesson 0006 · Stage 6</span>
+              <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
+            </div>
+            <h3><a href="lessons/0006-eurorack-front-panel-generator.html">Automated 4HP Eurorack Front Panel Generation (<code>+6.48 mm</code> Bushing Offset)</a></h3>
+            <p>
+              Transform main-PCB <code>WQP-PJ398SM</code> (Thonkiconn) jack coordinates into Doepfer A-100 3U × 4HP (<code>20 × 128.5 mm</code>) panel drill holes and export a standalone <code>.kicad_pcb</code> front panel in Python.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>Code Grown</strong>: <code>generate_panel_plan.py</code> (335 lines inline + <code>.kicad_pcb</code> exporter)</li>
+              <li><strong>Tooling Skill</strong>: <code>+6.48 mm</code> bushing offset math, interactive coordinate calculator, UUIDv5</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>./apps/0006-eurorack-front-panel-generator</span>
+            <a href="lessons/0006-eurorack-front-panel-generator.html">Start →</a>
+          </div>
+        </div>
+
+        <!-- Lesson 0007 -->
+        <div class="lesson-card">
+          <div>
+            <div class="meta-bar" style="margin:0 0 0.5rem;">
+              <span class="badge badge-accent">Lesson 0007 · Stage 7 (Capstone)</span>
+              <span class="badge badge-success">✓ 5/5 Pre-Fab Audits · Ruff Clean</span>
+            </div>
+            <h3><a href="lessons/0007-prefab-design-review-and-drc.html">Programmatic Pre-Fab Design Review: Netlist-to-PCB Audit, DRC &amp; Gerber Checks</a></h3>
+            <p>
+              Examine the 9 real-world layout bugs caught before fabrication and write a 5-stage Python audit script verifying <code>TL074H</code> phase-inversion immunity, thermal dissipation, rail headroom, pin connectivity, and SMT BOM partitioning.
+            </p>
+            <ul class="lesson-meta-list">
+              <li><strong>Code Grown</strong>: <code>prefab_design_audit.py</code> (383 lines inline · 5/5 automated checks)</li>
+              <li><strong>Tooling Skill</strong>: Programmatic netlist/BOM assertions, <code>kicad-cli pcb drc</code>, DFM/EMC triage</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <span>./apps/0007-prefab-design-review-and-drc</span>
+            <a href="lessons/0007-prefab-design-review-and-drc.html">Start →</a>
           </div>
         </div>
       </div>
@@ -200,7 +272,7 @@
         <div class="lesson-card">
           <div>
             <h3><a href="reference/glossary.html">SKiDL &amp; Eurorack Hardware Glossary</a></h3>
-            <p>Canonical definitions for <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>part.p[n]</code>, <code>@subcircuit</code>, <code>NetClass</code>, <code>POWER</code> drive, <code>builtins.NC</code>, and switched jack <code>TN</code> contacts.</p>
+            <p>Canonical definitions for <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>part.p[n]</code>, <code>@subcircuit</code>, <code>NetClass</code>, <code>POWER</code> drive, <code>builtins.NC</code>, <code>tstamps</code>, and <code>+6.48 mm</code> bushing offsets.</p>
           </div>
           <div class="card-footer">
             <span>./reference/glossary.html</span>

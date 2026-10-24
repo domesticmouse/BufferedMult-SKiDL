@@ -49,3 +49,15 @@ _Avoid_: Special part, custom part
 **Switched Tip Normal Contact (`TN`)**:
 The internal leaf-spring contact on a switched 3.5mm jack (`WQP-PJ398SM` / `AudioJack2_SwitchT`) that conducts to the Tip (`T`) when unpatched and mechanically disconnects when a plug is inserted.
 _Avoid_: Normal pin, shunt pin, break contact
+
+**Deterministic Tag Timestamp (`tag` / `tstamps`)**:
+The stable UUID exported in a KiCad `.net` file by hashing a SKiDL `@subcircuit` and `Part` `tag=` path (such as `/ch1/u_ch1`), allowing KiCad's `pcbnew` netlist importer to update footprints in-place across Python regenerations.
+_Avoid_: Random component ID, transient netlist handle
+
+**Bushing Offset (`+6.48 mm`)**:
+The mechanical displacement in KiCad's `WQP-PJ398SM` (Thonkiconn) footprint between its `(0, 0)` origin at Pad `S` (Sleeve) and the threaded M6 bushing shaft center at `(0, +6.48 mm)` (for vertical `0°` placement).
+_Avoid_: Footprint center, pad origin
+
+**Design Rules Check (`DRC`)**:
+KiCad's physical PCB layout verification (`kicad-cli pcb drc --refill-zones`) that checks copper-to-copper clearances, copper-to-edge margins, trace widths, and unrouted or isolated net islands after netlist import.
+_Avoid_: Schematic ERC, syntax lint

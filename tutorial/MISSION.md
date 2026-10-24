@@ -8,6 +8,7 @@ Design and manufacture custom Eurorack synthesizer modules and analog audio circ
 - Construct and verify the complete 3-channel Eurorack Buffered Multiple (`buffered_multiple.py`) from scratch using reusable `@subcircuit` blocks, `TEMPLATE` parts, `part.fields` metadata, and cascaded switched-jack normalling (`1:3` → `1:6` → `1:9`).
 - Pass Electrical Rules Checking (`ERC()`) with `0` errors and `0` warnings and pass `ruff` lint/format checks on both circuit scripts and generated `*_sklib.py` libraries.
 - Export fabrication-ready KiCad 10 netlists (`.net` with `Power` and `Signal` `NetClass` rules), XML BOMs (`.xml`), and SMT-filtered JLCPCB PCBA BOMs (`.csv`).
+- Bridge the exported `.net` netlist into a 4HP (`20.0 × 108.0 mm`) single-sided `B.Cu` SMT / `F.Cu` THT KiCad 10 PCB layout (`0005`), generate a mated Doepfer A-100 3U × 4HP (`20.0 × 128.5 mm`) front panel PCB accounting for the `+6.48 mm` `WQP-PJ398SM` bushing offset (`0006`), and run a programmatic 5-stage pre-fabrication design review and DRC audit (`0007`).
 
 ## Constraints
 - Target the local macOS KiCad 10 installation (`/Applications/KiCad/KiCad.app/Contents/SharedSupport/`) and Python 3.14 via `uv` (`.venv/bin/python`).

@@ -37,7 +37,7 @@
       <div class="lesson-kicker">Lesson 0001 · Stage 1 (Discovery &amp; Growing the Constants Block)</div>
       <h1>Programmatic Part Discovery &amp; Adding <code>FP_*</code> / <code>LCSC_*</code> Constants</h1>
       <p class="lead">
-        The joy of designing a circuit in Python is not having to click around a GUI schematic editor. The pain is staring at an empty buffer wondering what KiCad 10 actually calls a Thonkiconn jack. Let's write a standalone Python discovery script to inspect exact KiCad 10 symbol pinouts, verify <code>.pretty</code> footprint files on disk, query live JLCPCB/LCSC stock, and grow our main circuit script with verified <code>FP_*</code> and <code>LCSC_*</code> constants.
+        Write a standalone Python discovery script to inspect exact KiCad 10 symbol pinouts, verify <code>.pretty</code> footprint files on disk, query live JLCPCB/LCSC stock, and grow our main circuit script with verified <code>FP_*</code> and <code>LCSC_*</code> constants.
       </p>
 
       <div class="meta-bar">
@@ -48,10 +48,7 @@
 
       <h2>How Do We Know Which Symbol, Pin Number, Footprint, and LCSC Part to Write?</h2>
       <p>
-        When you are starting out with hardware-as-code, there is always a moment where you are lost for words looking at a part datasheet, trying to figure out what KiCad named its pins. In traditional GUI schematic capture, you hunt through nested menus, drop a symbol on a sheet, and hope its pin numbers match your footprint.
-      </p>
-      <p>
-        But, when designing circuits in Python with SKiDL, we don't guess symbol names or pin numbers. Instead, we write a small Python inspection script to interrogate KiCad 10's libraries and the JLCPCB catalogue first, and then copy those verified constants straight into our growing circuit script.
+        In traditional GUI schematic capture, you hunt through nested menus to find a symbol, drop it on a sheet, and hope its pin numbers match your footprint. When designing circuits from scratch in Python with SKiDL, you never guess symbol names or pin numbers—you write a small Python inspection script to query KiCad 10's libraries and the JLCPCB catalog first, then copy the verified constants into your growing circuit script.
       </p>
 
       <figure class="diagram-card">
@@ -275,20 +272,20 @@ ERC INFO: No errors or warnings found while running ERC.</code></pre>
 
       <h2>Step 2. Three Hardware Insights from the Discovery Output</h2>
       <p>
-        Reading that terminal output leads to a few interesting realisations about how we must index pins when we write our subcircuits in Lessons 0002 and 0003:
+        Look closely at the pinout output printed above—it tells us exactly how we must index pins when we write our subcircuits in Lessons 0002 and 0003:
       </p>
       <ol>
         <li>
           <strong>Why <code>TL074</code> amplifier pins use <code>u.p[n]</code> while power pins use <code>u["V+"]</code></strong>:
-          Look closely at <code>[Amplifier_Operational:TL074]</code>: all four op-amp units share identical pin names (<code>'+'</code>, <code>'-'</code>, and empty <code>''</code>). Turns out, if you write <code>u["+"]</code>, SKiDL dutifully matches all four non-inverting inputs at once! Using the <strong>Numeric Pin Accessor (<code>part.p[n]</code>)</strong>—such as <code>u.p[3]</code>, <code>u.p[1]</code>, <code>u.p[2]</code>—targets physical SOIC-14 package pin numbers unambiguously, whereas <code>u["V+"]</code> (pin 4) and <code>u["V-"]</code> (pin 11) are unique and readable by name.
+          Look at <code>[Amplifier_Operational:TL074]</code>: all four op-amp units share identical pin names (<code>'+'</code>, <code>'-'</code>, and empty <code>''</code>). If you wrote <code>u["+"]</code>, SKiDL would match all four non-inverting inputs at once! Using the <strong>Numeric Pin Accessor (<code>part.p[n]</code>)</strong>—such as <code>u.p[3]</code>, <code>u.p[1]</code>, <code>u.p[2]</code>—targets physical SOIC-14 package pin numbers unambiguously, whereas <code>u["V+"]</code> (pin 4) and <code>u["V-"]</code> (pin 11) are unique and readable by name.
         </li>
         <li>
           <strong>Why <code>AudioJack2_SwitchT</code> pins are indexed as <code>j_in["S"]</code>, <code>j_in["T"]</code>, and <code>j_in["TN"]</code></strong>:
-          Look at <code>[Connector_Audio:AudioJack2_SwitchT]</code>: <code>pin S ('', PASSIVE), pin T ('', PASSIVE), pin TN ('', PASSIVE)</code>. On this symbol, the letters <code>S</code> (Sleeve), <code>T</code> (Tip), and <code>TN</code> (<strong>Switched Tip Normal Contact (<code>TN</code>)</strong>) are the actual pin numbers (<code>pin.num</code>) rather than integers <code>1, 2, 3</code>!
+          Look at <code>[Connector_Audio:AudioJack2_SwitchT]</code>: <code>pin S ('', PASSIVE), pin T ('', PASSIVE), pin TN ('', PASSIVE)</code>. On this symbol, the letters <code>S</code> (Sleeve), <code>T</code> (Tip), and <code>TN</code> (<strong>Switched Tip Normal Contact (<code>TN</code>)</strong>) are the actual pin numbers (`pin.num`) rather than integers `1, 2, 3`!
         </li>
         <li>
           <strong>Why <code>C_Polarized</code> bulk caps use <code>c_bulk[1]</code> and <code>c_bulk[2]</code></strong>:
-          Look at <code>[Device:C_Polarized]</code>: <code>pin 1 ('', PASSIVE), pin 2 ('', PASSIVE)</code>—where pin <code>1</code> is the positive anode and pin <code>2</code> is the negative cathode.
+          Look at <code>[Device:C_Polarized]</code>: <code>pin 1 ('', PASSIVE), pin 2 ('', PASSIVE)</code>—where pin `1` is the positive anode and pin `2` is the negative cathode.
         </li>
       </ol>
 
@@ -305,9 +302,9 @@ ERC INFO: No errors or warnings found while running ERC.</code></pre>
       </figure>
 
       <div class="callout callout-warn">
-        <div class="callout-title">A Subtle SKiDL Trap: Always Use <code>part.fields["LCSC"]</code>, Never <code>part.LCSC</code></div>
+        <div class="callout-title">Critical Gotcha: Always Use <code>part.fields["LCSC"]</code>, Never <code>part.LCSC</code></div>
         <p style="margin:0;">
-          The reason you can't just write <code>r_pd.LCSC = "C25803"</code> is interesting. In SKiDL, <code>SkidlBaseObject.__setattr__</code> only writes an attribute into <code>part.fields</code> if that key <em>already exists</em> in <code>part.fields</code>. So, if you write <code>r_pd.LCSC = "C25803"</code> or pass <code>LCSC="C25803"</code> to <code>Part(...)</code>, Python happily creates a plain instance attribute that is <strong>silently ignored</strong> by <code>generate_xml()</code> and <code>generate_netlist()</code>! Always assign custom catalogue metadata into the <strong>Part Fields Dictionary (<code>part.fields</code>)</strong>: <code>r_pd.fields["LCSC"] = "C25803"</code>. Better yet, any fields set on a <strong>Template Part (<code>dest=TEMPLATE</code>)</strong> are automatically inherited by every part cloned from that template.
+          In SKiDL, <code>SkidlBaseObject.__setattr__</code> only writes an attribute into <code>part.fields</code> if that key <em>already exists</em> in <code>part.fields</code>. If you write <code>r_pd.LCSC = "C25803"</code> or pass <code>LCSC="C25803"</code> to <code>Part(...)</code>, Python creates a plain instance attribute that is <strong>silently ignored</strong> by <code>generate_xml()</code> and <code>generate_netlist()</code>! Always assign custom catalog metadata into the <strong>Part Fields Dictionary (<code>part.fields</code>)</strong>: <code>r_pd.fields["LCSC"] = "C25803"</code>. Any fields set on a <strong>Template Part (<code>dest=TEMPLATE</code>)</strong> are automatically copied to every part cloned from that template.
         </p>
       </div>
 
@@ -419,7 +416,7 @@ ERC INFO: No errors or warnings found while running ERC.</code></pre>
 
       <h2>Step 4. Growing <code>buffered_multiple.py</code> (Stage 1: Header + Constants)</h2>
       <p>
-        Now, let's take the pre-import header we wrote in Lesson 0000 and <strong>grow our main circuit script</strong> by adding the 7 footprint constants (<code>FP_*</code>) and 7 LCSC catalogue constants (<code>LCSC_*</code>) we just verified. What it says on the tin! In Lesson 0002, we will add <code>@subcircuit def eurorack_power(vcc, vee, gnd):</code> directly below line 68:
+        Now let's take the pre-import header we wrote in Lesson 0000 and **grow our main circuit script** by adding the 7 footprint constants (<code>FP_*</code>) and 7 LCSC catalog constants (<code>LCSC_*</code>) we just verified. In Lesson 0002, we will add <code>@subcircuit def eurorack_power(vcc, vee, gnd):</code> directly below line 68:
       </p>
 
       <figure class="code-figure">

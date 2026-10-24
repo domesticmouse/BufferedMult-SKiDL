@@ -20,9 +20,13 @@
         <a href="../index.html">Index</a>
         <a href="../lessons/0000-environment-and-kicad-bootstrap.html">0000</a>
         <a href="../lessons/0001-programmatic-component-discovery.html">0001</a>
+        <a href="../lessons/0002-eurorack-power-subcircuit.html">0002</a>
+        <a href="../lessons/0003-single-buffered-channel.html">0003</a>
+        <a href="../lessons/0004-cascaded-normalling-and-bom-export.html">0004</a>
         <span class="nav-sep" aria-hidden="true">|</span>
         <a href="skidl-cheatsheet.html" aria-current="page">SKiDL Ref</a>
         <a href="kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="eurorack-power-and-normalling.html">Eurorack Ref</a>
         <a href="glossary.html">Glossary</a>
       </nav>
     </div>
@@ -145,9 +149,11 @@ from skidl import (  # noqa: E402
         </table>
       </div>
 
-      <h2>4. Wiring Nets, <code>builtins.NC</code>, <code>POWER</code> Drive &amp; Post-Run <code>ruff</code></h2>
+      <h2>4. Wiring Nets, <code>@subcircuit</code>, <code>NetClass</code>, <code>builtins.NC</code> &amp; Post-Run <code>ruff</code></h2>
       <ul>
         <li><strong>Never use <code>=</code> to wire nets or pins</strong> — always use <code>+=</code> (<code>vcc += u["V+"]</code>) or 2-pin series/parallel network operators (<code>in_jack &amp; r_in &amp; in_sig</code>, <code>in_jack &amp; (d_tvs | r_pd) &amp; gnd</code>).</li>
+        <li><strong>Hierarchical subcircuits (<code>@subcircuit</code>)</strong>: Decorate reusable circuit functions with <code>@subcircuit</code> and pass a deterministic <code>tag="..."</code> on each call (e.g., <code>buffered_channel_1to3(..., ch_num=1, tag="ch1")</code>) so KiCad 10 component <code>tstamps</code> stay stable across re-runs.</li>
+        <li><strong>PCB routing rules (<code>NetClass</code>)</strong>: Assign trace width and clearance metadata directly to nets via <code>rail.netclasses = NetClass("Power", priority=1, trace_width=0.5, clearance=0.25)</code>.</li>
         <li><strong>Unused pins (<code>builtins.NC</code>)</strong>: <code>NC</code> and <code>default_circuit</code> are injected into Python's <code>builtins</code> module at import time and are not in <code>skidl.__all__</code>. Wire unconnected pins with the pin on the left: <code>j_out["TN"] += builtins.NC</code>.</li>
         <li><strong>External power rails</strong>: Set <code>vcc.drive = POWER</code>, <code>vee.drive = POWER</code>, and <code>gnd.drive = POWER</code> so <code>ERC()</code> verifies that all <code>PWRIN</code> pins on op-amps are driven.</li>
         <li><strong>Mandatory post-run linting</strong>: Running a SKiDL script generates or overwrites <code>&lt;script&gt;_sklib.py</code> with unformatted code. Always run <code>ruff check --fix</code> and <code>ruff format</code> <strong>after</strong> executing the script.</li>

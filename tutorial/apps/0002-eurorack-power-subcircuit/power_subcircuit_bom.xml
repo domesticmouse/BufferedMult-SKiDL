@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/Users/brett/Documents/GitHub/BufferedMult-SKiDL/tutorial/apps/0002-eurorack-power-subcircuit/power_subcircuit.py</source>
+    <date>10/24/2026 11:01 AM</date>
+    <tool>SKiDL (3.0.0)</tool>
+  </design>
+  <components>
+    <comp ref="J1">
+      <value>"EURORACK_PWR_10PIN"</value>
+      <footprint>Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical</footprint>
+      <fields>
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
+      <libsource lib="Connector_Generic" part=""Conn_02x05_Odd_Even""/>
+    </comp>
+    <comp ref="D1">
+      <value>"1N5819WS"</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <fields>
+        (field (name "LCSC") "C191023")
+        (field (name "MPN") "1N5819WS")
+        (field (name "JLCPCB_Class") "Basic")
+        (field (name "Notes") "40V 1A Schottky diode in Diode_SMD:D_SOD-323; Alt larger package: B5819W in Diode_SMD:D_SOD-123 (LCSC C8598, Basic)")
+      </fields>
+      <libsource lib="Device" part=""D_Schottky""/>
+    </comp>
+    <comp ref="D2">
+      <value>"1N5819WS"</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <fields>
+        (field (name "LCSC") "C191023")
+        (field (name "MPN") "1N5819WS")
+        (field (name "JLCPCB_Class") "Basic")
+        (field (name "Notes") "40V 1A Schottky diode in Diode_SMD:D_SOD-323; Alt larger package: B5819W in Diode_SMD:D_SOD-123 (LCSC C8598, Basic)")
+      </fields>
+      <libsource lib="Device" part=""D_Schottky""/>
+    </comp>
+    <comp ref="C1">
+      <value>"10uF"</value>
+      <footprint>Capacitor_THT:CP_Radial_D5.0mm_P2.00mm</footprint>
+      <fields>
+        (field (name "MPN") "ECEA1EKS100")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
+      <libsource lib="Device" part=""C_Polarized""/>
+    </comp>
+    <comp ref="C2">
+      <value>"10uF"</value>
+      <footprint>Capacitor_THT:CP_Radial_D5.0mm_P2.00mm</footprint>
+      <fields>
+        (field (name "MPN") "ECEA1EKS100")
+        (field (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+      </fields>
+      <libsource lib="Device" part=""C_Polarized""/>
+    </comp>
+  </components>
+  <nets>
+    <net code="0" name="+12V">
+      <node ref="D1" pin="1"/>
+      <node ref="C1" pin="1"/>
+    </net>
+    <net code="1" name="-12V">
+      <node ref="C2" pin="2"/>
+      <node ref="D2" pin="2"/>
+    </net>
+    <net code="2" name="GND">
+      <node ref="J1" pin="8"/>
+      <node ref="J1" pin="6"/>
+      <node ref="C2" pin="1"/>
+      <node ref="C1" pin="2"/>
+      <node ref="J1" pin="4"/>
+      <node ref="J1" pin="7"/>
+      <node ref="J1" pin="5"/>
+      <node ref="J1" pin="3"/>
+    </net>
+    <net code="3" name="+12V_RAW">
+      <node ref="D1" pin="2"/>
+      <node ref="J1" pin="10"/>
+      <node ref="J1" pin="9"/>
+    </net>
+    <net code="4" name="-12V_RAW">
+      <node ref="D2" pin="1"/>
+      <node ref="J1" pin="2"/>
+      <node ref="J1" pin="1"/>
+    </net>
+  </nets>
+</export>

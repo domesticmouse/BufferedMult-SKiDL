@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Lesson 0003: Single 1-to-3 Buffered Channel (TL074H) | Eurorack SKiDL Tutorial</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/course.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#content" class="skip-link visually-hidden">Skip to main content</a>
+    <div class="header-inner">
+      <a class="brand-title" href="../index.html">
+        <span>Buffered Multiple Course</span>
+        <span class="brand-badge">KiCad 10 + SKiDL</span>
+      </a>
+      <nav class="course-nav" aria-label="Course">
+        <a href="../index.html">Index</a>
+        <a href="0000-environment-and-kicad-bootstrap.html">0000</a>
+        <a href="0001-programmatic-component-discovery.html">0001</a>
+        <a href="0002-eurorack-power-subcircuit.html">0002</a>
+        <a href="0003-single-buffered-channel.html" aria-current="page">0003</a>
+        <a href="0004-cascaded-normalling-and-bom-export.html">0004</a>
+        <span class="nav-sep" aria-hidden="true">|</span>
+        <a href="../reference/skidl-cheatsheet.html">SKiDL Ref</a>
+        <a href="../reference/kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="../reference/eurorack-power-and-normalling.html">Eurorack Ref</a>
+        <a href="../reference/glossary.html">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-main" tabindex="-1">
+    <article>
+      <div class="lesson-kicker">Lesson 0003 · Analog Channel Subcircuit</div>
+      <h1>Single 1-to-3 Buffered Channel (<code>TL074H</code> &amp; Switched Jacks)</h1>
+      <p class="lead">
+        Build <code>buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num=1)</code> around a single quad <code>TL074H</code> op-amp: wire input ESD/TVS clamping, Stage A input buffering, three loop-generated output followers with <code>470R</code> series isolation, and <code>builtins.NC</code> on unused jack switches.
+      </p>
+
+      <div class="meta-bar">
+        <span class="badge badge-success">✓ ERC: 0 Errors, 0 Warnings</span>
+        <span class="badge badge-success">✓ Ruff: Clean</span>
+        <span class="badge badge-accent">App: ./apps/0003-single-buffered-channel/</span>
+      </div>
+
+      <h2>Anatomy of <code>buffered_channel_1to3</code></h2>
+      <p>
+        Each 1-to-3 channel in <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code></a> (lines 154–267) maps all four internal operational amplifiers of one <code>TL074H</code> (<code>SOIC-14</code>) package to a clean two-tier buffer hierarchy:
+      </p>
+      <ul>
+        <li><strong>Stage A (Input Follower, Pins 1, 2, 3)</strong>: Presents a high-impedance load (`100K` pull-down) to the patched CV/audio source and produces a low-impedance buffered signal on <code>buffered_tap_out</code>.</li>
+        <li><strong>Stages B, C, D (Output Followers, Pins 5–14)</strong>: Three independent unity-gain followers driven by <code>buffered_tap_out</code>, each driving its own output jack through a <code>470R</code> series protection resistor so a short circuit or cable capacitance on one output never disturbs the other two outputs—or any downstream normalled channel.</li>
+      </ul>
+
+      <figure class="diagram-card">
+        <pre class="mermaid">flowchart LR
+  NORM["norm_in<br/>(GND on CH1)"] --> JIN_TN["J2: IN_1<br/>Pin TN"]
+  JIN_TN -. "Normalled when<br/>unpatched" .-> JIN_T["J2: IN_1<br/>Pin T (CH1_JACK_IN)"]
+  JIN_T --> PROT["D3: PESD12VL1BA TVS<br/>+ R1: 100K to GND"]
+  PROT --> RIN["R2: 1K Series<br/>(CH1_IN)"]
+  RIN --> U1A["U1A Follower<br/>+ (3), - (2), Out (1)"]
+  U1A --> TAP["buffered_tap_out<br/>(CH1_BUF)"]
+  TAP --> U1B["U1B Follower<br/>+ (5), - (6), Out (7)"] --> R3["R3: 470R"] --> J3["J3: OUT_1A<br/>(TN → builtins.NC)"]
+  TAP --> U1C["U1C Follower<br/>+ (10), - (9), Out (8)"] --> R4["R4: 470R"] --> J4["J4: OUT_1B<br/>(TN → builtins.NC)"]
+  TAP --> U1D["U1D Follower<br/>+ (12), - (13), Out (14)"] --> R5["R5: 470R"] --> J5["J5: OUT_1C<br/>(TN → builtins.NC)"]</pre>
+        <figcaption>Signal path inside <code>buffered_channel_1to3</code> showing all 14 signal/power pins of <code>U1</code> (<code>TL074H</code>).</figcaption>
+      </figure>
+
+      <h2>1. Two-Pin Series Networks with the <code>&amp;</code> Operator</h2>
+      <p>
+        For any two-pin passive component (resistors, ceramic capacitors, bidirectional TVS diodes), SKiDL overloads Python's bitwise AND operator (<code>&amp;</code>) to wire components in series between nets in a single readable expression:
+      </p>
+      <ul>
+        <li><code>vcc &amp; c_dec_pos &amp; gnd</code> and <code>gnd &amp; c_dec_neg &amp; vee</code> wire the two local <code>100nF</code> ceramic decoupling capacitors (`C3`, `C4`) from the op-amp rails to ground.</li>
+        <li><code>in_jack &amp; d_tvs &amp; gnd</code> wires the <code>PESD12VL1BA</code> bidirectional TVS diode (`D3`) from the input jack tip to ground.</li>
+        <li><code>in_jack &amp; r_pd &amp; gnd</code> wires the <code>100K</code> input pull-down resistor (`R1`) to ground.</li>
+        <li><code>in_jack &amp; r_in &amp; in_sig</code> wires the <code>1K</code> series current-limiting resistor (`R2`) between the raw jack tip (<code>CH1_JACK_IN</code>) and Stage A's non-inverting input net (<code>CH1_IN</code>).</li>
+      </ul>
+
+      <h2>2. Loop-Driven Op-Amp Stage Wiring &amp; Tuple Pin Attachment</h2>
+      <p>
+        Instead of copy-pasting identical schematic blocks three times for Outputs A, B, and C, Python lets us express Stages B, C, and D as a compact data table of <code>(suffix, pin_pos, pin_neg, pin_out)</code> tuples and iterate over it:
+      </p>
+
+      <div class="table-wrap scroller">
+        <table>
+          <caption><code>TL074H</code> (<code>SOIC-14</code>) unit pin assignments in <code>buffered_channel_1to3</code></caption>
+          <thead>
+            <tr>
+              <th scope="col">Op-Amp Stage</th>
+              <th scope="col">Role</th>
+              <th scope="col">Non-Inverting (<code>+</code>)</th>
+              <th scope="col">Inverting (<code>-</code>)</th>
+              <th scope="col">Output</th>
+              <th scope="col">Unity-Gain Feedback Expression</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Unit A</td>
+              <td>Input Buffer</td>
+              <td><code>u.p[3]</code></td>
+              <td><code>u.p[2]</code></td>
+              <td><code>u.p[1]</code></td>
+              <td><code>buffered_tap_out += u.p[1], u.p[2]</code></td>
+            </tr>
+            <tr>
+              <td>Unit B (<code>"A"</code>)</td>
+              <td>Output Buffer A</td>
+              <td><code>u.p[5]</code></td>
+              <td><code>u.p[6]</code></td>
+              <td><code>u.p[7]</code></td>
+              <td><code>op_out += u.p[7], u.p[6]</code></td>
+            </tr>
+            <tr>
+              <td>Unit C (<code>"B"</code>)</td>
+              <td>Output Buffer B</td>
+              <td><code>u.p[10]</code></td>
+              <td><code>u.p[9]</code></td>
+              <td><code>u.p[8]</code></td>
+              <td><code>op_out += u.p[8], u.p[9]</code></td>
+            </tr>
+            <tr>
+              <td>Unit D (<code>"C"</code>)</td>
+              <td>Output Buffer C</td>
+              <td><code>u.p[12]</code></td>
+              <td><code>u.p[13]</code></td>
+              <td><code>u.p[14]</code></td>
+              <td><code>op_out += u.p[14], u.p[13]</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Notice how <code>buffered_tap_out += u.p[1], u.p[2]</code> attaches <em>both</em> the op-amp output (`pin 1`) and the inverting input (`pin 2`) to <code>buffered_tap_out</code> at once—creating the unity-gain feedback loop AND feeding the downstream output stages (`u.p[5]`, `u.p[10]`, `u.p[12]`) on the same net!
+      </p>
+
+      <div class="callout callout-warn">
+        <div class="callout-title">Why Output Jacks Use <code>j_out["TN"] += builtins.NC</code> (Pin on the Left)</div>
+        <p style="margin:0;">
+          All 12 jacks on the board use the same physical part (<code>WQP-PJ398SM</code> / <code>AudioJack2_SwitchT</code>) to simplify purchasing and panel assembly. On the 9 output jacks, the <strong>Switched Tip Normal Contact (<code>TN</code>)</strong> is unused. In SKiDL, the <strong>No-Connect Net (<code>builtins.NC</code>)</strong> is injected into Python's <code>builtins</code> module at import time and is not exported in <code>skidl.__all__</code> (so <code>from skidl import NC</code> raises <code>ImportError</code>). Furthermore, inside a function or <code>@subcircuit</code>, writing <code>builtins.NC += j_out["TN"]</code> makes Python treat <code>builtins.NC</code> as a reassigned local variable; always place the pin on the left: <code>j_out["TN"] += builtins.NC</code>.
+        </p>
+      </div>
+
+      <h2>3. Inspect &amp; Run Lesson 0003's Companion Script</h2>
+      <p>
+        Examine <a href="../apps/0003-single-buffered-channel/single_channel.py"><code>tutorial/apps/0003-single-buffered-channel/single_channel.py</code></a>, which pairs <code>eurorack_power</code> with one <code>buffered_channel_1to3</code> block (18 total parts) and verifies that `CH1_BUF` connects `U1.1`, `U1.2`, `U1.5`, `U1.10`, and `U1.12` with `0` ERC warnings:
+      </p>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>tutorial/apps/0003-single-buffered-channel/single_channel.py (excerpt)</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">    # Stage A (Pins: + = 3, - = 2, Out = 1): Unity-gain input buffer
+    in_sig += u.p[3]
+    buffered_tap_out += u.p[1], u.p[2]
+
+    # Stages B, C, D: 3 independent output buffers driving 3 output jacks via 470R resistors
+    output_stages = [
+        ("A", 5, 6, 7),
+        ("B", 10, 9, 8),
+        ("C", 12, 13, 14),
+    ]
+
+    for suffix, pin_pos, pin_neg, pin_out in output_stages:
+        op_out = Net(f"CH{ch_num}_OP_{suffix}")
+        jack_tip = Net(f"CH{ch_num}_OUT_{suffix}")
+
+        # Unity-gain follower fed by the buffered input tap
+        buffered_tap_out += u.p[pin_pos]
+        op_out += u.p[pin_out], u.p[pin_neg]
+
+        # Series output protection resistor (470R)
+        r_out = r_t(value="470R", tag=f"r_out_ch{ch_num}_{suffix}")
+        r_out.fields["LCSC"] = LCSC_R_470R_0603
+        r_out.fields["MPN"] = "0603WAF4700T5E"
+        r_out.fields["JLCPCB_Class"] = "Basic"
+        op_out &amp; r_out &amp; jack_tip
+
+        # Output jack
+        j_out = jack_t(value=f"OUT_{ch_num}{suffix}", tag=f"j_out_ch{ch_num}_{suffix}")
+        jack_tip += j_out["T"]
+        gnd += j_out["S"]
+        j_out["TN"] += builtins.NC</code></pre>
+      </figure>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Terminal · Run single_channel.py and format with ruff</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-bash">.venv/bin/python tutorial/apps/0003-single-buffered-channel/single_channel.py
+ruff check --fix tutorial/apps/0003-single-buffered-channel/*.py
+ruff format tutorial/apps/0003-single-buffered-channel/*.py</code></pre>
+      </figure>
+
+      <!-- Interactive Code Exercise -->
+      <section class="exercise-box" aria-labelledby="ex-0003-title">
+        <h3 id="ex-0003-title">Retrieval Practice: Wire the Input Protection, Follower &amp; Output Jack</h3>
+        <p>
+          Fill in the four blanks below to wire the input jack's switched normal contact (`"TN"`), place the `1K` input resistor in series using `&amp;`, close Stage A's unity-gain feedback loop across pins `1` and `2`, and mark the output jack's unused `"TN"` pin as no-connect via `builtins`:
+        </p>
+        <div class="code-figure">
+          <div class="code-header">
+            <span>Interactive Python Exercise (Prism keep-markup)</span>
+          </div>
+          <pre><code class="language-python">gnd += j_in["S"]
+norm_in += j_in["<input type="text" class="code-blank" aria-label="Pin ID for Switched Tip Normal contact on AudioJack2_SwitchT" data-answer="TN" data-hint="Two-letter pin ID for Switched Tip Normal contact: TN" size="4">"]
+in_jack += j_in["T"]
+
+# 1K series resistor between in_jack and in_sig
+in_jack <input type="text" class="code-blank" aria-label="SKiDL series network operator" data-answer="&" data-hint="Single-character SKiDL series network operator: &" size="3"> r_in &amp; in_sig
+
+# Stage A unity-gain follower (+ = 3, - = 2, Out = 1)
+in_sig += u.p[3]
+buffered_tap_out += u.p[1], u.p[<input type="text" class="code-blank" aria-label="Pin number for Unit A inverting input on TL074" data-answer="2" data-hint="SOIC-14 pin number for Unit A inverting (-) input: 2" size="3">]
+
+# Mark output jack TN switch contact as intentionally unconnected
+j_out["TN"] += builtins.<input type="text" class="code-blank" aria-label="No-connect object on Python builtins module" data-answer="NC" data-hint="Two-letter No-Connect net on builtins: NC" size="4"></code></pre>
+        </div>
+        <div class="exercise-actions">
+          <button type="button" class="btn btn-primary" data-action="check">Check Answers</button>
+          <button type="button" class="btn" data-action="hint">Show Hint</button>
+          <button type="button" class="btn" data-action="reset">Reset</button>
+        </div>
+        <div class="feedback-msg" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- Retrieval Quiz -->
+      <section class="quiz-section" aria-labelledby="quiz-0003-title">
+        <h2 id="quiz-0003-title" style="margin-top:0;">Knowledge Check</h2>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            1. Inside <code>buffered_channel_1to3</code>, why do we wire each output jack's unused normal contact using <code>j_out["TN"] += builtins.NC</code> instead of <code>from skidl import NC</code>?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="KiCad netlists do not require net names to start with 'builtins'; SKiDL omits NC pins from netlists after ERC passes.">
+              <span>A.</span>
+              <span>KiCad ten netlists reject any unconnected pin unless its net name starts with builtins.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="true" data-explain="SKiDL injects NC and default_circuit into Python's builtins namespace at import time and excludes them from skidl.__all__.">
+              <span>B.</span>
+              <span>SKiDL injects the no-connect net into Python builtins rather than exporting it from skidl.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Python decorators do not delete module-level imports; NC simply isn't in skidl.__all__.">
+              <span>C.</span>
+              <span>Python decorators automatically delete all imported module constants inside every nested subcircuit function scope.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="from skidl import NC raises an ImportError immediately rather than shorting pins to ground.">
+              <span>D.</span>
+              <span>Importing NC directly from skidl shorts all unused switched jack contacts together onto ground.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            2. What does the SKiDL statement <code>buffered_tap_out += u.p[1], u.p[2]</code> accomplish on Stage A of the <code>TL074H</code> op-amp?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Power rails on TL074 connect to pin 4 (V+) and pin 11 (V-), not pins 1 and 2.">
+              <span>A.</span>
+              <span>It connects positive and negative twelve volt supply rails directly across operational amplifier pins.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Input resistors r_pd and r_in are wired using the & operator on in_jack, not u.p[1], u.p[2].">
+              <span>B.</span>
+              <span>It wires two series protection resistors between the input jack tip and ground plane.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="NetClasses are assigned to Net objects via net.netclasses, not via pin tuple attachment.">
+              <span>C.</span>
+              <span>It assigns physical pins one and two into separate differential audio bus routing classes.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="true" data-explain="On TL074 Unit A, pin 1 is the output and pin 2 is the inverting (-) input; tying both to buffered_tap_out forms a unity-gain voltage follower.">
+              <span>D.</span>
+              <span>It ties output pin one to inverting pin two creating a unity-gain voltage follower.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <div class="callout callout-success">
+        <div class="callout-title">Primary Sources &amp; Follow-Up Questions</div>
+        <p style="margin:0;">
+          <strong>Primary Sources</strong>: <a href="../reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a> · <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a> · <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code> (lines 154–267)</a>.<br>
+          <strong>Ask the Agent</strong>: Have a question about why <code>470R</code> was chosen for the output series resistors or how `PESD12VL1BA` clamps ESD spikes? Ask in chat, or continue to <strong>Lesson 0004</strong> to cascade all three channels and export the JLCPCB BOM!
+        </p>
+      </div>
+
+      <nav class="pager" aria-label="Lesson pagination">
+        <a href="0002-eurorack-power-subcircuit.html">
+          <span class="pager-label">← Previous Lesson</span>
+          <span class="pager-title">0002: Eurorack Power Supply @subcircuit</span>
+        </a>
+        <a href="0004-cascaded-normalling-and-bom-export.html">
+          <span class="pager-label">Next Lesson →</span>
+          <span class="pager-title">0004: Cascaded Normalling, NetClass &amp; JLCPCB BOM</span>
+        </a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Licensed under the <a href="../../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>This is not an official Google product.</span>
+    </div>
+  </footer>
+</body>
+</html>

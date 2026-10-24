@@ -1,0 +1,320 @@
+(export 
+  (version "D")
+  (design
+    (source "power_subcircuit.py")
+    (date "10/24/2026 11:01 AM")
+    (tool "SKiDL (3.0.0)")
+    (sheet
+      (number 1)
+      (name "/")
+      (tstamps "/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "power_subcircuit.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value ""))))
+    (sheet
+      (number 2)
+      (name "/pwr/")
+      (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/")
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source "power_subcircuit.py")
+        (comment
+          (number "1")
+          (value ""))
+        (comment
+          (number "2")
+          (value ""))
+        (comment
+          (number "3")
+          (value ""))
+        (comment
+          (number "4")
+          (value ""))
+        (comment
+          (number "5")
+          (value ""))
+        (comment
+          (number "6")
+          (value ""))
+        (comment
+          (number "7")
+          (value ""))
+        (comment
+          (number "8")
+          (value ""))
+        (comment
+          (number "9")
+          (value "")))))
+  (components
+    (comp
+      (ref "C1")
+      (value "10uF")
+      (description "Polarized capacitor")
+      (footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+      (fields
+        (field
+          (name "MPN") "ECEA1EKS100")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Polarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_bulk")
+        (field
+          (name "SKiDL Line") "power_subcircuit.py:114"))
+      (libsource
+        (lib "Device")
+        (part "C_Polarized"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "712237fb-9833-590a-97a1-7b567a892764"))
+    (comp
+      (ref "C2")
+      (value "10uF")
+      (description "Polarized capacitor")
+      (footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+      (fields
+        (field
+          (name "MPN") "ECEA1EKS100")
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Polarized capacitor")
+        (field
+          (name "Footprint") "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "c_bulk")
+        (field
+          (name "SKiDL Line") "power_subcircuit.py:114"))
+      (libsource
+        (lib "Device")
+        (part "C_Polarized"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "712237fb-9833-590a-97a1-7b567a892764"))
+    (comp
+      (ref "D1")
+      (value "1N5819WS")
+      (description "Schottky diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C191023")
+        (field
+          (name "MPN") "1N5819WS")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Notes") "40V 1A Schottky diode in Diode_SMD:D_SOD-323; Alt larger package: B5819W in Diode_SMD:D_SOD-123 (LCSC C8598, Basic)")
+        (field
+          (name "Description") "Schottky diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_prot")
+        (field
+          (name "SKiDL Line") "power_subcircuit.py:94"))
+      (libsource
+        (lib "Device")
+        (part "D_Schottky"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "755b79ea-9aec-515f-90f3-05736192e469"))
+    (comp
+      (ref "D2")
+      (value "1N5819WS")
+      (description "Schottky diode")
+      (footprint "Diode_SMD:D_SOD-323")
+      (fields
+        (field
+          (name "LCSC") "C191023")
+        (field
+          (name "MPN") "1N5819WS")
+        (field
+          (name "JLCPCB_Class") "Basic")
+        (field
+          (name "Notes") "40V 1A Schottky diode in Diode_SMD:D_SOD-323; Alt larger package: B5819W in Diode_SMD:D_SOD-123 (LCSC C8598, Basic)")
+        (field
+          (name "Description") "Schottky diode")
+        (field
+          (name "Footprint") "Diode_SMD:D_SOD-323")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "d_prot")
+        (field
+          (name "SKiDL Line") "power_subcircuit.py:94"))
+      (libsource
+        (lib "Device")
+        (part "D_Schottky"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "755b79ea-9aec-515f-90f3-05736192e469"))
+    (comp
+      (ref "J1")
+      (value "EURORACK_PWR_10PIN")
+      (description "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+      (footprint "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
+      (fields
+        (field
+          (name "JLCPCB_Class") "Manual THT (DNP for SMT)")
+        (field
+          (name "Description") "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)")
+        (field
+          (name "Footprint") "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical")
+        (field
+          (name "Datasheet"))
+        (field
+          (name "SKiDL Tag") "j_pwr")
+        (field
+          (name "SKiDL Line") "power_subcircuit.py:60"))
+      (libsource
+        (lib "Connector_Generic")
+        (part "Conn_02x05_Odd_Even"))
+      (sheetpath
+        (names "/pwr/")
+        (tstamps "/036a58f4-21f9-5068-9b49-a4e63c279ef9/"))
+      (component_classes)
+      (tstamps "3befb997-e4cd-563a-a2aa-c234de0ee318")))
+  (nets
+    (net
+      (code 1)
+      (name "+12V")
+      (class "Default")
+      (node
+        (ref "C1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D1")
+        (pin "1")
+        (pintype "PASSIVE")))
+    (net
+      (code 2)
+      (name "+12V_RAW")
+      (class "Default")
+      (node
+        (ref "D1")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "10")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "9")
+        (pintype "PASSIVE")))
+    (net
+      (code 3)
+      (name "-12V")
+      (class "Default")
+      (node
+        (ref "C2")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "D2")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 4)
+      (name "-12V_RAW")
+      (class "Default")
+      (node
+        (ref "D2")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "2")
+        (pintype "PASSIVE")))
+    (net
+      (code 5)
+      (name "GND")
+      (class "Default")
+      (node
+        (ref "C1")
+        (pin "2")
+        (pintype "PASSIVE"))
+      (node
+        (ref "C2")
+        (pin "1")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "3")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "4")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "5")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "6")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "7")
+        (pintype "PASSIVE"))
+      (node
+        (ref "J1")
+        (pin "8")
+        (pintype "PASSIVE")))))

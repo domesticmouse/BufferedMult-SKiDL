@@ -20,9 +20,13 @@
         <a href="index.html" aria-current="page">Index</a>
         <a href="lessons/0000-environment-and-kicad-bootstrap.html">0000</a>
         <a href="lessons/0001-programmatic-component-discovery.html">0001</a>
+        <a href="lessons/0002-eurorack-power-subcircuit.html">0002</a>
+        <a href="lessons/0003-single-buffered-channel.html">0003</a>
+        <a href="lessons/0004-cascaded-normalling-and-bom-export.html">0004</a>
         <span class="nav-sep" aria-hidden="true">|</span>
         <a href="reference/skidl-cheatsheet.html">SKiDL Ref</a>
         <a href="reference/kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="reference/eurorack-power-and-normalling.html">Eurorack Ref</a>
         <a href="reference/glossary.html">Glossary</a>
       </nav>
     </div>
@@ -45,7 +49,7 @@
         <figcaption>Course progression from environment setup and programmatic component lookup to full fabrication outputs.</figcaption>
       </figure>
 
-      <h2>Published &amp; Upcoming Lessons</h2>
+      <h2>Course Lessons</h2>
       <div class="lesson-grid">
         <!-- Lesson 0000 -->
         <div class="lesson-card">
@@ -91,60 +95,69 @@
           </div>
         </div>
 
-        <!-- Upcoming Lesson 0002 -->
-        <div class="lesson-card lesson-card-Planned">
+        <!-- Lesson 0002 -->
+        <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge">Lesson 0002 · Next Up</span>
+              <span class="badge badge-accent">Lesson 0002</span>
+              <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3>Eurorack Power Supply <code>@subcircuit</code></h3>
+            <h3><a href="lessons/0002-eurorack-power-subcircuit.html">Eurorack Power Supply <code>@subcircuit</code> &amp; Protection</a></h3>
             <p>
               Build <code>eurorack_power(vcc, vee, gnd)</code> with the 10-pin IDC header, <code>1N5819WS</code> Schottky reverse-polarity protection, and <code>10uF</code> bulk caps.
             </p>
             <ul class="lesson-meta-list">
               <li><strong>SKiDL Concept</strong>: <code>@subcircuit</code> decorator, multi-pin slice <code>j_pwr[3, 4, 5, 6, 7, 8]</code>, <code>d_t(2)</code></li>
+              <li><strong>Tooling Skill</strong>: Hierarchical <code>tag</code> UUIDs, bipolar diode/cap polarity, <code>.net</code>/<code>.xml</code> export</li>
             </ul>
           </div>
           <div class="card-footer">
-            <span>Ask in chat to unlock Lesson 0002</span>
+            <span>./apps/0002-eurorack-power-subcircuit</span>
+            <a href="lessons/0002-eurorack-power-subcircuit.html">Start →</a>
           </div>
         </div>
 
-        <!-- Upcoming Lesson 0003 -->
-        <div class="lesson-card lesson-card-Planned">
+        <!-- Lesson 0003 -->
+        <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge">Lesson 0003 · Planned</span>
+              <span class="badge badge-accent">Lesson 0003</span>
+              <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3>Single 1-to-3 Buffered Channel (<code>TL074H</code>)</h3>
+            <h3><a href="lessons/0003-single-buffered-channel.html">Single 1-to-3 Buffered Channel (<code>TL074H</code>)</a></h3>
             <p>
               Wire <code>buffered_channel_1to3</code>: switched input jack, <code>PESD12VL1BA</code> TVS diode, <code>U1A</code> input buffer, and 3 loop-generated <code>470R</code> output stages with <code>builtins.NC</code>.
             </p>
             <ul class="lesson-meta-list">
               <li><strong>SKiDL Concept</strong>: Series <code>&amp;</code> operator, Python tuple-loop stage wiring, <code>builtins.NC</code></li>
+              <li><strong>Tooling Skill</strong>: Multi-pin feedback <code>u.p[1], u.p[2]</code>, parameterized <code>ch_num</code> tags</li>
             </ul>
           </div>
           <div class="card-footer">
-            <span>Follows Lesson 0002</span>
+            <span>./apps/0003-single-buffered-channel</span>
+            <a href="lessons/0003-single-buffered-channel.html">Start →</a>
           </div>
         </div>
 
-        <!-- Upcoming Lesson 0004 -->
-        <div class="lesson-card lesson-card-Planned">
+        <!-- Lesson 0004 -->
+        <div class="lesson-card">
           <div>
             <div class="meta-bar" style="margin:0 0 0.5rem;">
-              <span class="badge">Lesson 0004 · Planned</span>
+              <span class="badge badge-accent">Lesson 0004</span>
+              <span class="badge badge-success">✓ ERC 0/0 · Ruff Clean</span>
             </div>
-            <h3>Cascaded Normalling, <code>NetClass</code> &amp; JLCPCB BOM Export</h3>
+            <h3><a href="lessons/0004-cascaded-normalling-and-bom-export.html">Cascaded Normalling, <code>NetClass</code> &amp; JLCPCB BOM Export</a></h3>
             <p>
-              Cascade Channels 1–3 (`1:3 → 1:6 → 1:9`), assign KiCad <code>Power</code> and <code>Signal</code> net classes, and write <code>generate_jlcpcb_bom()</code>.
+              Cascade Channels 1–3 (<code>1:3 → 1:6 → 1:9</code>), assign KiCad <code>Power</code> and <code>Signal</code> net classes, and write <code>generate_jlcpcb_bom()</code>.
             </p>
             <ul class="lesson-meta-list">
               <li><strong>SKiDL Concept</strong>: <code>NetClass</code>, <code>generate_netlist()</code>, <code>generate_xml()</code>, SMT CSV grouping</li>
+              <li><strong>Tooling Skill</strong>: <code>builtins.default_circuit.parts</code> filtering, interactive normalling simulator</li>
             </ul>
           </div>
           <div class="card-footer">
-            <span>Completes buffered_multiple.py</span>
+            <span>./apps/0004-cascaded-normalling-and-bom-export</span>
+            <a href="lessons/0004-cascaded-normalling-and-bom-export.html">Start →</a>
           </div>
         </div>
       </div>
@@ -154,7 +167,7 @@
         <div class="lesson-card">
           <div>
             <h3><a href="reference/skidl-cheatsheet.html">SKiDL API &amp; Pin Indexing Cheat Sheet</a></h3>
-            <p>Pre-import environment setup, <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>u.p[n]</code> vs <code>u["V+"]</code>, network operators, <code>builtins.NC</code>, and <code>ERC()</code>.</p>
+            <p>Pre-import environment setup, <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>u.p[n]</code> vs <code>u["V+"]</code>, network operators, <code>@subcircuit</code>, <code>NetClass</code>, and <code>ERC()</code>.</p>
           </div>
           <div class="card-footer">
             <span>./reference/skidl-cheatsheet.html</span>
@@ -165,7 +178,7 @@
         <div class="lesson-card">
           <div>
             <h3><a href="reference/kicad-jlcpcb-lookup.html">KiCad 10 Symbol, Footprint &amp; JLCPCB Lookup Reference</a></h3>
-            <p>Four-step discovery workflow (`search`, `show`, `search_footprints`, `jlcpcb_search.py`) and complete component pinout/LCSC table.</p>
+            <p>Four-step discovery workflow (<code>search</code>, <code>show</code>, <code>search_footprints</code>, <code>jlcpcb_search.py</code>) and complete component pinout/LCSC table.</p>
           </div>
           <div class="card-footer">
             <span>./reference/kicad-jlcpcb-lookup.html</span>
@@ -175,8 +188,19 @@
 
         <div class="lesson-card">
           <div>
+            <h3><a href="reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a></h3>
+            <p>10-pin Doepfer power header pinout, bipolar Schottky/bulk cap polarity, <code>WQP-PJ398SM</code> switch mechanics, and the <code>1:3 / 1:6 / 1:9</code> truth table.</p>
+          </div>
+          <div class="card-footer">
+            <span>./reference/eurorack-power-and-normalling.html</span>
+            <a href="reference/eurorack-power-and-normalling.html">Open →</a>
+          </div>
+        </div>
+
+        <div class="lesson-card">
+          <div>
             <h3><a href="reference/glossary.html">SKiDL &amp; Eurorack Hardware Glossary</a></h3>
-            <p>Canonical definitions for <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>part.p[n]</code>, <code>POWER</code> drive, <code>builtins.NC</code>, and switched jack <code>TN</code> contacts.</p>
+            <p>Canonical definitions for <code>dest=TEMPLATE</code>, <code>part.fields</code>, <code>part.p[n]</code>, <code>@subcircuit</code>, <code>NetClass</code>, <code>POWER</code> drive, <code>builtins.NC</code>, and switched jack <code>TN</code> contacts.</p>
           </div>
           <div class="card-footer">
             <span>./reference/glossary.html</span>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Lesson 0004: Cascaded Normalling, NetClass &amp; JLCPCB BOM Export | Eurorack SKiDL Tutorial</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/course.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#content" class="skip-link visually-hidden">Skip to main content</a>
+    <div class="header-inner">
+      <a class="brand-title" href="../index.html">
+        <span>Buffered Multiple Course</span>
+        <span class="brand-badge">KiCad 10 + SKiDL</span>
+      </a>
+      <nav class="course-nav" aria-label="Course">
+        <a href="../index.html">Index</a>
+        <a href="0000-environment-and-kicad-bootstrap.html">0000</a>
+        <a href="0001-programmatic-component-discovery.html">0001</a>
+        <a href="0002-eurorack-power-subcircuit.html">0002</a>
+        <a href="0003-single-buffered-channel.html">0003</a>
+        <a href="0004-cascaded-normalling-and-bom-export.html" aria-current="page">0004</a>
+        <span class="nav-sep" aria-hidden="true">|</span>
+        <a href="../reference/skidl-cheatsheet.html">SKiDL Ref</a>
+        <a href="../reference/kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="../reference/eurorack-power-and-normalling.html">Eurorack Ref</a>
+        <a href="../reference/glossary.html">Glossary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-main" tabindex="-1">
+    <article>
+      <div class="lesson-kicker">Lesson 0004 · Full Assembly &amp; Manufacturing Export</div>
+      <h1>Cascaded Normalling (<code>1:3 → 1:6 → 1:9</code>), <code>NetClass</code> &amp; JLCPCB BOM Export</h1>
+      <p class="lead">
+        Complete <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code></a>: chain three <code>buffered_channel_1to3</code> instances through their switched jack contacts, embed KiCad 10 PCB routing rules with <code>NetClass</code>, and generate a grouped SMT-only JLCPCB PCBA Bill of Materials CSV.
+      </p>
+
+      <div class="meta-bar">
+        <span class="badge badge-success">✓ ERC: 0 Errors, 0 Warnings</span>
+        <span class="badge badge-success">✓ Ruff: Clean</span>
+        <span class="badge badge-accent">App: ./apps/0004-cascaded-normalling-and-bom-export/</span>
+      </div>
+
+      <h2>1. How Three Lines of Python Create <code>1:3</code>, <code>1:6</code>, and <code>1:9</code> Routing</h2>
+      <p>
+        Because we designed <code>buffered_channel_1to3(vcc, vee, gnd, norm_in, buffered_tap_out, ch_num)</code> in <a href="0003-single-buffered-channel.html">Lesson 0003</a> to accept <code>norm_in</code> (wired to the input jack's <strong>Switched Tip Normal Contact (<code>TN</code>)</strong>) and <code>buffered_tap_out</code> (driven by Stage A's unity-gain output), assembling the entire 3-channel cascade in <code>build_buffered_multiple()</code> takes just three calls:
+      </p>
+      <ol>
+        <li><strong>Channel 1</strong>: <code>buffered_channel_1to3(vcc, vee, gnd, gnd, ch1_buf, ch_num=1, tag="ch1")</code> — When <code>IN_1</code> (`J2`) is unpatched, its `TN` switch grounds the input to `0.00V` so none of the op-amp inputs float.</li>
+        <li><strong>Channel 2</strong>: <code>buffered_channel_1to3(vcc, vee, gnd, ch1_buf, ch2_buf, ch_num=2, tag="ch2")</code> — When <code>IN_2</code> (`J6`) is unpatched, its `TN` switch receives <code>ch1_buf</code> (the <em>buffered</em> output of `U1A`, not the raw `IN_1` jack tip!), cascading Channels 1 and 2 into a zero-droop <strong>1-to-6 multiple</strong>.</li>
+        <li><strong>Channel 3</strong>: <code>buffered_channel_1to3(vcc, vee, gnd, ch2_buf, ch3_buf, ch_num=3, tag="ch3")</code> — When <code>IN_3</code> (`J10`) is unpatched, its `TN` switch receives <code>ch2_buf</code> (the buffered output of `U2A`), cascading all three channels into a <strong>1-to-9 multiple</strong>—or splitting into `1:3 + 1:6` whenever a cable is patched into `IN_2`!</li>
+      </ol>
+
+      <figure class="diagram-card">
+        <pre class="mermaid">flowchart LR
+  GND["GND (0.00V)"] -- "norm_in" --> CH1["Channel 1 (tag='ch1')<br/>J2.TN → U1A → OUT_1A..1C"]
+  CH1 -- "ch1_buf (U1.1, U1.2)" --> CH2["Channel 2 (tag='ch2')<br/>J6.TN → U2A → OUT_2A..2C"]
+  CH2 -- "ch2_buf (U2.1, U2.2)" --> CH3["Channel 3 (tag='ch3')<br/>J10.TN → U3A → OUT_3A..3C"]
+  CH3 -- "ch3_buf (U3.1, U3.2)" --> END["Available for<br/>4th Channel Expansion"]</pre>
+        <figcaption>Top-level subcircuit chaining across <code>gnd</code>, <code>ch1_buf</code>, <code>ch2_buf</code>, and <code>ch3_buf</code>.</figcaption>
+      </figure>
+
+      <h2>2. Interactive Cascaded Normalling Simulator</h2>
+      <p>
+        Patch or unpatch cables into <code>IN_1</code> (`J2`), <code>IN_2</code> (`J6`), and <code>IN_3</code> (`J10`) and drag the CV sliders below to test how the physical `TN` leaf-spring switches and `CH1_BUF` / `CH2_BUF` nets route signals across all 9 outputs:
+      </p>
+
+      <section id="normalling-sim" class="exercise-box" aria-labelledby="sim-heading">
+        <div class="norm-ch-header">
+          <h3 id="sim-heading" style="margin:0;">Interactive <code>1:3 / 1:6 / 1:9</code> Normalling Simulator</h3>
+          <span id="sim-topology-badge" class="badge badge-accent">Active Topology: 1-to-9 Cascaded Multiple</span>
+        </div>
+        <p id="sim-summary" style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-muted);margin:0 0 0.85rem;" aria-live="polite"></p>
+
+        <div class="norm-sim-grid">
+          <!-- Channel 1 -->
+          <div class="norm-ch-card">
+            <div class="norm-ch-header">
+              <label for="sim-patch-1" class="norm-patch-label">
+                <input type="checkbox" id="sim-patch-1" checked>
+                <span>Patch Cable in <code>IN_1</code> (<code>J2</code>)</span>
+              </label>
+              <span id="sim-tn-1" class="badge badge-accent">TN Switch: OPEN</span>
+            </div>
+            <div class="norm-cv-row">
+              <label for="sim-cv-1"><code>IN_1</code> CV:</label>
+              <input type="range" id="sim-cv-1" min="-10" max="10" step="0.25" value="5.0">
+              <span id="sim-cv-val-1">+5.00V</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">
+              Source into <code>U1A</code>: <code id="sim-buf-1">IN_1 Tip (+5.00V)</code>
+            </div>
+            <ul class="norm-outputs-list" role="list">
+              <li><span><code>OUT_1A</code> (<code>J3</code>)</span><strong id="sim-out-1A">+5.00V</strong></li>
+              <li><span><code>OUT_1B</code> (<code>J4</code>)</span><strong id="sim-out-1B">+5.00V</strong></li>
+              <li><span><code>OUT_1C</code> (<code>J5</code>)</span><strong id="sim-out-1C">+5.00V</strong></li>
+            </ul>
+          </div>
+
+          <!-- Channel 2 -->
+          <div class="norm-ch-card">
+            <div class="norm-ch-header">
+              <label for="sim-patch-2" class="norm-patch-label">
+                <input type="checkbox" id="sim-patch-2">
+                <span>Patch Cable in <code>IN_2</code> (<code>J6</code>)</span>
+              </label>
+              <span id="sim-tn-2" class="badge badge-success">TN Switch: CLOSED</span>
+            </div>
+            <div class="norm-cv-row">
+              <label for="sim-cv-2"><code>IN_2</code> CV:</label>
+              <input type="range" id="sim-cv-2" min="-10" max="10" step="0.25" value="-2.5">
+              <span id="sim-cv-val-2">-2.50V</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">
+              Source into <code>U2A</code>: <code id="sim-buf-2">J6.TN ← CH1_BUF (+5.00V)</code>
+            </div>
+            <ul class="norm-outputs-list" role="list">
+              <li><span><code>OUT_2A</code> (<code>J7</code>)</span><strong id="sim-out-2A">+5.00V</strong></li>
+              <li><span><code>OUT_2B</code> (<code>J8</code>)</span><strong id="sim-out-2B">+5.00V</strong></li>
+              <li><span><code>OUT_2C</code> (<code>J9</code>)</span><strong id="sim-out-2C">+5.00V</strong></li>
+            </ul>
+          </div>
+
+          <!-- Channel 3 -->
+          <div class="norm-ch-card">
+            <div class="norm-ch-header">
+              <label for="sim-patch-3" class="norm-patch-label">
+                <input type="checkbox" id="sim-patch-3">
+                <span>Patch Cable in <code>IN_3</code> (<code>J10</code>)</span>
+              </label>
+              <span id="sim-tn-3" class="badge badge-success">TN Switch: CLOSED</span>
+            </div>
+            <div class="norm-cv-row">
+              <label for="sim-cv-3"><code>IN_3</code> CV:</label>
+              <input type="range" id="sim-cv-3" min="-10" max="10" step="0.25" value="2.0">
+              <span id="sim-cv-val-3">+2.00V</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);">
+              Source into <code>U3A</code>: <code id="sim-buf-3">J10.TN ← CH2_BUF (+5.00V)</code>
+            </div>
+            <ul class="norm-outputs-list" role="list">
+              <li><span><code>OUT_3A</code> (<code>J11</code>)</span><strong id="sim-out-3A">+5.00V</strong></li>
+              <li><span><code>OUT_3B</code> (<code>J12</code>)</span><strong id="sim-out-3B">+5.00V</strong></li>
+              <li><span><code>OUT_3C</code> (<code>J13</code>)</span><strong id="sim-out-3C">+5.00V</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <h2>3. Assigning KiCad PCB Routing Rules with <code>NetClass</code></h2>
+      <p>
+        In a mixed power-and-precision-CV layout like <a href="../../BufferedMult.kicad_pcb"><code>BufferedMult.kicad_pcb</code></a>, your power rails (<code>+12V</code>, <code>-12V</code>, <code>GND</code>) should use wider copper traces (`0.5 mm`) and larger clearances (`0.25 mm`) than low-current analog signal nets (`0.25 mm` trace width, `0.2 mm` clearance). SKiDL's <strong>Net Routing Class (<code>NetClass</code>)</strong> lets you embed those PCB design rules directly into the exported `.net` file:
+      </p>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>buffered_multiple.py · Assigning Power and Signal NetClasses</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-python">pwr_class = NetClass("Power", priority=1, trace_width=0.5, clearance=0.25)
+sig_class = NetClass("Signal", priority=2, trace_width=0.25, clearance=0.2)
+
+for rail in (vcc, vee, gnd):
+    rail.netclasses = pwr_class
+
+for buf_net in (ch1_buf, ch2_buf, ch3_buf):
+    buf_net.netclasses = sig_class</code></pre>
+      </figure>
+
+      <h2>4. Automated SMT-Filtered JLCPCB PCBA BOM Generation</h2>
+      <p>
+        To order assembled boards from JLCPCB without paying for manual through-hole soldering of the 12 jacks, 2 radial bulk caps, and 10-pin IDC header, <code>generate_jlcpcb_bom()</code> (lines 269–294 of <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code></a>) iterates over <code>builtins.default_circuit.parts</code> and applies three transformations:
+      </p>
+      <ol>
+        <li><strong>Filter out THT parts by default</strong>: Skips any component without an <code>LCSC</code> entry in <code>part.fields</code> or with <code>"THT"</code> in <code>part.fields.get("JLCPCB_Class", "")</code> when <code>include_tht=False</code>.</li>
+        <li><strong>Strip the KiCad library nickname from footprints</strong>: <code>getattr(part, "footprint", "").split(":")[-1]</code> turns <code>"Resistor_SMD:R_0603_1608Metric"</code> into <code>"R_0603_1608Metric"</code> so JLCPCB's placement parser recognizes the package.</li>
+        <li><strong>Group identical `(comment, footprint, lcsc)` tuples</strong>: Combines all 9 output resistors (`R3, R4, R5, R8, R9, R10, R13, R14, R15`) into a single CSV row under JLCPCB's required 4-column header: <code>Comment,Designator,Footprint,LCSC Part #</code>.</li>
+      </ol>
+
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Generated CSV · buffered_multiple_jlcpcb_bom.csv (29 SMT components across 7 unique lines)</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-csv">Comment,Designator,Footprint,LCSC Part #
+1N5819WS,"D1, D2",D_SOD-323,C191023
+TL074H,"U1, U2, U3",SOIC-14_3.9x8.7mm_P1.27mm,C2878713
+100nF,"C3, C4, C5, C6, C7, C8",C_0603_1608Metric,C14663
+PESD12VL1BA,"D3, D4, D5",D_SOD-323,C38558
+100K,"R1, R6, R11",R_0603_1608Metric,C25803
+1K,"R2, R7, R12",R_0603_1608Metric,C21190
+470R,"R3, R4, R5, R8, R9, R10, R13, R14, R15",R_0603_1608Metric,C23179</code></pre>
+      </figure>
+
+      <h2>5. Run the Complete Circuit &amp; Verify All Outputs</h2>
+      <p>
+        Execute <a href="../apps/0004-cascaded-normalling-and-bom-export/buffered_multiple.py"><code>tutorial/apps/0004-cascaded-normalling-and-bom-export/buffered_multiple.py</code></a> (or the root <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code></a>) and run <code>ruff</code> afterward:
+      </p>
+      <figure class="code-figure">
+        <div class="code-header">
+          <span>Terminal · Run buffered_multiple.py and lint with ruff</span>
+          <button type="button" class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-bash">.venv/bin/python tutorial/apps/0004-cascaded-normalling-and-bom-export/buffered_multiple.py
+ruff check --fix tutorial/apps/0004-cascaded-normalling-and-bom-export/*.py
+ruff format tutorial/apps/0004-cascaded-normalling-and-bom-export/*.py</code></pre>
+      </figure>
+
+      <!-- Interactive Code Exercise -->
+      <section class="exercise-box" aria-labelledby="ex-0004-title">
+        <h3 id="ex-0004-title">Retrieval Practice: Wire the Cascaded Normalling &amp; BOM Exporter</h3>
+        <p>
+          Fill in the four blanks below to assign the `Power` routing class to `rail.netclasses`, pass `ch1_buf` as Channel 2's `norm_in` net, pass `ch2_buf` as Channel 3's `norm_in` net, and iterate over `builtins.default_circuit.parts` inside `generate_jlcpcb_bom()`:
+        </p>
+        <div class="code-figure">
+          <div class="code-header">
+            <span>Interactive Python Exercise (Prism keep-markup)</span>
+          </div>
+          <pre><code class="language-python">pwr_class = NetClass("Power", priority=1, trace_width=0.5, clearance=0.25)
+for rail in (vcc, vee, gnd):
+    rail.<input type="text" class="code-blank" aria-label="Net attribute for assigning a SKiDL NetClass" data-answer="netclasses" data-hint="Plural attribute on a SKiDL Net for assigning NetClass rules: netclasses" size="11"> = pwr_class
+
+# Cascade Channels 1 -> 2 -> 3 (1:3 -> 1:6 -> 1:9)
+buffered_channel_1to3(vcc, vee, gnd, gnd, ch1_buf, ch_num=1, tag="ch1")
+buffered_channel_1to3(vcc, vee, gnd, <input type="text" class="code-blank" aria-label="Buffered net from Channel 1 feeding Channel 2 norm_in" data-answer="ch1_buf" data-hint="Channel 1 buffered tap net variable: ch1_buf" size="8">, ch2_buf, ch_num=2, tag="ch2")
+buffered_channel_1to3(vcc, vee, gnd, <input type="text" class="code-blank" aria-label="Buffered net from Channel 2 feeding Channel 3 norm_in" data-answer="ch2_buf" data-hint="Channel 2 buffered tap net variable: ch2_buf" size="8">, ch3_buf, ch_num=3, tag="ch3")
+
+# Iterate all instantiated parts in the active circuit for JLCPCB BOM export
+for part in builtins.<input type="text" class="code-blank" aria-label="Active SKiDL Circuit singleton on builtins" data-answer="default_circuit" data-hint="Active Circuit object injected into builtins: default_circuit" size="16">.parts:
+    lcsc = part.fields.get("LCSC", "")</code></pre>
+        </div>
+        <div class="exercise-actions">
+          <button type="button" class="btn btn-primary" data-action="check">Check Answers</button>
+          <button type="button" class="btn" data-action="hint">Show Hint</button>
+          <button type="button" class="btn" data-action="reset">Reset</button>
+        </div>
+        <div class="feedback-msg" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- Retrieval Quiz -->
+      <section class="quiz-section" aria-labelledby="quiz-0004-title">
+        <h2 id="quiz-0004-title" style="margin-top:0;">Knowledge Check</h2>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            1. Why does Channel 2's input jack normal contact (<code>J6.TN</code>) connect to <code>ch1_buf</code> (the output of <code>U1A</code>) rather than directly to Channel 1's raw input jack tip (<code>CH1_JACK_IN</code>)?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="false" data-explain="KiCad allows connecting any number of passive jack pins to a net, but doing so unbuffered loads down the source.">
+              <span>A.</span>
+              <span>KiCad netlists forbid connecting two switched audio jack symbols onto the same signal net.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="All four stages in buffered_channel_1to3 are non-inverting unity-gain followers with 0° phase shift.">
+              <span>B.</span>
+              <span>Direct tip connections invert the phase of every downstream operational amplifier output buffer stage.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="true" data-explain="Normalising from U1A's low-impedance buffered output (ch1_buf) means the external CV source only ever sees Channel 1's single 100K pull-down, preventing voltage droop on 1V/Oct pitch CV.">
+              <span>C.</span>
+              <span>Buffering before normalling isolates the patched source from cascaded input pull-down resistor loading droop.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="SKiDL allows any Net passed as an argument to connect pins across @subcircuit calls.">
+              <span>D.</span>
+              <span>SKiDL raises a fatal routing exception whenever passive jack pins connect across subcircuit boundaries.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="quiz-card">
+          <p class="quiz-question">
+            2. Why does <code>generate_jlcpcb_bom()</code> use <code>part.footprint.split(":")[-1]</code> and skip components marked <code>Manual THT</code> when <code>include_tht=False</code>?
+          </p>
+          <div class="quiz-options">
+            <button type="button" class="quiz-option" data-correct="true" data-explain="JLCPCB's BOM parser expects the bare package footprint (e.g. R_0603_1608Metric) without KiCad's library prefix, and skipping THT connectors avoids manual wave/hand-soldering fees during SMT PCBA.">
+              <span>A.</span>
+              <span>JLCPCB expects bare package names and assembles only surface-mount parts during single-sided SMT orders.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="KiCad's XML and .net exports retain the full <Library>:<Footprint> string.">
+              <span>B.</span>
+              <span>KiCad ten deletes library colons from every footprint string whenever exporting standard XML files.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Every instantiated Part in default_circuit.parts receives a reference designator (such as J1..J13 and C1..C2).">
+              <span>C.</span>
+              <span>Through-hole connectors lack reference designators inside SKiDL's default circuit parts list at export time.</span>
+            </button>
+            <button type="button" class="quiz-option" data-correct="false" data-explain="Basic vs. Extended feeder status is determined by the LCSC catalog number on JLCPCB's line, not by string splitting.">
+              <span>D.</span>
+              <span>Splitting the footprint string automatically converts extended surface-mount components into zero-fee basic library parts.</span>
+            </button>
+          </div>
+          <div class="feedback-msg" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <div class="callout callout-success">
+        <div class="callout-title">Mission Complete &amp; Next Custom Module Ideas</div>
+        <p style="margin:0;">
+          <strong>Primary Sources</strong>: <a href="../../buffered_multiple.py"><code>buffered_multiple.py</code> (lines 269–342)</a> · <a href="../../PCB_LAYOUT_GUIDE.md"><code>PCB_LAYOUT_GUIDE.md</code></a> · <a href="../../FRONT_PANEL_GUIDE.md"><code>FRONT_PANEL_GUIDE.md</code></a> · <a href="../reference/eurorack-power-and-normalling.html">Eurorack Power &amp; Audio Jack Normalling Reference</a>.<br>
+          <strong>Ask the Agent</strong>: You now have the full Python/SKiDL workflow from component discovery to fabrication-ready KiCad 10 and JLCPCB outputs! Want to add a precision LED polarity indicator subcircuit, adapt this script into a 4-channel DC-coupled mixer, or inspect how the `.net` file imports into `BufferedMult.kicad_pcb`? Ask in chat anytime!
+        </p>
+      </div>
+
+      <nav class="pager" aria-label="Lesson pagination">
+        <a href="0003-single-buffered-channel.html">
+          <span class="pager-label">← Previous Lesson</span>
+          <span class="pager-title">0003: Single 1-to-3 Buffered Channel (TL074H)</span>
+        </a>
+        <a href="../index.html">
+          <span class="pager-label">Course Home →</span>
+          <span class="pager-title">Return to Course Index &amp; Reference Sheets</span>
+        </a>
+      </nav>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Licensed under the <a href="../../LICENSE.txt">Apache License, Version 2.0</a>.</span>
+      <span>This is not an official Google product.</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -20,9 +20,13 @@
         <a href="../index.html">Index</a>
         <a href="../lessons/0000-environment-and-kicad-bootstrap.html">0000</a>
         <a href="../lessons/0001-programmatic-component-discovery.html">0001</a>
+        <a href="../lessons/0002-eurorack-power-subcircuit.html">0002</a>
+        <a href="../lessons/0003-single-buffered-channel.html">0003</a>
+        <a href="../lessons/0004-cascaded-normalling-and-bom-export.html">0004</a>
         <span class="nav-sep" aria-hidden="true">|</span>
         <a href="skidl-cheatsheet.html">SKiDL Ref</a>
         <a href="kicad-jlcpcb-lookup.html">Lookup Ref</a>
+        <a href="eurorack-power-and-normalling.html">Eurorack Ref</a>
         <a href="glossary.html" aria-current="page">Glossary</a>
       </nav>
     </div>
@@ -66,6 +70,18 @@
         <dd>
           The special SKiDL net injected into Python's <code>builtins</code> module that marks an intentionally unused component pin (such as an output jack's <code>TN</code> switch contact) as unconnected during <code>ERC()</code>.<br>
           <em>Avoid</em>: Floating pin, dummy net, <code>skidl.NC</code>.
+        </dd>
+
+        <dt><strong>Subcircuit Decorator (<code>@subcircuit</code>)</strong></dt>
+        <dd>
+          The SKiDL function decorator that registers a Python function as a hierarchical schematic module with its own local namespace and deterministic <code>tag</code> hierarchy.<br>
+          <em>Avoid</em>: Child sheet macro, circuit class wrapper.
+        </dd>
+
+        <dt><strong>Net Routing Class (<code>NetClass</code>)</strong></dt>
+        <dd>
+          A SKiDL design rule object assigned to <code>net.netclasses</code> that embeds trace width, clearance, and priority constraints (such as <code>Power</code> vs. <code>Signal</code>) into exported KiCad netlists.<br>
+          <em>Avoid</em>: Trace style, wire group.
         </dd>
 
         <dt><strong>Backup Symbol Library (<code>&lt;script&gt;_sklib.py</code>)</strong></dt>

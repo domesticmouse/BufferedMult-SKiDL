@@ -247,11 +247,120 @@
     updateFilter();
   }
 
+  function initNormallingSimulator() {
+    const sim = document.getElementById("normalling-sim");
+    if (!sim) return;
+
+    const patch1 = sim.querySelector("#sim-patch-1");
+    const patch2 = sim.querySelector("#sim-patch-2");
+    const patch3 = sim.querySelector("#sim-patch-3");
+    const cv1 = sim.querySelector("#sim-cv-1");
+    const cv2 = sim.querySelector("#sim-cv-2");
+    const cv3 = sim.querySelector("#sim-cv-3");
+    const modeBadge = sim.querySelector("#sim-topology-badge");
+    const summaryEl = sim.querySelector("#sim-summary");
+
+    const formatV = (v) => `${v >= 0 ? "+" : ""}${Number(v).toFixed(2)}V`;
+
+    const syncRangeProgress = (slider) => {
+      if (!slider) return;
+      const min = Number(slider.min || -10);
+      const max = Number(slider.max || 10);
+      const val = Number(slider.value || 0);
+      const pct = ((val - min) / (max - min)) * 100;
+      slider.style.setProperty("--progress", `${pct.toFixed(1)}%`);
+    };
+
+    function updateSim() {
+      const p1 = Boolean(patch1 && patch1.checked);
+      const p2 = Boolean(patch2 && patch2.checked);
+      const p3 = Boolean(patch3 && patch3.checked);
+
+      const v1In = Number(cv1 ? cv1.value : 5.0);
+      const v2In = Number(cv2 ? cv2.value : -2.5);
+      const v3In = Number(cv3 ? cv3.value : 3.33);
+
+      [cv1, cv2, cv3].forEach(syncRangeProgress);
+
+      if (cv1) cv1.disabled = !p1;
+      if (cv2) cv2.disabled = !p2;
+      if (cv3) cv3.disabled = !p3;
+
+      const ch1Val = p1 ? v1In : 0.0;
+      const ch1Source = p1 ? `IN_1 Tip (${formatV(v1In)})` : "J2.TN → GND (0.00V)";
+
+      const ch2Val = p2 ? v2In : ch1Val;
+      const ch2Source = p2
+        ? `IN_2 Tip (${formatV(v2In)}) [TN open]`
+        : `J6.TN ← CH1_BUF (${formatV(ch1Val)})`;
+
+      const ch3Val = p3 ? v3In : ch2Val;
+      const ch3Source = p3
+        ? `IN_3 Tip (${formatV(v3In)}) [TN open]`
+        : `J10.TN ← CH2_BUF (${formatV(ch2Val)})`;
+
+      const setChannelUI = (ch, val, srcText, isPatched) => {
+        const valDisplay = sim.querySelector(`#sim-cv-val-${ch}`);
+        const tnState = sim.querySelector(`#sim-tn-${ch}`);
+        const bufState = sim.querySelector(`#sim-buf-${ch}`);
+        if (valDisplay) {
+          valDisplay.textContent = formatV(
+            ch === 1 ? v1In : ch === 2 ? v2In : v3In
+          );
+        }
+        if (tnState) {
+          tnState.textContent = isPatched ? "TN Switch: OPEN" : "TN Switch: CLOSED";
+          tnState.className = isPatched ? "badge badge-accent" : "badge badge-success";
+        }
+        if (bufState) {
+          bufState.textContent = srcText;
+        }
+        ["A", "B", "C"].forEach((sfx) => {
+          const outEl = sim.querySelector(`#sim-out-${ch}${sfx}`);
+          if (outEl) {
+            outEl.textContent = formatV(val);
+          }
+        });
+      };
+
+      setChannelUI(1, ch1Val, ch1Source, p1);
+      setChannelUI(2, ch2Val, ch2Source, p2);
+      setChannelUI(3, ch3Val, ch3Source, p3);
+
+      let modeText = "1-to-9 Cascaded Multiple";
+      if (p2 && p3) {
+        modeText = "Triple Independent 1-to-3";
+      } else if (!p2 && p3) {
+        modeText = "1-to-6 (CH1+CH2) + 1-to-3 (CH3)";
+      } else if (p2 && !p3) {
+        modeText = "1-to-3 (CH1) + 1-to-6 (CH2+CH3)";
+      }
+
+      if (modeBadge) {
+        modeBadge.textContent = `Active Topology: ${modeText}`;
+      }
+      if (summaryEl) {
+        summaryEl.textContent = `CH1_BUF = ${formatV(ch1Val)} | CH2_BUF = ${formatV(
+          ch2Val
+        )} | CH3_BUF = ${formatV(ch3Val)} (${modeText})`;
+      }
+    }
+
+    [patch1, patch2, patch3, cv1, cv2, cv3].forEach((el) => {
+      if (el) {
+        el.addEventListener("input", updateSim);
+        el.addEventListener("change", updateSim);
+      }
+    });
+    updateSim();
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     enhanceCodeBlocks();
     initCodeExercises();
     initQuizzes();
     initComponentExplorer();
+    initNormallingSimulator();
     initSyntaxAndDiagrams();
   });
 })();

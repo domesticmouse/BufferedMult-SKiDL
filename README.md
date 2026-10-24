@@ -4,6 +4,8 @@ A precision **Triple 1-to-3 (Normalized to 1-to-6 / 1-to-9) Eurorack Buffered Mu
 
 This project is a SKiDL re-implementation and 3-channel expansion of [domesticmouse/Buffered-Mult](https://github.com/domesticmouse/Buffered-Mult), omitting the LED feedback circuitry.
 
+**Interactive Course & Tutorial:** [**https://domesticmouse.github.io/BufferedMult-SKiDL/**](https://domesticmouse.github.io/BufferedMult-SKiDL/) *(published via GitHub Pages from [`tutorial/`](tutorial/))*
+
 ![A ray traced image of the Buffered Multiple PCB](BufferedMult.png)
 
 ---
@@ -109,7 +111,7 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
        --drc
    ```
 
-4. **Build and validate the interactive tutorial HTML from Markdown** (optional, for local previewing; GitHub Actions builds and deploys automatically via [`.github/workflows/pages.yml`](.github/workflows/pages.yml)):
+4. **Build and validate the interactive tutorial HTML from Markdown** (optional, for local previewing; GitHub Actions automatically builds and publishes to [**GitHub Pages**](https://domesticmouse.github.io/BufferedMult-SKiDL/) via [`.github/workflows/pages.yml`](.github/workflows/pages.yml)):
    ```bash
    .venv/bin/python tutorial/build.py --check
    ```
@@ -138,11 +140,11 @@ Running `buffered_multiple.py` produces:
 Both the main circuit board and a mated 3U × 4HP Eurorack front panel are included in the repository:
 
 - **Main Circuit PCB ([`BufferedMult.kicad_pro`](BufferedMult.kicad_pro) / [`BufferedMult.kicad_pcb`](BufferedMult.kicad_pcb))**:
-  - **Dimensions**: `20.0 × 108.0 mm` (4HP), 2-layer PCB with stitched `F.Cu` and `B.Cu` `GND` planes and `0.5 mm` `±12V` power spines.
-  - **Assembly**: Single-sided SMT placement on `B.Cu` (29 SMD parts for the 3-channel schematic; 20 SMD parts on the existing 2-channel board revision) and hand-soldered THT jacks/bulk caps on `F.Cu` (`J2`–`J13`, `C1`, `C2`) plus the 10-pin power header on `B.Cu` (`J1`).
+  - **Dimensions**: `20.0 × 109.0 mm` (4HP, Rev `V2.0`), 2-layer PCB with stitched `F.Cu` and `B.Cu` `GND` planes and `0.5 mm` `±12V` power spines.
+  - **Assembly**: Full 3-channel (44-component) layout with single-sided SMT placement on `B.Cu` (29 SMD parts) and hand-soldered THT jacks/bulk caps on `F.Cu` (`J2`–`J13`, `C1`, `C2`) plus the 10-pin power header on `B.Cu` (`J1`), complete with a `-12V` orientation knockout, `V2.0` revision marking, and repository URL on `B.SilkS`.
 - **4HP Eurorack Front Panel ([`BufferedMult_Panel.kicad_pro`](BufferedMult_Panel.kicad_pro) / [`BufferedMult_Panel.kicad_pcb`](BufferedMult_Panel.kicad_pcb))**:
   - **Dimensions**: `20.0 × 128.5 mm` (Doepfer A-100 3U × 4HP standard).
-  - **Features**: `6.2 mm` NPTH jack holes aligned to the `+6.48 mm` `WQP-PJ398SM` (Thonkiconn) bushing centers, 2× `3.2 × 5.5 mm` M3 mounting slots, input callout badges (`IN 1`, `IN 2`, `IN 3`), normalling cascade indicators (`CH1 → IN 2 → IN 3`), and solid `F.Cu` / `B.Cu` copper shield planes with exposed rear ground rings.
+  - **Features**: 12× `6.2 mm` PTH grounded jack cutouts aligned to the `+6.48 mm` `WQP-PJ398SM` (Thonkiconn) bushing centers (`14.40 mm` uniform vertical row pitch), 2× `3.2 × 5.5 mm` NPTH M3 mounting slots, exposed `F.Mask` copper/finish graphics (`BUF MULT` title, input callout badges for `IN 1` / `IN 2` / `IN 3`, and normalling cascade indicators), `F.SilkS` jack labels and `TL074` callout, and solid `F.Cu` / `B.Cu` copper shield planes with exposed rear ground rings.
 - **Fabrication Archives (`production/`)**:
   - [`production/BufferedMult.zip`](production/BufferedMult.zip) — Main PCB Gerbers and Excellon drill files.
   - [`production/BufferedMult_Panel.zip`](production/BufferedMult_Panel.zip) — 4HP Front Panel Gerbers and Excellon drill files (also unpacked in `production/panel/`).
@@ -152,7 +154,7 @@ Both the main circuit board and a mated 3U × 4HP Eurorack front panel are inclu
 
 ## Documentation & Guides
 
-- **[`tutorial/index.md`](tutorial/index.md)** (compiled to `tutorial/index.html` via [`tutorial/build.py`](tutorial/build.py)) — Interactive HTML & Python/SKiDL tutorial authored in Markdown, walking through building `buffered_multiple.py`, programmatic KiCad 10 / JLCPCB component discovery, PCB layout, front-panel generation, pre-fab DRC reviews, and runnable per-lesson apps (`tutorial/apps/`).
+- **[Interactive Tutorial on GitHub Pages (`domesticmouse.github.io/BufferedMult-SKiDL`)](https://domesticmouse.github.io/BufferedMult-SKiDL/)** — Live 6-lesson interactive HTML & Python/SKiDL course with 3 reference sheets and runnable per-lesson apps ([`tutorial/apps/`](tutorial/apps/)), walking through building [`buffered_multiple.py`](buffered_multiple.py), programmatic KiCad 10 / JLCPCB component discovery, PCB layout, front-panel generation, and pre-fab DRC reviews (authored in [`tutorial/index.md`](tutorial/index.md) and compiled via [`tutorial/build.py`](tutorial/build.py)).
 - **[`PCB_LAYOUT_GUIDE.md`](PCB_LAYOUT_GUIDE.md)** — Step-by-step KiCad 10 PCB layout, component placement, routing, and JLCPCB export guide.
 - **[`FRONT_PANEL_GUIDE.md`](FRONT_PANEL_GUIDE.md)** — 4HP Eurorack front panel mechanical dimensions, bushing offset coordinate table, and automated generation workflow.
 - **[`DESIGN_REVIEW.md`](DESIGN_REVIEW.md)** — Full schematic, PCB, DRC, Gerber, and EMC pre-compliance design review report.

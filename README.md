@@ -6,7 +6,7 @@ This project is a SKiDL re-implementation and 3-channel expansion of [domesticmo
 
 **Interactive Course & Tutorial:** [**https://domesticmouse.github.io/BufferedMult-SKiDL/**](https://domesticmouse.github.io/BufferedMult-SKiDL/) *(published via GitHub Pages from [`tutorial/`](tutorial/))*
 
-![A ray traced image of the Buffered Multiple PCB](BufferedMult.png)
+![A ray traced image of the Buffered Multiple PCB](BufferedMult-v2.png)
 
 ---
 

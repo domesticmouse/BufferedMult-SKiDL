@@ -51,9 +51,9 @@ Fluency can give an illusory sense of mastery, whereas storage strength is the r
 
 ## Lessons & Markdown-to-HTML Pipeline (`tutorial/build.py`)
 
-A lesson is the primary artifact you produce: the unit in which knowledge and skills reach the user. Each lesson is authored as a clean Markdown file saved to `tutorial/lessons/` and titled `0001-<dash-case-name>.md` (or starting at `0000-<dash-case-name>.md` for environment bootstrap), then compiled to HTML (`tutorial/lessons/<NNNN-slug>.html`) by running `.venv/bin/python tutorial/build.py --check`.
+A lesson is the primary artifact you produce: the unit in which knowledge and skills reach the user. Each lesson is authored as a clean Markdown file saved to `tutorial/lessons/` and titled `0001-<dash-case-name>.md`, incrementing sequentially (`0001`, `0002`, …), then compiled to HTML (`tutorial/lessons/<NNNN-slug>.html`) by running `.venv/bin/python tutorial/build.py --check`.
 
-When teaching a programming framework or tool where Lesson `0001` needs a configured environment, start with a `0000-<dash-case-name>.md` bootstrap lesson covering `uv` virtual environment creation (`uv venv --clear --python 3.14 .venv` and `uv pip install skidl`), KiCad 10 symbol/footprint environment variables, and `ruff` linting setup so subsequent lessons have a concrete, runnable foundation.
+When teaching a programming framework or tool where the course needs a configured environment, start with a `0001-<dash-case-name>.md` bootstrap lesson covering `uv` virtual environment creation (`uv venv --clear --python 3.14 .venv` and `uv pip install skidl`), KiCad 10 symbol/footprint environment variables, and `ruff` linting setup so subsequent lessons have a concrete, runnable foundation.
 
 ### Markdown Directives & Frontmatter (`tutorial/build.py`)
 
@@ -76,8 +76,8 @@ Back every lesson with a real, runnable directory under `tutorial/apps/<NNNN-les
    - Remember the macOS sandbox caveat from the `skidl` skill: reading `.kicad_sym` files under `/Applications/KiCad/...` requires running `.venv/bin/python` with `BypassSandbox: true` so SKiDL does not emit `ERROR: Can't open file` or `NO_LIB` netlist entries. `ruff check` and `ruff format` run inside the standard sandbox (`BypassSandbox: false`).
 2. **Start from Nothing & Grow the Code Inline (Never Assume External File References):**
    - Never write lesson prose assuming the learner has `buffered_multiple.py` or `tutorial/apps/.../*.py` open in another window, and never link to `../../buffered_multiple.py` or `../apps/...` from lesson HTML (which would also 404 on GitHub Pages).
-   - Instead, **start from an empty file in Lesson `0000` and progressively grow the Python script across the lessons**, showing both the newly added code blocks step-by-step AND the **complete, standalone, runnable Python script** (along with its verified terminal output) directly inside each lesson's HTML!
-   - Early lessons can include runnable helper scripts in `tutorial/apps/<NNNN-slug>/` (shown in full inside the lesson) that demonstrate SKiDL's `search()`, `show()`, `search_footprints()`, and live JLCPCB/LCSC catalog queries (`.agents/skills/skidl/scripts/jlcpcb_search.py`), while also growing the main circuit script (e.g., adding the verified `FP_*` and `LCSC_*` constants in Stage 1).
+   - Instead, **start from an empty file in Lesson `0001` and progressively grow the Python script across the lessons**, showing both the newly added code blocks step-by-step AND the **complete, standalone, runnable Python script** (along with its verified terminal output) directly inside each lesson's HTML!
+   - Early lessons can include runnable helper scripts in `tutorial/apps/<NNNN-slug>/` (shown in full inside the lesson) that demonstrate SKiDL's `search()`, `show()`, `search_footprints()`, and live JLCPCB/LCSC catalog queries (`.agents/skills/skidl/scripts/jlcpcb_search.py`), while also growing the main circuit script (e.g., adding the verified `FP_*` and `LCSC_*` constants in Stage 2).
    - Subsequent lessons progressively grow the Eurorack Buffered Multiple circuit (`buffered_multiple.py`):
      - `eurorack_power` `@subcircuit` (10-pin IDC header, `1N5819WS` Schottky reverse-polarity protection using `dest=TEMPLATE` and `part.fields`, bulk electrolytic caps).
      - `buffered_channel_1to3` `@subcircuit` (`TL074H` quad op-amp, `PESD12VL1BA` TVS diode, `100K` pull-down, `1K` input resistor, unity-gain input follower, and 3 output followers with `470R` series protection and `builtins.NC` on unused switched jack pins).

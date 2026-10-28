@@ -21,7 +21,7 @@ flowchart LR
 
 ```bash title="Interactive discovery commands (Terminal / Python)"
 # 1. Search symbols, inspect pinouts, and search footprints via .venv/bin/python
-.venv/bin/python tutorial/apps/0001-programmatic-component-discovery/discover_parts.py
+.venv/bin/python tutorial/apps/0002-programmatic-component-discovery/discover_parts.py
 
 # 2. Query live JLCPCB/LCSC stock, Basic vs. Extended feeder status, and pricing
 .venv/bin/python .agents/skills/skidl/scripts/jlcpcb_search.py --in-stock-only \

@@ -16,7 +16,7 @@ This skill manages the local Markdown-to-HTML static site build, validation, sta
 
 - **Source of Truth (Tracked in Git)**:
   - [`tutorial/index.md`](../../../tutorial/index.md) — Course landing page (`type: index`)
-  - [`tutorial/lessons/*.md`](../../../tutorial/lessons) — Lesson modules `0000`–`0007` (`type: lesson`)
+  - [`tutorial/lessons/*.md`](../../../tutorial/lessons) — Lesson modules `0001`–`0008` (`type: lesson`)
   - [`tutorial/reference/*.md`](../../../tutorial/reference) — Reference sheets and [`GLOSSARY.md`](../../../tutorial/reference/GLOSSARY.md) (`type: reference`)
   - [`tutorial/assets/`](../../../tutorial/assets) — Shared stylesheet (`style.css`) and interactive client runtime (`course.js`)
 - **Compiler & Validator**:
@@ -84,7 +84,7 @@ When `.venv/bin/python tutorial/build.py --check` runs, it verifies:
    - Every `:::quiz` question must have at least 2 options, exactly 1 correct option (`- [x]`), and **every option within the same question must have the exact same word count** so option length never leaks the answer.
    - If `--check` reports a word-count mismatch, adjust the phrasing of the flagged option in the `.md` source file and re-run `build`.
 3. **Internal Link Resolution**:
-   - Relative links between `.md` files (e.g., `[Lesson 0005](0005-kicad-pcb-layout-and-assembly.md)` or `[Glossary](../reference/GLOSSARY.md)`) are automatically rewritten to `.html` (`glossary.html` for `GLOSSARY.md`) and checked against the set of generated HTML pages and static assets.
+   - Relative links between `.md` files (e.g., `[Lesson 0006](0006-kicad-pcb-layout-and-assembly.md)` or `[Glossary](../reference/GLOSSARY.md)`) are automatically rewritten to `.html` (`glossary.html` for `GLOSSARY.md`) and checked against the set of generated HTML pages and static assets.
 
 ---
 

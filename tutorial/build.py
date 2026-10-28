@@ -317,7 +317,7 @@ def render_callout_block(kind: str, title_raw: str, body_md: str) -> str:
 
 
 def widget_part_explorer() -> str:
-    """Return the interactive Component & Pinout Explorer widget for Lesson 0001."""
+    """Return the interactive Component & Pinout Explorer widget for Lesson 0002."""
     return """<section id="part-explorer" class="exercise-box" aria-labelledby="explorer-heading">
   <h3 id="explorer-heading">Buffered Multiple Component &amp; Pinout Explorer</h3>
   <div class="explorer-toolbar">
@@ -422,7 +422,7 @@ def widget_part_explorer() -> str:
 
 
 def widget_normalling_sim() -> str:
-    """Return the interactive 1:3 / 1:6 / 1:9 Cascaded Normalling Simulator for Lesson 0004."""
+    """Return the interactive 1:3 / 1:6 / 1:9 Cascaded Normalling Simulator for Lesson 0005."""
     return """<section id="normalling-sim" class="exercise-box" aria-labelledby="sim-heading">
   <div class="norm-ch-header">
     <h3 id="sim-heading" style="margin:0;">Interactive <code>1:3 / 1:6 / 1:9</code> Normalling Simulator</h3>
@@ -507,9 +507,9 @@ def widget_normalling_sim() -> str:
 
 
 def widget_panel_bushing_calc() -> str:
-    """Return the interactive WQP-PJ398SM Bushing Offset & Panel Coordinate Calculator for Lesson 0006."""
-    return """<section class="exercise-box" id="panel-bushing-calc" aria-labelledby="calc-0006-title">
-  <h3 id="calc-0006-title">Interactive <code>WQP-PJ398SM</code> Bushing Offset &amp; Panel Coordinate Calculator</h3>
+    """Return the interactive WQP-PJ398SM Bushing Offset & Panel Coordinate Calculator for Lesson 0007."""
+    return """<section class="exercise-box" id="panel-bushing-calc" aria-labelledby="calc-0007-title">
+  <h3 id="calc-0007-title">Interactive <code>WQP-PJ398SM</code> Bushing Offset &amp; Panel Coordinate Calculator</h3>
   <p>
     Select any of the 12 jacks (<code>J2</code>–<code>J13</code>) and inspect how its main-PCB footprint coordinate transforms into the bushing center, panel-local drill hole, and silkscreen label safe zones (outside the <code>9.5 mm</code> M6 nut diameter):
   </p>

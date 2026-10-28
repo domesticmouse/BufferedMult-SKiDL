@@ -729,7 +729,7 @@ input.code-blank.is-incorrect {
   background: var(--danger-bg);
 }
 
-/* Interactive Component Explorer (Lesson 0001) */
+/* Interactive Component Explorer (Lesson 0002) */
 .explorer-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -748,7 +748,7 @@ input.code-blank.is-incorrect {
   font-size: 0.88rem;
 }
 
-/* Interactive Cascaded Normalling Simulator (Lesson 0004 & Reference) */
+/* Interactive Cascaded Normalling Simulator (Lesson 0005 & Reference) */
 .norm-sim-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

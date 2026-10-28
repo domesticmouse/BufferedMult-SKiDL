@@ -11,26 +11,26 @@ This reference documents the YAML frontmatter schemas and custom Markdown direct
 ```yaml
 ---
 type: lesson
-id: "0006"
+id: "0007"
 title: "4HP Eurorack Front Panel Generator & Mechanical Alignment"
-kicker: "Lesson 0006 · Mechanical CAD & Front Panel Generation"
+kicker: "Lesson 0007 · Mechanical CAD & Front Panel Generation"
 lead: "Why do audio jack holes on a Eurorack faceplate fail to line up..."
 badge: "ERC: 0 Errors · Panel Plan Verified"
 summary: "Compute the +6.48mm WQP-PJ398SM (Thonkiconn) sleeve-to-bushing offset..."
-app_dir: "./apps/0006-eurorack-front-panel-generator"
+app_dir: "./apps/0007-eurorack-front-panel-generator"
 meta:
   - label: "Prerequisite"
-    html: '<a href="0005-kicad-pcb-layout-and-assembly.html">Lesson 0005: 4HP KiCad 10 PCB Layout</a>'
+    html: '<a href="0006-kicad-pcb-layout-and-assembly.html">Lesson 0006: 4HP KiCad 10 PCB Layout</a>'
   - label: "Runnable App"
-    code: "tutorial/apps/0006-eurorack-front-panel-generator/"
+    code: "tutorial/apps/0007-eurorack-front-panel-generator/"
   - label: "Panel Spec"
     code: "20.0 × 128.5 mm (Doepfer 3U × 4HP)"
 prev:
-  slug: "0005-kicad-pcb-layout-and-assembly"
-  title: "0005: From .net Netlist to 4HP KiCad 10 PCB Layout & Assembly"
+  slug: "0006-kicad-pcb-layout-and-assembly"
+  title: "0006: From .net Netlist to 4HP KiCad 10 PCB Layout & Assembly"
 next:
-  slug: "0007-prefab-design-review-and-drc"
-  title: "0007: Programmatic Pre-Fab Design Review, DRC & Gerber Audit"
+  slug: "0008-prefab-design-review-and-drc"
+  title: "0008: Programmatic Pre-Fab Design Review, DRC & Gerber Audit"
 ---
 ```
 
@@ -69,7 +69,7 @@ Your single-paragraph or multi-line callout body here.
 Add `title="..."` on any fenced code block to wrap it in `<figure class="code-figure">` with a header bar and Copy button (pass `copy=false` for terminal output blocks):
 
 ````markdown
-```python title="tutorial/apps/0000-environment-and-kicad-bootstrap/verify_env.py"
+```python title="tutorial/apps/0001-environment-and-kicad-bootstrap/verify_env.py"
 print("Hello SKiDL")
 ```
 
@@ -100,7 +100,7 @@ Table: Eurorack 10-Pin Power Header Pinout
 Use `{{blank:answer|hint|aria_label|size}}` inside a fenced code block within `:::exercise`. If a blank accepts multiple valid answers, separate alternatives with `/` inside `answer` (e.g., `128.5/128.50`):
 
 ````markdown
-:::exercise id="ex-0006-title" title="Retrieval Practice: Bushing Offset & Doepfer 3U Panel Math"
+:::exercise id="ex-0007-title" title="Retrieval Practice: Bushing Offset & Doepfer 3U Panel Math"
 Fill in the blanks below:
 
 ```python
@@ -114,7 +114,7 @@ PANEL_HEIGHT_3U_MM = {{blank:128.5/128.50|Standard 3U Eurorack panel height in m
 Every option within a single question **must have the exact same word count** (enforced by `tutorial/build.py --check`):
 
 ```markdown
-:::quiz id="quiz-0006-title" title="Knowledge Check"
+:::quiz id="quiz-0007-title" title="Knowledge Check"
 1. Question prompt here?
 - [x] Eight word option text that is correct here. | Explanation shown when selected.
 - [ ] Eight word option text that is wrong one. | Explanation shown when selected.
@@ -128,6 +128,6 @@ Every option within a single question **must have the exact same word count** (e
 Place on its own line:
 - `{{widget:lesson-cards}}` — Renders the `.lesson-grid` of all lessons on `tutorial/index.md`
 - `{{widget:reference-cards}}` — Renders the `.lesson-grid` of all reference sheets on `tutorial/index.md`
-- `{{widget:part-explorer}}` — Renders `#part-explorer` (Lesson `0001`)
-- `{{widget:normalling-sim}}` — Renders `#normalling-sim` (Lesson `0004`)
-- `{{widget:panel-bushing-calc}}` — Renders `#panel-bushing-calc` (Lesson `0006`)
+- `{{widget:part-explorer}}` — Renders `#part-explorer` (Lesson `0002`)
+- `{{widget:normalling-sim}}` — Renders `#normalling-sim` (Lesson `0005`)
+- `{{widget:panel-bushing-calc}}` — Renders `#panel-bushing-calc` (Lesson `0007`)

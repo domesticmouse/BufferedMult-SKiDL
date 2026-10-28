@@ -154,7 +154,7 @@ Both the main circuit board and a mated 3U × 4HP Eurorack front panel are inclu
 
 ## Documentation & Guides
 
-- **[Interactive Tutorial on GitHub Pages (`domesticmouse.github.io/BufferedMult-SKiDL`)](https://domesticmouse.github.io/BufferedMult-SKiDL/)** — Live 6-lesson interactive HTML & Python/SKiDL course with 3 reference sheets and runnable per-lesson apps ([`tutorial/apps/`](tutorial/apps/)), walking through building [`buffered_multiple.py`](buffered_multiple.py), programmatic KiCad 10 / JLCPCB component discovery, PCB layout, front-panel generation, and pre-fab DRC reviews (authored in [`tutorial/index.md`](tutorial/index.md) and compiled via [`tutorial/build.py`](tutorial/build.py)).
+- **[Interactive Tutorial on GitHub Pages (`domesticmouse.github.io/BufferedMult-SKiDL`)](https://domesticmouse.github.io/BufferedMult-SKiDL/)** — Live 8-lesson (`0001`–`0008`) interactive HTML & Python/SKiDL course with 4 reference sheets and runnable per-lesson apps ([`tutorial/apps/`](tutorial/apps/)), walking through building [`buffered_multiple.py`](buffered_multiple.py), programmatic KiCad 10 / JLCPCB component discovery, PCB layout, front-panel generation, and pre-fab DRC reviews (authored in [`tutorial/index.md`](tutorial/index.md) and compiled via [`tutorial/build.py`](tutorial/build.py)).
 - **[`PCB_LAYOUT_GUIDE.md`](PCB_LAYOUT_GUIDE.md)** — Step-by-step KiCad 10 PCB layout, component placement, routing, and JLCPCB export guide.
 - **[`FRONT_PANEL_GUIDE.md`](FRONT_PANEL_GUIDE.md)** — 4HP Eurorack front panel mechanical dimensions, bushing offset coordinate table, and automated generation workflow.
 - **[`DESIGN_REVIEW.md`](DESIGN_REVIEW.md)** — Full schematic, PCB, DRC, Gerber, and EMC pre-compliance design review report.

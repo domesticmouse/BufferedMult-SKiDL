@@ -87,10 +87,10 @@ The design separates **SMT components** (factory-assembled on `B.Cu` by JLCPCB) 
 
 ### Setup & Run
 
-1. **Create the virtual environment and install SKiDL**:
+1. **Create the virtual environment and install dependencies**:
    ```bash
    uv venv --clear --python 3.14 .venv
-   uv pip install skidl
+   uv pip install skidl markdown-it-py pyyaml
    ```
 
 2. **Generate the circuit outputs and run Electrical Rules Checking (ERC)**:
@@ -152,9 +152,33 @@ Both the main circuit board and a mated 3U × 4HP Eurorack front panel are inclu
 
 ---
 
+## Interactive Course & Tutorial (`tutorial/`)
+
+The repository includes an 8-lesson interactive **Hardware-as-Code** course published at [**https://domesticmouse.github.io/BufferedMult-SKiDL/**](https://domesticmouse.github.io/BufferedMult-SKiDL/) (authored in Markdown under [`tutorial/`](tutorial/) and compiled via [`tutorial/build.py`](tutorial/build.py)). Starting from an empty Python file, the lessons progressively grow [`buffered_multiple.py`](buffered_multiple.py) and its post-netlist PCB, front-panel, and pre-fab verification scripts:
+
+| Lesson | Stage & Title | Markdown Source | Runnable Companion App |
+| :--- | :--- | :--- | :--- |
+| **`0001`** | **Stage 1**: From an Empty File to KiCad 10 Bootstrap & First `ERC()` (`0 → 72 lines`) | [`0001-environment-and-kicad-bootstrap.md`](tutorial/lessons/0001-environment-and-kicad-bootstrap.md) | [`bootstrap_check.py`](tutorial/apps/0001-environment-and-kicad-bootstrap/bootstrap_check.py) |
+| **`0002`** | **Stage 2**: Programmatic Part Discovery & Adding `FP_*` / `LCSC_*` Constants | [`0002-programmatic-component-discovery.md`](tutorial/lessons/0002-programmatic-component-discovery.md) | [`discover_parts.py`](tutorial/apps/0002-programmatic-component-discovery/discover_parts.py) |
+| **`0003`** | **Stage 3**: Growing the Script — Adding `eurorack_power(vcc, vee, gnd)` (`68 → 155 lines`) | [`0003-eurorack-power-subcircuit.md`](tutorial/lessons/0003-eurorack-power-subcircuit.md) | [`power_subcircuit.py`](tutorial/apps/0003-eurorack-power-subcircuit/power_subcircuit.py) |
+| **`0004`** | **Stage 4**: Growing the Script — Adding `buffered_channel_1to3()` (`155 → 255 lines`) | [`0004-single-buffered-channel.md`](tutorial/lessons/0004-single-buffered-channel.md) | [`single_channel.py`](tutorial/apps/0004-single-buffered-channel/single_channel.py) |
+| **`0005`** | **Stage 5**: Completing `buffered_multiple.py` — Cascaded Normalling (`1:3 → 1:6 → 1:9`), `NetClass` & JLCPCB BOM (`255 → 334 lines`) | [`0005-cascaded-normalling-and-bom-export.md`](tutorial/lessons/0005-cascaded-normalling-and-bom-export.md) | [`buffered_multiple.py`](tutorial/apps/0005-cascaded-normalling-and-bom-export/buffered_multiple.py) |
+| **`0006`** | **Stage 6**: From `.net` Netlist to 4HP KiCad 10 PCB Layout & Single-Sided SMT Assembly | [`0006-kicad-pcb-layout-and-assembly.md`](tutorial/lessons/0006-kicad-pcb-layout-and-assembly.md) | [`inspect_netlist_and_layout.py`](tutorial/apps/0006-kicad-pcb-layout-and-assembly/inspect_netlist_and_layout.py) |
+| **`0007`** | **Stage 7**: Automated 4HP Eurorack Front Panel Generation in Python (`+6.48 mm` Bushing Offset) | [`0007-eurorack-front-panel-generator.md`](tutorial/lessons/0007-eurorack-front-panel-generator.md) | [`generate_panel_plan.py`](tutorial/apps/0007-eurorack-front-panel-generator/generate_panel_plan.py) |
+| **`0008`** | **Stage 8 (Capstone)**: Programmatic Pre-Fab Design Review — Netlist-to-PCB Audit, DRC & Gerber Verification (`5/5 checks`) | [`0008-prefab-design-review-and-drc.md`](tutorial/lessons/0008-prefab-design-review-and-drc.md) | [`prefab_design_audit.py`](tutorial/apps/0008-prefab-design-review-and-drc/prefab_design_audit.py) |
+
+### Printable Reference Sheets (`tutorial/reference/`)
+
+- **[`skidl-cheatsheet.md`](tutorial/reference/skidl-cheatsheet.md)** — SKiDL API, pre-import KiCad 10 configuration, `dest=TEMPLATE`, `part.fields`, `u.p[n]` vs `u["V+"]`, `@subcircuit`, `NetClass`, and `ERC()` syntax cheat sheet.
+- **[`kicad-jlcpcb-lookup.md`](tutorial/reference/kicad-jlcpcb-lookup.md)** — Four-step programmatic component discovery workflow (`search`, `show`, `search_footprints`, `jlcpcb_search.py`) and verified BOM pinout/LCSC table.
+- **[`eurorack-power-and-normalling.md`](tutorial/reference/eurorack-power-and-normalling.md)** — Doepfer A-100 10-pin power header pinout, Schottky & bulk capacitor polarity, `WQP-PJ398SM` switched jack mechanics, and the `1:3 / 1:6 / 1:9` normalling truth table.
+- **[`GLOSSARY.md`](tutorial/reference/GLOSSARY.md)** — Standardized SKiDL, KiCad 10, JLCPCB PCBA, and Eurorack hardware terminology.
+
+---
+
 ## Documentation & Guides
 
-- **[Interactive Tutorial on GitHub Pages (`domesticmouse.github.io/BufferedMult-SKiDL`)](https://domesticmouse.github.io/BufferedMult-SKiDL/)** — Live 8-lesson (`0001`–`0008`) interactive HTML & Python/SKiDL course with 4 reference sheets and runnable per-lesson apps ([`tutorial/apps/`](tutorial/apps/)), walking through building [`buffered_multiple.py`](buffered_multiple.py), programmatic KiCad 10 / JLCPCB component discovery, PCB layout, front-panel generation, and pre-fab DRC reviews (authored in [`tutorial/index.md`](tutorial/index.md) and compiled via [`tutorial/build.py`](tutorial/build.py)).
+- **[Interactive Tutorial on GitHub Pages (`domesticmouse.github.io/BufferedMult-SKiDL`)](https://domesticmouse.github.io/BufferedMult-SKiDL/)** — Hosted HTML edition of the 8-lesson (`0001`–`0008`) course and 4 reference sheets, built automatically by [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
 - **[`PCB_LAYOUT_GUIDE.md`](PCB_LAYOUT_GUIDE.md)** — Step-by-step KiCad 10 PCB layout, component placement, routing, and JLCPCB export guide.
 - **[`FRONT_PANEL_GUIDE.md`](FRONT_PANEL_GUIDE.md)** — 4HP Eurorack front panel mechanical dimensions, bushing offset coordinate table, and automated generation workflow.
 - **[`DESIGN_REVIEW.md`](DESIGN_REVIEW.md)** — Full schematic, PCB, DRC, Gerber, and EMC pre-compliance design review report.

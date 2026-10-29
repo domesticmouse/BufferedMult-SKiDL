@@ -883,7 +883,7 @@ def render_full_page(
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span>Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</span>
+      <span><a href="https://github.com/domesticmouse/BufferedMult-SKiDL">GitHub Repository</a> · Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</span>
       <span>This is not an official Google product.</span>
     </div>
   </footer>
